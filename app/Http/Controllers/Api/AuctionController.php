@@ -35,7 +35,7 @@ class AuctionController extends ApiController {
             $amount = $auction->amount + 10;
             $channelid = $auction->channelid;
 
-            Log::info("User Bid: uid {$uid} channelid {$channelid} amount{$amount}");
+            Log::info("User Bid: uid {$uid} channelid {$channelid} amount {$amount}");
 
             $result = $auction->processBid($auction_id, $uid, $amount);
         } else {
@@ -43,9 +43,12 @@ class AuctionController extends ApiController {
         }
 
         if ($result['result']) {
-            $channel = Channel::find($channelid);
+            $channel = Channel::where("channelid", $channelid)->first();
             if ($channel) {
                 $channel->sync();
+            }
+            else {
+                Log::info("Channel {$channelid} not exists.");
             }
         }
 
