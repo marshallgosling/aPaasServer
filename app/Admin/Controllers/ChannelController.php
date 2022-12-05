@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use App\Admin\Extensions\Actions\EnableChannel;
+use App\Admin\Extensions\Actions\SyncChannel;
 
 class ChannelController extends AdminController
 {
@@ -38,6 +39,7 @@ class ChannelController extends AdminController
 
         $grid->actions(function ($actions) {
             $actions->add(new EnableChannel);
+            $actions->add(new SyncChannel);
         });
 
         return $grid;
