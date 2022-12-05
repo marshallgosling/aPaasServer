@@ -69,10 +69,10 @@ class Auction extends Model
             $bidAction->save();
             Log::info("bid is closed: {$this->id} {$uid} {$amount}");
             
-            return [ "result"=> false, "reason" => "closed" ];
+            return [ "result"=> false, "reason" => "Auction is closed." ];
         }
 
-        $lastbid = $this->lastBid($this->id);
+        $lastbid = $this->lastBid();
 
         $valid = false;
 
@@ -89,7 +89,7 @@ class Auction extends Model
                 Log::info("Bid: {$this->id} Uid:{$uid} is true. Reason: amount < {$amount}");
             }
             else {
-                $reason = "same uid";
+                $reason = 'Your bid amount must greater than '.$lastbid->amount.'.';
             }
         }
 
@@ -103,13 +103,13 @@ class Auction extends Model
             $this->owner = $uid;
             $this->save();
             Log::info("Save last valid bid: {$this->id} {$uid} {$bidAction->created_at} {$amount}");
-            return [ "result"=> true, "reason" => "ok" ];
+            return [ "result"=> true, "reason" => "Your bid is accepted" ];
         }
         else {
             $bidAction->status = Bid::STATUS_SORRY;
             $bidAction->save();
             Log::info("Save invalid bid: {$this->id} {$uid} {$amount}");
-            return [ "result"=> false, "reason" => "Sorry, ". $reason ];
+            return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason ];
         }
         
     }

@@ -10695,15 +10695,14 @@ return jQuery;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Toast; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return validator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return serializeFormData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return validator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return serializeFormData; });
 /* unused harmony export canvasToDataURL */
 /* unused harmony export dataURLToBlob */
 /* unused harmony export imageToCanvas */
 /* unused harmony export fileOrBlobToDataURL */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return blobToImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return imageToBlob; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return postBid; });
 /* harmony import */ var blueimp_md5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 /* harmony import */ var blueimp_md5__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(blueimp_md5__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var identicon_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
@@ -10843,15 +10842,6 @@ function blobToImage(blob, cb) {
 function imageToBlob(src, cb) {
   imageToCanvas(src, function (canvas) {
     cb(dataURLToBlob(canvasToDataURL(canvas)));
-  });
-}
-function postBid(url, data) {
-  return fetch(url, {
-    method: 'post',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(0)))
@@ -27538,7 +27528,7 @@ jquery(function () {
               for (i = 0; i < auctions.length; i++) {
                 auction = auctions[i];
                 console.log(auction);
-                card = jquery('<div class="col s4 m6">' + '<div class="card medium">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
+                card = jquery('<div class="col s4 m7">' + '<div class="card">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
               }
 
               jquery('.bid-btn').on('click', bidClick);
@@ -27556,33 +27546,34 @@ jquery(function () {
     };
   }());
 
-  function showToast(msg) {
-    common["a" /* Toast */].notice(msg);
-  }
-
   function bidClick(e) {
     e.preventDefault();
     var btn = jquery(this);
     var id = btn.data('id');
-    btn.attr('disabled', 'disabled');
     var uid = rtm.accountName;
-    var amount = jquery("#bidamount" + id).value();
+    var amount = jquery("#bidamount" + id).val();
 
     if (!amount) {
       common["a" /* Toast */].error('Please put you bid amount!');
       return;
     }
 
-    Object(common["d" /* postBid */])("/api/v1/auction/bid", {
-      id: id,
-      uid: uid,
-      amount: amount
+    btn.attr('disabled', 'disabled');
+    fetch("/api/v1/auction/bid", {
+      method: 'post',
+      body: JSON.stringify({
+        id: id,
+        uid: uid,
+        amount: amount
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }).then(function (response) {
-      var data = response.json();
       btn.removeAttr('disabled');
-      return data;
-    }).then(function (msg) {
-      showToast(msg);
+      return response.json();
+    }).then(function (data) {
+      data.result ? common["a" /* Toast */].notice(data.reason) : common["a" /* Toast */].error(data.reason);
     });
   }
 
@@ -27595,9 +27586,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName'])) {
       return;
     }
 
@@ -27610,7 +27601,7 @@ jquery(function () {
         rtm.login(params.accountName, token).then(function () {
           console.log('login');
           rtm._logined = true;
-          common["a" /* Toast */].notice('Login: ' + params.accountName, ' token: ', token);
+          common["a" /* Toast */].notice('Login: ' + params.accountName);
           jquery("#logout").removeAttr('disabled');
           jquery("#join").removeAttr('disabled');
         }).catch(function (err) {
@@ -27658,9 +27649,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
       return;
     }
 
@@ -27695,9 +27686,9 @@ jquery(function () {
     }
 
     jquery(this).attr('disabled', 'disabled');
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
       return;
     }
 
@@ -27735,9 +27726,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'channelName', 'channelMessage'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName', 'channelMessage'])) {
       return;
     }
 
@@ -27763,9 +27754,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'peerId', 'peerMessage'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'peerId', 'peerMessage'])) {
       return;
     }
 
@@ -27787,9 +27778,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
       return;
     }
 
@@ -27822,9 +27813,9 @@ jquery(function () {
       return;
     }
 
-    var params = Object(common["e" /* serializeFormData */])('loginForm');
+    var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["f" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
+    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
       return;
     }
 
@@ -27846,9 +27837,9 @@ jquery(function () {
           switch (_context4.prev = _context4.next) {
             case 0:
               e.preventDefault();
-              params = Object(common["e" /* serializeFormData */])('loginForm');
+              params = Object(common["d" /* serializeFormData */])('loginForm');
 
-              if (Object(common["f" /* validator */])(params, ['appId', 'accountName', 'peerId'])) {
+              if (Object(common["e" /* validator */])(params, ['appId', 'accountName', 'peerId'])) {
                 _context4.next = 4;
                 break;
               }
@@ -27881,9 +27872,9 @@ jquery(function () {
           switch (_context5.prev = _context5.next) {
             case 0:
               e.preventDefault();
-              params = Object(common["e" /* serializeFormData */])('loginForm');
+              params = Object(common["d" /* serializeFormData */])('loginForm');
 
-              if (Object(common["f" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
+              if (Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
                 _context5.next = 4;
                 break;
               }
@@ -27921,4 +27912,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.3b198805c0b12e722add.js.map
+//# sourceMappingURL=index.551bcef70b6c9f46572d.js.map

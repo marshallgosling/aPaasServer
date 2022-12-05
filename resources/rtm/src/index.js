@@ -8,8 +8,7 @@ import {
   validator,
   serializeFormData,
   imageToBlob,
-  blobToImage,
-  postBid
+  blobToImage
 } from './common'
 
 $(() => {
@@ -111,16 +110,14 @@ $(() => {
     if(metadata.items.length == 0) {return}
     const auctions = JSON.parse(metadata.items[0].value);
 
-    
-
     for(var i=0;i<auctions.length;i++)
     {
 
       let auction = auctions[i]
       console.log(auction)
 
-    const card = $('<div class="col s4 m6">'+
-    '<div class="card medium">'+
+    const card = $('<div class="col s4 m7">'+
+    '<div class="card">'+
     '  <div class="card-image">'+
     '    <img src="/storage/' + auction.cover + '">'+
     '  </div>'+
@@ -132,7 +129,7 @@ $(() => {
     '  <div class="card-action">'+
     '  <label for="bidamount'+auction.id+'" class="active">Put your best bid</label>'+
     '  <input type="text" placeholder="$'+auction.amount+'" name="bidamount'+auction.id+'" id="bidamount'+auction.id+'">'+
-    '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="'+ auction.id + '" data-amount="'+auction.amount+'">BID</button>'+
+    '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="'+ auction.id + '" data-amount="'+auction.amount+'">BID</button>'+
     '  </div>'+
     '</div>'+
     '</div>').appendTo('#cards');
@@ -142,30 +139,34 @@ $(() => {
 
   })
 
-  function showToast(msg) {
-    Toast.notice(msg);
-  }
-
   function bidClick(e) {
     e.preventDefault()
     let btn = $(this);
     let id = btn.data('id');
-    btn.attr('disabled','disabled');
+    
     let uid = rtm.accountName;
-    let amount = $("#bidamount"+id).value();
+    let amount = $("#bidamount"+id).val();
    
     if(!amount) {
       Toast.error('Please put you bid amount!')
       return;
     }
 
+    btn.attr('disabled','disabled');
 
-    postBid("/api/v1/auction/bid", { id, uid, amount }).then((response) => {
-      let data = response.json();
+    fetch("/api/v1/auction/bid", {
+      method: 'post',
+      body: JSON.stringify({ id, uid, amount }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
       btn.removeAttr('disabled');
-      return data;
-    }).then((msg) => {
-      showToast(msg);
+      return response.json();
+    }).then((data) => {
+      data.result ? 
+      Toast.notice(data.reason) :
+      Toast.error(data.reason)    
     })
   }
   
@@ -197,7 +198,7 @@ $(() => {
         rtm.login(params.accountName, token).then(() => {
           console.log('login')
           rtm._logined = true
-          Toast.notice('Login: ' + params.accountName, ' token: ', token)
+          Toast.notice('Login: ' + params.accountName)
 
           $("#logout").removeAttr('disabled');
           $("#join").removeAttr('disabled');

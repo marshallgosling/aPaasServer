@@ -34,7 +34,7 @@ class AuctionController extends ApiController {
         if ($auction) {
             if ($amount <= $auction->amount)
             {
-                $result = ['reason'=>'Your bid amount must greater than '.$auction->amount.'.'];
+                $result = ['result'=>false, 'reason'=>'Your bid amount must greater than '.$auction->amount.'.'];
             }
             else {
 
@@ -46,20 +46,21 @@ class AuctionController extends ApiController {
             }
             
         } else {
-            $result = ['reason'=>'Auction is not exists.'];
+            $result = ['result'=>false, 'reason'=>'Auction is not exists.'];
         }
 
         if ($result['result']) {
             $channel = Channel::where("channelid", $channelid)->first();
             if ($channel) {
                 $channel->sync();
+                $result = ['result'=>true, 'reason'=>'Your bid is accepted.'];
             }
             else {
                 Log::info("Channel {$channelid} not exists.");
             }
         }
 
-        return $this->responseJson(['result'=>$result['reason']]);
+        return $this->responseJson($result);
     }
 
 
