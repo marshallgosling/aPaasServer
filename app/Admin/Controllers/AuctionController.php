@@ -9,6 +9,7 @@ use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use App\Models\Auction;
 use App\Admin\Extensions\Actions\EnableAuction;
+use App\Admin\Extensions\Tools\SyncAuction;
 use App\Models\Channel;
 
 class AuctionController extends AdminController
@@ -65,7 +66,10 @@ class AuctionController extends AdminController
         $grid->actions(function ($actions) {
             $actions->add(new EnableAuction);
         });
-        
+
+        $grid->tools(function ($tools) {
+            $tools->append(new SyncAuction());
+        });
 
         return $grid;
     }

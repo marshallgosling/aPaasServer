@@ -11,8 +11,9 @@ class EnableChannel extends RowAction
 
     public function handle(Channel $model)
     {
-        $model->enable();
-        return $this->response()->success('Update succeed.')->refresh();
+        return $model->enable() ?
+        $this->response()->success('Update succeed.')->refresh() :
+        $this->response()->error('Update failed.')->refresh();
     }
 
 }

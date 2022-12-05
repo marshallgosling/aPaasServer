@@ -43,10 +43,10 @@ class AuctionController extends ApiController {
         }
 
         if ($result['result']) {
-            $auction = Auction::where('channelid', $channelid)->orderBy('id', 'desc')->lazy()->toArray();
-            $redis = Redis::connection();
-            $redis->set("AUCTION_CHANNEL_".$channelid, json_encode($auction));
-            Log::info("Set Redis Json:".json_encode($auction));
+            $channel = Channel::find($channelid);
+            if ($channel) {
+                $channel->sync();
+            }
         }
 
         return $this->responseJson(['result'=>$result['reason']]);
