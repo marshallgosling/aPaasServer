@@ -27538,7 +27538,7 @@ jquery(function () {
               for (i = 0; i < auctions.length; i++) {
                 auction = auctions[i];
                 console.log(auction);
-                card = jquery('<div class="col s4 m6">' + '<div class="card medium">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="' + auction.id + '">BID</button>' + ' <span>  &nbsp;&nbsp;  Put your best bid.</span>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
+                card = jquery('<div class="col s4 m6">' + '<div class="card medium">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
               }
 
               jquery('.bid-btn').on('click', bidClick);
@@ -27566,13 +27566,23 @@ jquery(function () {
     var id = btn.data('id');
     btn.attr('disabled', 'disabled');
     var uid = rtm.accountName;
+    var amount = jquery("#bidamount" + id).value();
+
+    if (!amount) {
+      common["a" /* Toast */].error('Please put you bid amount!');
+      return;
+    }
+
     Object(common["d" /* postBid */])("/api/v1/auction/bid", {
       id: id,
-      uid: uid
+      uid: uid,
+      amount: amount
     }).then(function (response) {
       var data = response.json();
       btn.removeAttr('disabled');
-      showToast(data.result);
+      return data;
+    }).then(function (msg) {
+      showToast(msg);
     });
   }
 
@@ -27911,4 +27921,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.e897dcae42173b2386cf.js.map
+//# sourceMappingURL=index.3b198805c0b12e722add.js.map
