@@ -14,7 +14,7 @@ class SyncAuction extends Action
 
     public function handle(Request $request)
     {
-        $channelid = $request->get("channelid");
+        $channelid = $request->post("channelid");
         $channel = Channel::find($channelid);
         if ($channel) {
             $res = $channel->sync();
