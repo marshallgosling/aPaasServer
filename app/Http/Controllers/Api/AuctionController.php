@@ -18,7 +18,7 @@ class AuctionController extends ApiController {
     public function bid(Request $request) {
         
         $uid = $request->json("uid", "uid");
-        //$amount = $request->json("amount", 0);
+        $amount = (int)$request->json("amount", 0);
         $auction_id = $request->json("id", "0");
         
         if ($auction_id == '0') {
@@ -32,12 +32,19 @@ class AuctionController extends ApiController {
         // MySQL
         $auction = Auction::find($auction_id);
         if ($auction) {
-            $amount = $auction->amount + 10;
-            $channelid = $auction->channelid;
+            if ($amount <= $auction->amount)
+            {
+                $result = ['reason'=>'Your bid amount must greater than '.$auction->amount.'.'];
+            }
+            else {
 
-            Log::info("User Bid: uid {$uid} channelid {$channelid} amount {$amount}");
-
-            $result = $auction->processBid($auction_id, $uid, $amount);
+                $channelid = $auction->channelid;
+    
+                Log::info("User Bid: uid {$uid} channelid {$channelid} amount {$amount}");
+    
+                $result = $auction->processBid($auction_id, $uid, $amount);
+            }
+            
         } else {
             $result = ['reason'=>'Auction is not exists.'];
         }

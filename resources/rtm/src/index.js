@@ -130,8 +130,9 @@ $(() => {
     '    <p>Owner: ' + auction.owner + '</p>'+
     '  </div>'+
     '  <div class="card-action">'+
-    '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="'+ auction.id + '">BID</button>'+
-    ' <span>  &nbsp;&nbsp;  Put your best bid.</span>'+
+    '  <label for="bidamount'+auction.id+'" class="active">Put your best bid</label>'+
+    '  <input type="text" placeholder="$'+auction.amount+'" name="bidamount'+auction.id+'" id="bidamount'+auction.id+'">'+
+    '    <button class="btn btn-raised btn-primary waves-effect waves-light bid-btn" data-id="'+ auction.id + '" data-amount="'+auction.amount+'">BID</button>'+
     '  </div>'+
     '</div>'+
     '</div>').appendTo('#cards');
@@ -151,12 +152,20 @@ $(() => {
     let id = btn.data('id');
     btn.attr('disabled','disabled');
     let uid = rtm.accountName;
+    let amount = $("#bidamount"+id).value();
+   
+    if(!amount) {
+      Toast.error('Please put you bid amount!')
+      return;
+    }
 
 
-    postBid("/api/v1/auction/bid", { id, uid }).then((response) => {
+    postBid("/api/v1/auction/bid", { id, uid, amount }).then((response) => {
       let data = response.json();
       btn.removeAttr('disabled');
-      showToast(data.result);
+      return data;
+    }).then((msg) => {
+      showToast(msg);
     })
   }
   
