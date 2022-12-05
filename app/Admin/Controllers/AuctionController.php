@@ -59,7 +59,7 @@ class AuctionController extends AdminController
             $filter->equal('ID', 'ID');
             $filter->like('name', 'Name');
             $filter->in('channelid', 'ChannelID')->checkbox(
-                Channel::where('status', Channel::STATUS_ONLINE)->pluck('channelid', 'id')->toArray()
+                Channel::where('status', Channel::STATUS_ONLINE)->pluck('channelid')->toArray()
             );
         });
 

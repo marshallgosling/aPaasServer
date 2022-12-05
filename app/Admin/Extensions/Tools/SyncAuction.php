@@ -27,7 +27,7 @@ class SyncAuction extends Action
     {
 
         $this->select('channelid', 'Channel ID')->options(
-            Channel::where("status", Channel::STATUS_ONLINE)->pluck("name")->toArray()
+            Channel::where("status", Channel::STATUS_ONLINE)->pluck("channelid")->toArray()
         );
 
     }
