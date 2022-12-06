@@ -24,7 +24,7 @@ class TokenController extends ApiController {
     public function rtmtoken(Request $request) {
         $uid = $request->get("uid", "Migo");
         $token = RtmTokenBuilder2::buildToken(
-            config("AppID-nate"), config("Certificate-nate"), $uid, 3600
+            config("AppID-nate"), config("Certificate-nate"), $uid, 24*3600
         );
 
         return $this->responseJson(['result'=>$token]);
