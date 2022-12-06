@@ -106,38 +106,43 @@ $(() => {
     })
     $('#log').append(view)
 
-    $('#cards').html('')
+    
     if(metadata.items.length == 0) {return}
     const auctions = JSON.parse(metadata.items[0].value);
 
+    initView(auctions);
+  })
+
+  function initView(auctions) {
+    if (auctions.length == 0) return;
+    $('#cards').html('')
     for(var i=0;i<auctions.length;i++)
     {
 
       let auction = auctions[i]
-      console.log(auction)
 
-    const card = $('<div class="col s4 m7">'+
-    '<div class="card">'+
-    '  <div class="card-image">'+
-    '    <img src="/storage/' + auction.cover + '">'+
-    '  </div>'+
-    '  <div class="card-content">'+
-    '    <p>Product: '+auction.name + '</p>'+
-    '     <p>Price: $' + auction.amount + '</p>'+
-    '    <p>Owner: ' + auction.owner + '</p>'+
-    '  </div>'+
-    '  <div class="card-action">'+
-    '  <label for="bidamount'+auction.id+'" class="active">Put your best bid</label>'+
-    '  <input type="text" placeholder="$'+auction.amount+'" name="bidamount'+auction.id+'" id="bidamount'+auction.id+'">'+
-    '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="'+ auction.id + '" data-amount="'+auction.amount+'">BID</button>'+
-    '  </div>'+
-    '</div>'+
-    '</div>').appendTo('#cards');
+      $('<div class="col s4 m7">'+
+      '<div class="card">'+
+      '  <div class="card-image">'+
+      '    <img src="/storage/' + auction.cover + '">'+
+      '  </div>'+
+      '  <div class="card-content">'+
+      '    <p>Product: '+auction.name + '</p>'+
+      '     <p>Price: $' + auction.amount + '</p>'+
+      '    <p>Owner: ' + auction.owner + '</p>'+
+      '  </div>'+
+      '  <div class="card-action">'+
+      '  <label for="bidamount'+auction.id+'" class="active">Put your best bid</label>'+
+      '  <input type="text" placeholder="$'+auction.amount+'" name="bidamount'+auction.id+'" id="bidamount'+auction.id+'">'+
+      '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="'+ auction.id + '" data-amount="'+auction.amount+'">BID</button>'+
+      '  </div>'+
+      '</div>'+
+      '</div>').appendTo('#cards');
 
     }
     $('.bid-btn').on('click', bidClick);
 
-  })
+  }
 
   function bidClick(e) {
     e.preventDefault()
@@ -173,9 +178,7 @@ $(() => {
 
   $('#login').on('click', function (e) {
     e.preventDefault()
-
-    $(this).attr('disabled', 'disabled');
-
+    
     if (rtm._logined) {
       Toast.error('You already logined')
       return
@@ -186,6 +189,8 @@ $(() => {
     if (!validator(params, ['appId', 'accountName'])) {
       return
     }
+
+    $(this).attr('disabled', 'disabled');
 
     try {
       rtm.init(params.appId)
@@ -216,12 +221,14 @@ $(() => {
 
   $('#logout').on('click', function (e) {
     e.preventDefault()
-    $(this).attr('disabled', 'disabled');
+    
     if (!rtm._logined) {
       Toast.error('You already logout')
-      $(this).removeAttr('disabled');
+      $(this).attr('disabled', 'disabled');
+      $("#login").removeAttr('disabled');
       return
     }
+    $(this).attr('disabled', 'disabled');
     rtm.logout().then(() => {
       console.log('logout')
       rtm._logined = false
@@ -236,26 +243,26 @@ $(() => {
 
   $('#join').on('click', function (e) {
     e.preventDefault()
-    $(this).attr('disabled', 'disabled');
+    
     if (!rtm._logined) {
       Toast.error('Please Login First')
-      $(this).removeAttr('disabled');
+      $(this).attr('disabled','disabled');
       return
     }
-
+    
     const params = serializeFormData('loginForm')
 
     if (!validator(params, ['appId', 'accountName', 'channelName'])) {
       return
     }
-
+    
     if (rtm.channels[params.channelName] ||
         (rtm.channels[params.channelName] && rtm.channels[params.channelName].joined)) {
       Toast.error('You already joined')
       $("#leave").removeAttr('disabled');
       return
     }
-
+    $(this).attr('disabled', 'disabled');
     rtm.joinChannel(params.channelName).then(() => {
       const view = $('<div/>', {
         text: rtm.accountName + ' join channel success'
@@ -265,8 +272,6 @@ $(() => {
       $("#reload_action").removeAttr('disabled');
       $("#send_channel_message").removeAttr('disabled');
       rtm.channels[params.channelName].joined = true
-
-      rtm
     }).catch((err) => {
       $(this).removeAttr('disabled');
       Toast.error('Join channel failed, please open console see more details.')
@@ -378,34 +383,15 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'memberId'])) {
+    if (!validator(params, ['auction'])) {
+      
       return
     }
 
-    fetch("/api/v1/auction").then((response) => {
+    fetch("/api/v1/auction?channelid="+params.auction).then((response) => {
       return response.json();
     }).then((data) => {
-      let metadataItem = rtm.client.createMetadataItem()
-
-      metadataItem.setKey('auction')
-      metadataItem.setValue(JSON.stringify(data.result))
-
-      console.log(data)
-
-
-      const options = {
-        enableRecordTs: true,
-        enableRecordUserId: true
-      }
-
-      rtm.sendChannelMetadata(metadataItem, options, params.channelName).then(() => {
-        const view = $('<div/>', {
-          text: 'account: ' + rtm.accountName + ' sendChannelMetadata : ' + params.channelName + ' bidId: ' + params.bidId
-        })
-        $('#log').append(view)
-      }).catch((err) => {
-        console.error(err)
-      })
+      initView(data);
     })
 
   })

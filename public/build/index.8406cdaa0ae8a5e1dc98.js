@@ -27494,7 +27494,7 @@ jquery(function () {
 
   rtm.on('MetaDataUpdated', /*#__PURE__*/function () {
     var _ref7 = src_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref6) {
-      var channelName, metadata, view, auctions, i, auction, card;
+      var channelName, metadata, view, auctions;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -27513,27 +27513,19 @@ jquery(function () {
                 text: ['event: MetaDataUpdated ', JSON.stringify(metadata.items)].join('')
               });
               jquery('#log').append(view);
-              jquery('#cards').html('');
 
               if (!(metadata.items.length == 0)) {
-                _context3.next = 12;
+                _context3.next = 11;
                 break;
               }
 
               return _context3.abrupt("return");
 
-            case 12:
+            case 11:
               auctions = JSON.parse(metadata.items[0].value);
+              initView(auctions);
 
-              for (i = 0; i < auctions.length; i++) {
-                auction = auctions[i];
-                console.log(auction);
-                card = jquery('<div class="col s4 m7">' + '<div class="card">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
-              }
-
-              jquery('.bid-btn').on('click', bidClick);
-
-            case 15:
+            case 13:
             case "end":
               return _context3.stop();
           }
@@ -27545,6 +27537,18 @@ jquery(function () {
       return _ref7.apply(this, arguments);
     };
   }());
+
+  function initView(auctions) {
+    if (auctions.length == 0) return;
+    jquery('#cards').html('');
+
+    for (var i = 0; i < auctions.length; i++) {
+      var auction = auctions[i];
+      jquery('<div class="col s4 m7">' + '<div class="card">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
+    }
+
+    jquery('.bid-btn').on('click', bidClick);
+  }
 
   function bidClick(e) {
     e.preventDefault();
@@ -27579,7 +27583,6 @@ jquery(function () {
 
   jquery('#login').on('click', function (e) {
     e.preventDefault();
-    jquery(this).attr('disabled', 'disabled');
 
     if (rtm._logined) {
       common["a" /* Toast */].error('You already logined');
@@ -27591,6 +27594,8 @@ jquery(function () {
     if (!Object(common["e" /* validator */])(params, ['appId', 'accountName'])) {
       return;
     }
+
+    jquery(this).attr('disabled', 'disabled');
 
     try {
       rtm.init(params.appId);
@@ -27618,14 +27623,15 @@ jquery(function () {
     var _this = this;
 
     e.preventDefault();
-    jquery(this).attr('disabled', 'disabled');
 
     if (!rtm._logined) {
       common["a" /* Toast */].error('You already logout');
-      jquery(this).removeAttr('disabled');
+      jquery(this).attr('disabled', 'disabled');
+      jquery("#login").removeAttr('disabled');
       return;
     }
 
+    jquery(this).attr('disabled', 'disabled');
     rtm.logout().then(function () {
       console.log('logout');
       rtm._logined = false;
@@ -27641,11 +27647,10 @@ jquery(function () {
     var _this2 = this;
 
     e.preventDefault();
-    jquery(this).attr('disabled', 'disabled');
 
     if (!rtm._logined) {
       common["a" /* Toast */].error('Please Login First');
-      jquery(this).removeAttr('disabled');
+      jquery(this).attr('disabled', 'disabled');
       return;
     }
 
@@ -27661,6 +27666,7 @@ jquery(function () {
       return;
     }
 
+    jquery(this).attr('disabled', 'disabled');
     rtm.joinChannel(params.channelName).then(function () {
       var view = jquery('<div/>', {
         text: rtm.accountName + ' join channel success'
@@ -27670,7 +27676,6 @@ jquery(function () {
       jquery("#reload_action").removeAttr('disabled');
       jquery("#send_channel_message").removeAttr('disabled');
       rtm.channels[params.channelName].joined = true;
-      rtm;
     }).catch(function (err) {
       jquery(_this2).removeAttr('disabled');
       common["a" /* Toast */].error('Join channel failed, please open console see more details.');
@@ -27780,29 +27785,14 @@ jquery(function () {
 
     var params = Object(common["d" /* serializeFormData */])('loginForm');
 
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
+    if (!Object(common["e" /* validator */])(params, ['auction'])) {
       return;
     }
 
-    fetch("/api/v1/auction").then(function (response) {
+    fetch("/api/v1/auction?channelid=" + params.auction).then(function (response) {
       return response.json();
     }).then(function (data) {
-      var metadataItem = rtm.client.createMetadataItem();
-      metadataItem.setKey('auction');
-      metadataItem.setValue(JSON.stringify(data.result));
-      console.log(data);
-      var options = {
-        enableRecordTs: true,
-        enableRecordUserId: true
-      };
-      rtm.sendChannelMetadata(metadataItem, options, params.channelName).then(function () {
-        var view = jquery('<div/>', {
-          text: 'account: ' + rtm.accountName + ' sendChannelMetadata : ' + params.channelName + ' bidId: ' + params.bidId
-        });
-        jquery('#log').append(view);
-      }).catch(function (err) {
-        console.error(err);
-      });
+      initView(data);
     });
   });
   jquery('#query_peer').on('click', function (e) {
@@ -27912,4 +27902,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.47f90a543573eee3a707.js.map
+//# sourceMappingURL=index.8406cdaa0ae8a5e1dc98.js.map
