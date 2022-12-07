@@ -27384,10 +27384,7 @@ jquery(function () {
 
     if (newState === 'ABORTED') {
       if (reason === 'REMOTE_LOGIN') {
-        common["a" /* Toast */].error('You have already been kicked off!'); //$('#accountName').text('Agora Chatroom')
-
-        jquery('#dialogue-list')[0].innerHTML = '';
-        jquery('#chat-message')[0].innerHTML = '';
+        common["a" /* Toast */].error('You have already been kicked off!');
         jquery("#logout").attr('disabled', 'disabled');
         jquery("#login").removeAttr('disabled');
         jquery("#leave").attr('disabled', 'disabled');
@@ -27927,4 +27924,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.7eba832aa2c64bb50922.js.map
+//# sourceMappingURL=index.39dd1958727a5af444e6.js.map
