@@ -27361,15 +27361,18 @@ jquery(function () {
   }).then(function (response) {
     return response.json();
   }).then(function (data) {
+    console.log(data);
+
     if (data.result && data.result.length > 0) {
       for (var i = 0; i < data.result.length; i++) {
         var item = data.result[i];
+        console.log("option " + item.channelid);
         var $newOpt = jquery("<option>").attr("value", item.channelid).text(item.channelid);
         jquery("#mySelect").append($newOpt);
-      } // fire custom event anytime you've updated select
+      }
 
-
-      jquery("#mySelect").trigger('contentChanged');
+      var elems = document.querySelectorAll('select');
+      materialize["FormSelect"].init(elems);
     }
   });
   rtm.on('ConnectionStateChanged', function (newState, reason) {
@@ -27918,4 +27921,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.8f9151129f7125dab279.js.map
+//# sourceMappingURL=index.8b8f9b780664e70ed1b8.js.map

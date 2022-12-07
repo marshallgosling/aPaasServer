@@ -21,14 +21,18 @@ $(() => {
   }).then((response) => {
     return response.json();
   }).then((data) => {
+    console.log(data)
     if(data.result && data.result.length > 0) {
+      
       for(var i=0;i<data.result.length;i++) {
         let item = data.result[i];
+        console.log("option "+item.channelid)
         var $newOpt = $("<option>").attr("value",item.channelid).text(item.channelid)
         $("#mySelect").append($newOpt);
       }
-      // fire custom event anytime you've updated select
-      $("#mySelect").trigger('contentChanged');
+
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems);
     }
     
   })
