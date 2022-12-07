@@ -27356,6 +27356,22 @@ function src_asyncToGenerator(fn) { return function () { var self = this, args =
 jquery(function () {
   materialize["AutoInit"]();
   var rtm = new rtm_client_RTMClient();
+  fetch("/api/v1/channels", {
+    method: 'get'
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    if (data.result && data.result.length > 0) {
+      for (var i = 0; i < data.result.length; i++) {
+        var item = data.result[i];
+        var $newOpt = jquery("<option>").attr("value", item.channelid).text(item.channelid);
+        jquery("#mySelect").append($newOpt);
+      } // fire custom event anytime you've updated select
+
+
+      jquery("#mySelect").trigger('contentChanged');
+    }
+  });
   rtm.on('ConnectionStateChanged', function (newState, reason) {
     console.log('reason', reason);
     var view = jquery('<div/>', {
@@ -27902,4 +27918,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.8406cdaa0ae8a5e1dc98.js.map
+//# sourceMappingURL=index.8f9151129f7125dab279.js.map

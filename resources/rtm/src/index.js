@@ -16,6 +16,23 @@ $(() => {
 
   const rtm = new RtmClient()
 
+  fetch("/api/v1/channels", {
+    method: 'get'
+  }).then((response) => {
+    return response.json();
+  }).then((data) => {
+    if(data.result && data.result.length > 0) {
+      for(var i=0;i<data.result.length;i++) {
+        let item = data.result[i];
+        var $newOpt = $("<option>").attr("value",item.channelid).text(item.channelid)
+        $("#mySelect").append($newOpt);
+      }
+      // fire custom event anytime you've updated select
+      $("#mySelect").trigger('contentChanged');
+    }
+    
+  })
+
   rtm.on('ConnectionStateChanged', (newState, reason) => {
     console.log('reason', reason)
     const view = $('<div/>', {
