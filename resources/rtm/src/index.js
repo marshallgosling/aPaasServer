@@ -142,7 +142,7 @@ $(() => {
 
       let auction = auctions[i]
 
-      $('<div class="col s4 m7">'+
+      $('<div class="col s4 m5">'+
       '<div class="card">'+
       '  <div class="card-image">'+
       '    <img src="/storage/' + auction.cover + '">'+

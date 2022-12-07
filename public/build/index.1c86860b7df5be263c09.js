@@ -27563,7 +27563,7 @@ jquery(function () {
 
     for (var i = 0; i < auctions.length; i++) {
       var auction = auctions[i];
-      jquery('<div class="col s4 m7">' + '<div class="card">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
+      jquery('<div class="col s4 m5">' + '<div class="card">' + '  <div class="card-image">' + '    <img src="/storage/' + auction.cover + '">' + '  </div>' + '  <div class="card-content">' + '    <p>Product: ' + auction.name + '</p>' + '     <p>Price: $' + auction.amount + '</p>' + '    <p>Owner: ' + auction.owner + '</p>' + '  </div>' + '  <div class="card-action">' + '  <label for="bidamount' + auction.id + '" class="active">Put your best bid</label>' + '  <input type="text" placeholder="$' + auction.amount + '" name="bidamount' + auction.id + '" id="bidamount' + auction.id + '">' + '    <button class="btn btn-raised btn-primary waves-effect waves-light custom-btn-pin bid-btn" data-id="' + auction.id + '" data-amount="' + auction.amount + '">BID</button>' + '  </div>' + '</div>' + '</div>').appendTo('#cards');
     }
 
     jquery('.bid-btn').on('click', bidClick);
@@ -27921,4 +27921,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.8b8f9b780664e70ed1b8.js.map
+//# sourceMappingURL=index.1c86860b7df5be263c09.js.map
