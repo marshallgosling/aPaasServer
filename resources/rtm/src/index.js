@@ -53,6 +53,7 @@ $(() => {
         $("#join").removeAttr('disabled');
         const params = serializeFormData('loginForm')
         rtm.channels[params.channelName].joined = false
+        rtm.channels[params.channelName] = null
       }
     }
   })

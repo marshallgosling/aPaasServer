@@ -27391,6 +27391,7 @@ jquery(function () {
         jquery("#join").removeAttr('disabled');
         var params = Object(common["d" /* serializeFormData */])('loginForm');
         rtm.channels[params.channelName].joined = false;
+        rtm.channels[params.channelName] = null;
       }
     }
   });
@@ -27924,4 +27925,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.39dd1958727a5af444e6.js.map
+//# sourceMappingURL=index.b70f98f1eff974db91dd.js.map
