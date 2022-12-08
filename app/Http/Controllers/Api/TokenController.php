@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class TokenController extends ApiController {
 
+    protected $json = true;
+
     public function rtctoken(Request $request) {
         $channelname = $request->get("channel", "Migo");
         $uid = (int)$request->get("uid", "1");
@@ -22,7 +24,12 @@ class TokenController extends ApiController {
     }
 
     public function rtmtoken(Request $request) {
+        
         $uid = $request->get("uid", "Migo");
+        $json = $request->get("nojson");
+        if ($json) {
+            $this->json = false;
+        }
         $token = RtmTokenBuilder2::buildToken(
             config("AppID-nate"), config("Certificate-nate"), $uid, 24*3600
         );

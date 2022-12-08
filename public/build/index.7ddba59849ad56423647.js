@@ -27392,6 +27392,7 @@ jquery(function () {
         var params = Object(common["d" /* serializeFormData */])('loginForm');
         rtm.channels[params.channelName].joined = false;
         rtm.channels[params.channelName] = null;
+        rtm._logined = false;
       }
     }
   });
@@ -27624,9 +27625,9 @@ jquery(function () {
       rtm.init(params.appId);
       window.rtm = rtm;
       fetch("/api/v1/rtmtoken?uid=" + params.accountName).then(function (response) {
-        return response.text();
+        return response.json();
       }).then(function (token) {
-        rtm.login(params.accountName, token).then(function () {
+        rtm.login(params.accountName, token.result).then(function () {
           console.log('login');
           rtm._logined = true;
           common["a" /* Toast */].notice('Login: ' + params.accountName);
@@ -27925,4 +27926,4 @@ jquery(function () {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.b70f98f1eff974db91dd.js.map
+//# sourceMappingURL=index.7ddba59849ad56423647.js.map

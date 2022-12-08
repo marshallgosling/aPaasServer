@@ -54,6 +54,7 @@ $(() => {
         const params = serializeFormData('loginForm')
         rtm.channels[params.channelName].joined = false
         rtm.channels[params.channelName] = null
+        rtm._logined = false
       }
     }
   })
@@ -222,10 +223,10 @@ $(() => {
       window.rtm = rtm
 
       fetch("/api/v1/rtmtoken?uid="+params.accountName).then((response) => {
-        return response.text();
+        return response.json();
       })
       .then((token) => {
-        rtm.login(params.accountName, token).then(() => {
+        rtm.login(params.accountName, token.result).then(() => {
           console.log('login')
           rtm._logined = true
           Toast.notice('Login: ' + params.accountName)

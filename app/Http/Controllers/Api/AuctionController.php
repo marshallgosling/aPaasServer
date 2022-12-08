@@ -22,7 +22,7 @@ class AuctionController extends ApiController {
         $auction_id = $request->json("id", "0");
         
         if ($auction_id == '0') {
-            return $this->responseJson(['result'=>'auction id is null']);
+            return $this->responseJson(['result'=>false, "reason"=>'auction id is null']);
         }
 
         // Queue
@@ -79,7 +79,7 @@ class AuctionController extends ApiController {
         
         $auction = Auction::where("channelid", $channelid)->orderBy('id', 'desc')->lazy();
 
-        return $this->responseJson($auction);
+        return $this->responseJson(["result"=>$auction]);
     }
 
     public function channels(Request $request)

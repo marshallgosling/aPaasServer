@@ -42,7 +42,7 @@ class AuctionController extends AdminController
 
             return new Table(['ID', 'uid', 'bid amount', 'created_at'], $bids->toArray());
         });
-        $grid->column('cover', __('Cover'));
+        $grid->column('cover', __('Cover'))->image("/storage/", 160, 100);
         $grid->column('channelid', __('ChannelID'));
         $grid->column('amount', __('Amount'));
         $grid->column('status', __('Status'))->bool(['1' => true, '0' => false, '2'=>false]);
