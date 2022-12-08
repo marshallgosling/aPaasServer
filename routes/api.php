@@ -21,4 +21,6 @@ Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::post('auction/bid', 'AuctionController@bid');
     Route::get('auction', 'AuctionController@all');
     Route::get('channels', 'AuctionController@channels');
+    Route::get('channel/{channelid}', 'AuctionController@channel');
+
 });

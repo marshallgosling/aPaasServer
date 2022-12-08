@@ -82,6 +82,17 @@ class AuctionController extends ApiController {
         return $this->responseJson(["result"=>$auction]);
     }
 
+    public function channel($channelid)
+    {
+        $channel = Channel::where("channelid", $channelid)->first();
+        if ($channel && $channel->status == Channel::STATUS_ONLINE) {
+            return "online";
+        }
+        else {
+            return "offline";
+        }
+    }
+
     public function channels(Request $request)
     {
         $mode = $request->get('mode', '0');
