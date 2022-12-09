@@ -45,7 +45,7 @@ class AuctionController extends AdminController
         $grid->column('cover', __('Cover'))->image("/storage/", 160, 100);
         $grid->column('channelid', __('ChannelID'));
         $grid->column('amount', __('Amount'));
-        $grid->column('status', __('STatus'))->using(
+        $grid->column('status', __('Status'))->using(
             [
                 Auction::STATUS_SYNCING => 'Syncing',
                 Auction::STATUS_READY  => 'Ready',

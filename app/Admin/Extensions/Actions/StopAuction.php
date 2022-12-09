@@ -11,7 +11,7 @@ class StopAuction extends RowAction
 
     public function handle(Auction $model)
     {
-        $model->stops();
+        $model->stop();
         return $this->response()->success('Update succeed.')->refresh();
     }
 
