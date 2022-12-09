@@ -107,11 +107,11 @@ class AuctionController extends ApiController {
         $mode = $request->get('mode', '0');
         if ($mode != '0')
         {
-            $channels = Channel::where('status', 1)->orderBy('id', 'desc')->pluck('channelid')->toArray();
+            $channels = Channel::orderBy('id', 'desc')->pluck('channelid')->toArray();
             return implode("\n", $channels);
         }
    
-        $channels = Channel::where('status', 1)->orderBy('id', 'desc')->lazy();
+        $channels = Channel::orderBy('id', 'desc')->lazy();
         return $this->responseJson(['result'=>$channels]);
     }
 }
