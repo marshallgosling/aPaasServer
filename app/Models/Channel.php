@@ -35,7 +35,7 @@ class Channel extends Model
 
     public function start()
     {
-        $this->status = Channel::STATUS_ONLINE;     
+        $this->status = Channel::STATUS_ONLINE;
         $this->save();
         return $this->sync();
        
@@ -45,6 +45,8 @@ class Channel extends Model
     {
         $this->status = Channel::STATUS_OFFLINE;
         $this->save();
+        Auction::where('channelid', $this->channelid)->update(['status'=>Auction::STATUS_STOPED]);
+        Log::info("Stop Sync channelid: {$this->channelid}, Set auctions status to `stop`.");
         return true;
     }
 
