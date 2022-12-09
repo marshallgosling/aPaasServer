@@ -8,6 +8,7 @@ use App\Models\Bid;
 use App\Models\Auction;
 use App\Models\Channel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
 
@@ -65,12 +66,11 @@ class AuctionController extends ApiController {
 
     public function sync(Request $request)
     {
-        $id = $request->post("id", "0");
-        $sync = $request->post("sync", "0");
-        $auction = Auction::find($id);
-        if ($auction) {
-            $auction->sync($sync);
-        }
+        $id = $request->post("channelid", "0");
+        $sync = $request->post("status", "0");
+        Auction::where("channelid", $id)->update(['status'=>Auction::STATUS_SYNCING]);
+        Log::info("Mass update Auction status with channelid:{$id}.");
+        //DB::update(DB::raw("update auction set status=1 where channelid='$id'"));
     }
 
     public function get(Request $request)
