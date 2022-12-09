@@ -5,13 +5,13 @@ namespace App\Admin\Extensions\Actions;
 use Encore\Admin\Actions\RowAction;
 use App\Models\Channel;
 
-class EnableChannel extends RowAction
+class StopChannel extends RowAction
 {
-    public $name = 'Enable';
+    public $name = 'Stop';
 
     public function handle(Channel $model)
     {
-        return $model->enable() ?
+        return $model->stop() ?
         $this->response()->success('Update succeed.')->refresh() :
         $this->response()->error('Update failed.')->refresh();
     }

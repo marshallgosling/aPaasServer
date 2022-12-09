@@ -33,15 +33,21 @@ class Channel extends Model
         
     ];
 
-    public function enable()
+    public function start()
     {
-        if ($this->status == Channel::STATUS_PENDING) {
-            $this->status = Channel::STATUS_ONLINE;
-            $this->save();
-            return true;
-        }
-        return false;
+        $this->status = Channel::STATUS_ONLINE;     
+        $this->save();
+        return $this->sync();
+       
     }
+
+    public function stop()
+    {
+        $this->status = Channel::STATUS_OFFLINE;
+        $this->save();
+        return true;
+    }
+
 
     public function sync()
     {

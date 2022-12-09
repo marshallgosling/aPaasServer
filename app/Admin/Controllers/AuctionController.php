@@ -8,7 +8,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use App\Models\Auction;
-use App\Admin\Extensions\Actions\StopAuction;
+//use App\Admin\Extensions\Actions\StopAuction;
 use App\Admin\Extensions\Tools\SyncAuction;
 use App\Models\Channel;
 
@@ -70,7 +70,7 @@ class AuctionController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-            $actions->add(new StopAuction);
+            //$actions->add(new StopAuction);
         });
 
         $grid->tools(function ($tools) {

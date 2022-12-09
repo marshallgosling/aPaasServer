@@ -5,13 +5,13 @@ namespace App\Admin\Extensions\Actions;
 use Encore\Admin\Actions\RowAction;
 use App\Models\Auction;
 
-class StopAuction extends RowAction
+class EnableAuction extends RowAction
 {
-    public $name = 'Stop';
+    public $name = 'Enable';
 
     public function handle(Auction $model)
     {
-        $model->stop();
+        $model->enable();
         return $this->response()->success('Update succeed.')->refresh();
     }
 
