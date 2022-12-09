@@ -11,8 +11,9 @@ class Auction extends Model
 {
     use HasFactory;
 
-    public const STATUS_OPEN = 1;
-    public const STATUS_CLOSE = 2;
+    public const STATUS_READY = 0;
+    public const STATUS_SYNCING = 1;
+    public const STATUS_STOPED = 2;
 
     protected $table = 'auction';
 
@@ -44,12 +45,19 @@ class Auction extends Model
         return $this->hasMany(Bid::class);
     }
 
-    public function enable()
+    public function stop()
     {
-        if ($this->status == 0) {
-            $this->status = 1;
+        if ($this->status != Auction::STATUS_STOPED) {
+            $this->status = Auction::STATUS_STOPED;
             $this->save();
         }
+    }
+
+    public function sync($status) {
+        
+            $this->status = $status;
+            $this->save();
+        
     }
 
     public function lastBid()

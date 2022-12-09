@@ -63,6 +63,15 @@ class AuctionController extends ApiController {
         return $this->responseJson($result);
     }
 
+    public function sync(Request $request)
+    {
+        $id = $request->post("id", "0");
+        $sync = $request->post("sync", "0");
+        $auction = Auction::find($id);
+        if ($auction) {
+            $auction->sync($sync);
+        }
+    }
 
     public function get(Request $request)
     {

@@ -8,7 +8,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use App\Models\Auction;
-use App\Admin\Extensions\Actions\EnableAuction;
+use App\Admin\Extensions\Actions\StopAuction;
 use App\Admin\Extensions\Tools\SyncAuction;
 use App\Models\Channel;
 
@@ -45,14 +45,20 @@ class AuctionController extends AdminController
         $grid->column('cover', __('Cover'))->image("/storage/", 160, 100);
         $grid->column('channelid', __('ChannelID'));
         $grid->column('amount', __('Amount'));
-        $grid->column('status', __('Status'))->bool(['1' => true, '0' => false, '2'=>false]);
+        $grid->column('status', __('STatus'))->using(
+            [
+                Auction::STATUS_SYNCING => 'Syncing',
+                Auction::STATUS_READY  => 'Ready',
+                Auction::STATUS_STOPED => 'Stoped'
+            ]
+        );
         $grid->column('last_bid_at', __('Last bid at'))->display(function () {
             return "<a href='".url("/admin/bid?auction_id=".$this->id)."'>".$this->last_bid_at."</a>";
         });
         $grid->column('start_at', __('start at'));
         $grid->column('end_at', __('End at'));
 
-        $grid->filter(function ($filter){
+        $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
             
@@ -64,7 +70,7 @@ class AuctionController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-            $actions->add(new EnableAuction);
+            $actions->add(new StopAuction);
         });
 
         $grid->tools(function ($tools) {

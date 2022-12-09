@@ -23,4 +23,6 @@ Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('channels', 'AuctionController@channels');
     Route::get('channel/{channelid}', 'AuctionController@channel');
 
+    Route::post('auction/sync', 'AuctionController@sync');
+
 });
