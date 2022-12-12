@@ -21,24 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/android", function() {
+Route::get("/android", function () {
     $files = Storage::disk('public')->files('apk', true);
-
-    
     return view("android", ["files"=>$files]);
 });
 
-Route::get("/rtctoken", function (Request $request) {
-    $channelname = $request->get("channel", "test");
-    $uid = (int)$request->get("uid", "1");
-    return RtcTokenBuilder2::buildTokenWithUid(
-        config("AppID-nate"), config("Certificate-nate"), $channelname, $uid, "", 30, 600
-    );
-});
-
-Route::get("/rtmtoken", function (Request $request) {
-    $uid = (int)$request->get("uid", "1");
-    return RtmTokenBuilder2::buildToken(
-        config("AppID-nate"), config("Certificate-nate"), $uid, 86400
-    );
-});
