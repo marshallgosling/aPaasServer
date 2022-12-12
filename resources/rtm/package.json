@@ -17,7 +17,7 @@
     "lint-fix": "eslint --fix src/ "
   },
   "dependencies": {
-    "agora-rtc-sdk": "^2.8.0",
+    "agora-rtc-sdk": "3.6.11",
     "agora-rtm-sdk": "1.6.0-204",
     "blueimp-md5": "^2.11.0",
     "identicon.js": "^2.3.3",
