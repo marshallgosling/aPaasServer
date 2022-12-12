@@ -24,14 +24,14 @@ class TokenController extends ApiController {
     }
 
     public function rtmtoken(Request $request) {
-        
+        $appid = $request->get("appid", config("AppID-nate"));
         $uid = $request->get("uid", "Migo");
         $json = $request->get("nojson");
         if ($json) {
             $this->json = false;
         }
         $token = RtmTokenBuilder2::buildToken(
-            config("AppID-nate"), config("Certificate-nate"), $uid, 24*3600
+            $appid, config("Certificate-nate"), $uid, 24*3600
         );
 
         return $this->responseJson(['result'=>$token]);

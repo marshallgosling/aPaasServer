@@ -124,7 +124,7 @@ class AuctionController extends AdminController
         $form->text('code', __('Code'));
         $form->image('cover', __("Cover"));
         $form->select('channelid', __('Channel ID'))->options(
-            Channel::where('status', Channel::STATUS_ONLINE)->pluck('channelid', 'channelid')->toArray()
+            Channel::pluck('channelid', 'channelid')->toArray()
         );
         $form->text('base_amount', __('Base Amount'));
         $form->text('amount', __('Amount'));

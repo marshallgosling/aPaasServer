@@ -31,7 +31,7 @@ class ChannelController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('channelid', __('Name'));
-        $grid->column('appid', __('Code'));
+        $grid->column('appid', __('AppId'));
         $grid->column('owner', __('Owner'));
         $grid->column('status', __('Status'))->bool(['1' => true, '0' => false, '2'=>false]);
         
@@ -41,7 +41,6 @@ class ChannelController extends AdminController
         $grid->actions(function ($actions) {
             $actions->add(new StartChannel);
             $actions->add(new StopChannel);
-            //$actions->add(new SyncChannel);
         });
 
         return $grid;
