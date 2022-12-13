@@ -11006,14 +11006,14 @@ return jQuery;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Toast; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return validator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return serializeFormData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return validator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return serializeFormData; });
 /* unused harmony export canvasToDataURL */
 /* unused harmony export dataURLToBlob */
 /* unused harmony export imageToCanvas */
 /* unused harmony export fileOrBlobToDataURL */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return blobToImage; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return imageToBlob; });
+/* unused harmony export imageToBlob */
 /* harmony import */ var blueimp_md5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 /* harmony import */ var blueimp_md5__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(blueimp_md5__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var identicon_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
@@ -27630,6 +27630,8 @@ function src_asyncToGenerator(fn) { return function () { var self = this, args =
 jquery(function () {
   materialize["AutoInit"]();
   var rtm = new rtm_client_RTMClient();
+  var channels = [];
+  var globalRevision = 0;
   fetch("/api/v1/channels", {
     method: 'get'
   }).then(function (response) {
@@ -27642,6 +27644,7 @@ jquery(function () {
         console.log("option " + item.channelid);
         var $newOpt = jquery("<option>").attr("value", item.channelid).text(item.channelid);
         jquery("#mySelect").append($newOpt);
+        channels[item.channelid] = item.appid;
       }
       var elems = document.querySelectorAll('select');
       materialize["FormSelect"].init(elems);
@@ -27660,7 +27663,7 @@ jquery(function () {
         jquery("#login").removeAttr('disabled');
         jquery("#leave").attr('disabled', 'disabled');
         jquery("#join").removeAttr('disabled');
-        var params = Object(common["d" /* serializeFormData */])('loginForm');
+        var params = Object(common["c" /* serializeFormData */])('loginForm');
         rtm.channels[params.channelName].joined = false;
         rtm.channels[params.channelName] = null;
         rtm._logined = false;
@@ -27777,34 +27780,37 @@ jquery(function () {
      */
   rtm.on('MetaDataUpdated', /*#__PURE__*/function () {
     var _ref7 = src_asyncToGenerator( /*#__PURE__*/src_regeneratorRuntime().mark(function _callee3(_ref6) {
-      var channelName, metadata, view, auctions;
+      var channelName, metadata, auctions, view;
       return src_regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               channelName = _ref6.channelName;
-              //const memberId = args[0]
-
-              console.log('MetaDataUpdated');
-              _context3.next = 4;
+              _context3.next = 3;
               return rtm.channels[channelName].channel.getChannelMetadata();
-            case 4:
+            case 3:
               metadata = _context3.sent;
-              console.log(metadata);
+              if (!(metadata.majorRevision > globalRevision)) {
+                _context3.next = 12;
+                break;
+              }
+              globalRevision = metadata.majorRevision;
               rtm.channels[channelName].metadata = metadata;
-              view = jquery('<div/>', {
-                text: ['event: MetaDataUpdated ', JSON.stringify(metadata.items)].join('')
-              });
-              jquery('#log').append(view);
               if (!(metadata.items.length == 0)) {
-                _context3.next = 11;
+                _context3.next = 9;
                 break;
               }
               return _context3.abrupt("return");
-            case 11:
+            case 9:
               auctions = JSON.parse(metadata.items[0].value);
+              common["a" /* Toast */].notice('New bidding state.');
               initView(auctions);
-            case 13:
+            case 12:
+              view = jquery('<div/>', {
+                text: ['event: MetaDataUpdated. majorRevision:', JSON.stringify(metadata.majorRevision)].join('')
+              });
+              jquery('#log').append(view);
+            case 14:
             case "end":
               return _context3.stop();
           }
@@ -27858,15 +27864,16 @@ jquery(function () {
       common["a" /* Toast */].error('You already logined');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['channelName', 'accountName'])) {
       return;
     }
     jquery(this).attr('disabled', 'disabled');
     try {
-      rtm.init(params.appId);
+      var appId = channels[params.channelName];
+      rtm.init(appId);
       window.rtm = rtm;
-      fetch("/api/v1/rtmtoken?uid=" + params.accountName).then(function (response) {
+      fetch("/api/v1/rtmtoken?appid=" + appId + "&uid=" + params.accountName).then(function (response) {
         return response.json();
       }).then(function (token) {
         rtm.login(params.accountName, token.result).then(function () {
@@ -27914,8 +27921,8 @@ jquery(function () {
       jquery(this).attr('disabled', 'disabled');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['accountName', 'channelName'])) {
       return;
     }
     if (rtm.channels[params.channelName] || rtm.channels[params.channelName] && rtm.channels[params.channelName].joined) {
@@ -27946,8 +27953,8 @@ jquery(function () {
       return;
     }
     jquery(this).attr('disabled', 'disabled');
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['accountName', 'channelName'])) {
       return;
     }
     if (!rtm.channels[params.channelName] || rtm.channels[params.channelName] && !rtm.channels[params.channelName].joined) {
@@ -27979,8 +27986,8 @@ jquery(function () {
       common["a" /* Toast */].error('Please Login First');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName', 'channelMessage'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['accountName', 'channelName', 'channelMessage'])) {
       return;
     }
     if (!rtm.channels[params.channelName] || rtm.channels[params.channelName] && !rtm.channels[params.channelName].joined) {
@@ -28002,8 +28009,8 @@ jquery(function () {
       common["a" /* Toast */].error('Please Login First');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'peerId', 'peerMessage'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['accountName', 'peerId', 'peerMessage'])) {
       return;
     }
     rtm.sendPeerMessage(params.peerMessage, params.peerId).then(function () {
@@ -28022,8 +28029,8 @@ jquery(function () {
       common["a" /* Toast */].error('Please Login First');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['auction'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['auction'])) {
       return;
     }
     fetch("/api/v1/auction?channelid=" + params.auction).then(function (response) {
@@ -28038,8 +28045,8 @@ jquery(function () {
       common["a" /* Toast */].error('Please Login First');
       return;
     }
-    var params = Object(common["d" /* serializeFormData */])('loginForm');
-    if (!Object(common["e" /* validator */])(params, ['appId', 'accountName', 'memberId'])) {
+    var params = Object(common["c" /* serializeFormData */])('loginForm');
+    if (!Object(common["d" /* validator */])(params, ['accountName', 'memberId'])) {
       return;
     }
     rtm.queryPeersOnlineStatus(params.memberId).then(function (res) {
@@ -28052,77 +28059,8 @@ jquery(function () {
       console.error(err);
     });
   });
-  jquery('#send-image').on('click', /*#__PURE__*/function () {
-    var _ref8 = src_asyncToGenerator( /*#__PURE__*/src_regeneratorRuntime().mark(function _callee4(e) {
-      var params, src;
-      return src_regeneratorRuntime().wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              e.preventDefault();
-              params = Object(common["d" /* serializeFormData */])('loginForm');
-              if (Object(common["e" /* validator */])(params, ['appId', 'accountName', 'peerId'])) {
-                _context4.next = 4;
-                break;
-              }
-              return _context4.abrupt("return");
-            case 4:
-              src = jquery('img').attr('src');
-              Object(common["c" /* imageToBlob */])(src, function (blob) {
-                rtm.uploadImage(blob, params.peerId);
-              });
-            case 6:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4);
-    }));
-    return function (_x5) {
-      return _ref8.apply(this, arguments);
-    };
-  }());
-  jquery('#send-channel-image').on('click', /*#__PURE__*/function () {
-    var _ref9 = src_asyncToGenerator( /*#__PURE__*/src_regeneratorRuntime().mark(function _callee5(e) {
-      var params, src;
-      return src_regeneratorRuntime().wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              e.preventDefault();
-              params = Object(common["d" /* serializeFormData */])('loginForm');
-              if (Object(common["e" /* validator */])(params, ['appId', 'accountName', 'channelName'])) {
-                _context5.next = 4;
-                break;
-              }
-              return _context5.abrupt("return");
-            case 4:
-              src = jquery('img').attr('src');
-              Object(common["c" /* imageToBlob */])(src, function (blob) {
-                rtm.sendChannelMediaMessage(blob, params.channelName).then(function () {
-                  var view = jquery('<div/>', {
-                    text: 'account: ' + rtm.accountName + ' channel: ' + params.channelName
-                  });
-                  jquery('#log').append(view);
-                  jquery('#log').append("<img src= '".concat(src, "'/>"));
-                }).catch(function (err) {
-                  common["a" /* Toast */].error('Send message to channel ' + params.channelName + ' failed, please open console see more details.');
-                  console.error(err);
-                });
-              });
-            case 6:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5);
-    }));
-    return function (_x6) {
-      return _ref9.apply(this, arguments);
-    };
-  }());
 });
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.fddcffb521680434dfbc.js.map
+//# sourceMappingURL=index.acc91f9fc60a6784aad5.js.map

@@ -32,6 +32,8 @@ class Bid extends Migration
 
             $table->timestamps();
 
+            // $table->foreign("channelid")->references("channelid")->on("channel")->onDelete('cascade');
+
         });
 
         Schema::create("bid", function (Blueprint $table) {
@@ -40,6 +42,7 @@ class Bid extends Migration
             $table->string('uid');
             $table->integer('amount')->default();
             $table->integer('status')->default(0);
+            $table->foreign("auction_id")->references("id")->on("auction")->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -51,6 +54,12 @@ class Bid extends Migration
      */
     public function down()
     {
+        // Schema::table('auction', function (Blueprint $table) {
+        //     $table->dropForeign('channelid');
+        // });
+        Schema::table('bid', function (Blueprint $table) {
+            $table->dropForeign('auction_id');
+        });
         Schema::dropIfExists('bid');
         Schema::dropIfExists('auction');
     }

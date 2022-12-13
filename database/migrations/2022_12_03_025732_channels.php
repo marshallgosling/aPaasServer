@@ -21,6 +21,7 @@ class Channels extends Migration
             $table->integer('status')->default(0);
             $table->string('appid');
 
+            $table->index("channelid");
             $table->timestamps();
 
         });

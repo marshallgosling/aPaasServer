@@ -15,6 +15,8 @@ $(() => {
   M.AutoInit()
 
   const rtm = new RtmClient()
+  var channels = [];
+  let globalRevision = 0;
 
   fetch("/api/v1/channels", {
     method: 'get'
@@ -29,6 +31,7 @@ $(() => {
         console.log("option "+item.channelid)
         var $newOpt = $("<option>").attr("value",item.channelid).text(item.channelid)
         $("#mySelect").append($newOpt);
+        channels[item.channelid] = item.appid;
       }
 
       var elems = document.querySelectorAll('select');
@@ -121,22 +124,23 @@ $(() => {
      * Gao: add new feature onMetadataUpdate event
      */
    rtm.on('MetaDataUpdated', async ({ channelName }) => {
-    //const memberId = args[0]
 
-    console.log('MetaDataUpdated')
     const metadata = await rtm.channels[channelName].channel.getChannelMetadata();
-    console.log(metadata)
-    rtm.channels[channelName].metadata = metadata
+
+    if (metadata.majorRevision > globalRevision) 
+    {
+      globalRevision = metadata.majorRevision
+      rtm.channels[channelName].metadata = metadata
+      if(metadata.items.length == 0) {return}
+      const auctions = JSON.parse(metadata.items[0].value);
+      Toast.notice('New bidding state.')
+      initView(auctions);
+    }
+    
     const view = $('<div/>', {
-      text: ['event: MetaDataUpdated ', JSON.stringify(metadata.items)].join('')
+      text: ['event: MetaDataUpdated. majorRevision:', JSON.stringify(metadata.majorRevision)].join('')
     })
     $('#log').append(view)
-
-    
-    if(metadata.items.length == 0) {return}
-    const auctions = JSON.parse(metadata.items[0].value);
-
-    initView(auctions);
   })
 
   function initView(auctions) {
@@ -212,17 +216,20 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName'])) {
+    if (!validator(params, ['channelName', 'accountName'])) {
       return
     }
 
     $(this).attr('disabled', 'disabled');
 
     try {
-      rtm.init(params.appId)
+
+      const appId = channels[params.channelName];
+
+      rtm.init(appId)
       window.rtm = rtm
 
-      fetch("/api/v1/rtmtoken?uid="+params.accountName).then((response) => {
+      fetch("/api/v1/rtmtoken?appid="+appId+"&uid="+params.accountName).then((response) => {
         return response.json();
       })
       .then((token) => {
@@ -278,7 +285,7 @@ $(() => {
     
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'channelName'])) {
+    if (!validator(params, ['accountName', 'channelName'])) {
       return
     }
     
@@ -315,7 +322,7 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'channelName'])) {
+    if (!validator(params, ['accountName', 'channelName'])) {
       return
     }
 
@@ -355,7 +362,7 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'channelName', 'channelMessage'])) {
+    if (!validator(params, [ 'accountName', 'channelName', 'channelMessage'])) {
       return
     }
 
@@ -385,7 +392,7 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'peerId', 'peerMessage'])) {
+    if (!validator(params, [ 'accountName', 'peerId', 'peerMessage'])) {
       return
     }
 
@@ -431,7 +438,7 @@ $(() => {
 
     const params = serializeFormData('loginForm')
 
-    if (!validator(params, ['appId', 'accountName', 'memberId'])) {
+    if (!validator(params, [ 'accountName', 'memberId'])) {
       return
     }
 
@@ -446,39 +453,4 @@ $(() => {
     })
   })
 
-  $('#send-image').on('click', async function (e) {
-    e.preventDefault()
-    const params = serializeFormData('loginForm')
-
-    if (!validator(params, ['appId', 'accountName', 'peerId'])) {
-      return
-    }
-    const src = $('img').attr('src')
-    imageToBlob(src, (blob) => {
-      rtm.uploadImage(blob, params.peerId)
-    })
-    
-  })
-
-  $('#send-channel-image').on('click', async function (e) {
-    e.preventDefault()
-    const params = serializeFormData('loginForm')
-
-    if (!validator(params, ['appId', 'accountName', 'channelName'])) {
-      return
-    }
-    const src = $('img').attr('src')
-    imageToBlob(src, (blob) => {
-      rtm.sendChannelMediaMessage(blob, params.channelName).then(() => {
-        const view = $('<div/>', {
-          text: 'account: ' + rtm.accountName  + ' channel: ' + params.channelName
-        })
-        $('#log').append(view)
-        $('#log').append(`<img src= '${src}'/>`)
-      }).catch((err) => {
-        Toast.error('Send message to channel ' + params.channelName + ' failed, please open console see more details.')
-        console.error(err)
-      })
-    })  
-  })
 })
