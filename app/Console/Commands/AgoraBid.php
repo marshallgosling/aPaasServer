@@ -72,7 +72,7 @@ class AgoraBid extends Command
             Log::info("create one bid -> uid:{$uid} {$amount}");
             $this->info("create one bid -> uid:{$uid} {$amount}");
             $auction->last_bid_at = time();
-            $auction->last_bid = $bid->id;
+            $auction->last_bid = $bid;
             $auction->save();
         }
         

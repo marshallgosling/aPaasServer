@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunklaravel_ecommerce"]=self["webpackChunklaravel_ecommerce"]||[]).push([[875],{3875:function(e,r,a){a.r(r),a.d(r,{default:function(){return v}});var n=a(6252);function t(e,r,a,t,c,u){return(0,n.wg)(),(0,n.iD)("div")}var c=a(9733),u=a(2119),o=(0,n.aZ)({setup(){(0,n.bv)((()=>{const e=(0,u.tv)();localStorage.removeItem(c.UA),e.push({name:"home"})}))}}),l=a(3744);const s=(0,l.Z)(o,[["render",t]]);var v=s}}]);
+//# sourceMappingURL=875.1c647dbc.js.map

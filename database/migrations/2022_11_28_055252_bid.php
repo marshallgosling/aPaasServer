@@ -42,7 +42,7 @@ class Bid extends Migration
             $table->string('uid');
             $table->integer('amount')->default();
             $table->integer('status')->default(0);
-            $table->foreign("auction_id")->references("id")->on("auction")->onDelete('cascade');
+            //$table->foreign("auction_id")->references("id")->on("auction")->onDelete('cascade');
             $table->timestamps();
         });
     }

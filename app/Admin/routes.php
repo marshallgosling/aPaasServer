@@ -14,7 +14,11 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
-    $router->resource('/auction', 'AuctionController')->names('auction');
-    $router->resource('/channel', 'ChannelController')->names('channel');
-    $router->resource('/bid', 'BidController')->names('bid');
+    $router->resource('/ecommerce/auction', 'AuctionController')->names('ecommerce.auction');
+    $router->resource('/ecommerce/channel', 'ChannelController')->names('ecommerce.channel');
+    $router->resource('/ecommerce/bid', 'BidController')->names('ecommerce.bid');
+
+    $router->resource('/ent/users', 'Ent\UserController')->names('ent.users');
+    $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');
+    
 });

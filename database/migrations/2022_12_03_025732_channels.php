@@ -18,7 +18,7 @@ class Channels extends Migration
             $table->string('channelid', 256);
             
             $table->string('owner', 64);
-            $table->integer('status')->default(0);
+            $table->unsignedTinyInteger('status')->default(0);
             $table->string('appid');
 
             $table->index("channelid");
