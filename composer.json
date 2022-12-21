@@ -7,9 +7,6 @@
     "require": {
         "php": "^7.3|^8.0",
         "aliyuncs/oss-sdk-php": "^2.6",
-        "avored/cash-on-delivery": "^5.0",
-        "avored/dummy-data": "^5.0",
-        "avored/pickup": "^5.0",
         "darryldecode/cart": "^4.2",
         "encore/laravel-admin": "^1.8",
         "fruitcake/laravel-cors": "^2.0",
