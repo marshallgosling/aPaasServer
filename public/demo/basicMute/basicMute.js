@@ -198,6 +198,7 @@ async function muteAudio() {
   await localTracks.audioTrack.setMuted(true);
   localTrackState.audioTrackMuted = true;
   $("#mute-audio").text("Unmute Audio");
+  $("#debuginfo").append("<p>"+(new Date()).getTime() +" mute audio</p>");
 }
 
 async function muteVideo() {
@@ -205,6 +206,7 @@ async function muteVideo() {
   await localTracks.videoTrack.setMuted(true);
   localTrackState.videoTrackMuted = true;
   $("#mute-video").text("Unmute Video");
+  $("#debuginfo").append("<p>"+(new Date()).getTime() +" mute video</p>");
 }
 
 async function unmuteAudio() {
@@ -212,6 +214,7 @@ async function unmuteAudio() {
   await localTracks.audioTrack.setMuted(false);
   localTrackState.audioTrackMuted = false;
   $("#mute-audio").text("Mute Audio");
+  $("#debuginfo").append("<p>"+(new Date()).getTime() +" unmute audio</p>");
 }
 
 async function unmuteVideo() {
@@ -219,4 +222,5 @@ async function unmuteVideo() {
   await localTracks.videoTrack.setMuted(false);
   localTrackState.videoTrackMuted = false;
   $("#mute-video").text("Mute Video");
+  $("#debuginfo").append("<p>"+(new Date()).getTime() +" unmute video</p>");
 }
