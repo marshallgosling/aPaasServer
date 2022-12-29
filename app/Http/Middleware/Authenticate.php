@@ -15,7 +15,10 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            header("Content-Type: application/json; charset=UTF-8");
+            $msg = ['code' => 403, 'msg' => "Please login first"];
+            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 }

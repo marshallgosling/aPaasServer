@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Ent;
 
 use App\Http\Controllers\ApiController;
-use App\Jobs\BidJob;
-use App\Models\Bid;
-use App\Models\Auction;
-use App\Models\Channel;
-use App\Models\User;
+use App\Models\Ent\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -53,7 +49,7 @@ class UsersController extends ApiController {
 
         $user = User::findByMobile($userNo);
 
-        if($user) {
+        if ($user) {
             $user->headUrl = url("/storage/".$user->headUrl);
             $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>$user];
         }

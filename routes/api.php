@@ -12,6 +12,30 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Api',
+    'as'=>'user.',
+    'prefix'=>'account'
+], function ($router) {
+    Route::post('signin', 'AuthController@login')->name('auth.login');
+    Route::get('signout', 'AuthController@logout')->name('auth.logout');
+    Route::get('refresh', 'AuthController@refresh')->name('auth.refresh');
+    Route::get('me', 'AuthController@me')->name('auth.me');
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Api',
+    'as'=>'user.',
+    'prefix'=>'profile'
+], function ($router) {
+    Route::get('self', 'ProfileController@self')->name('profile.get');
+    Route::patch('self', 'ProfileController@edit')->name('profile.patch');
+    Route::get('{userid}', 'ProfileController@user')->name('profile.user');
+    Route::post('follow', 'ProfileController@follow')->name('profile.follow');
+    Route::delete('follow', 'ProfileController@unfollow')->name('profile.unfollow');
+});
 
 Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('rtctoken', 'TokenController@rtctoken');

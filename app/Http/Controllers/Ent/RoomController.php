@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Ent;
 
 use App\Http\Controllers\ApiController;
-use App\Models\User;
-use App\Models\Room;
+use App\Models\Ent\User;
+use App\Models\Ent\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

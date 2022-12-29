@@ -7,8 +7,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
-use App\Models\Ent\Room;
-use App\Models\Ent\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
@@ -18,7 +17,7 @@ class UserController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Users';
+    protected $title = 'Accounts';
 
     /**
      * Make a grid builder.
@@ -105,10 +104,10 @@ class UserController extends AdminController
         $form->text('status', __('Status'));
         $form->text('sex', __('Sex'));
 
-        // $form->submitted(function (Form $form) {
-        //     $pwd = request()->get('password');
-        //     $form->password = Hash::make($pwd);
-        // });
+        $form->submitted(function (Form $form) {
+            $pwd = request()->get('password');
+            $form->password = Hash::make($pwd);
+        });
 
 
         return $form;
