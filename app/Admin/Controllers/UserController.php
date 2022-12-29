@@ -31,11 +31,11 @@ class UserController extends AdminController
         $grid->model()->orderBy('id', 'desc');
 
         $grid->column('id', __('ID'))->sortable();
-        $grid->column('headUrl', __('Icon'))->image("/storage/", 100, 100);
+        //$grid->column('headUrl', __('Icon'))->image("/storage/", 100, 100);
         $grid->column('name', __('Name'));
-        $grid->column('userNo', __('UserNo'));
+        $grid->column('email', __('Email'));
         $grid->column('mobile', __('Mobile'));
-        $grid->column('sex', __('Sex'));
+        //$grid->column('sex', __('Sex'));
 
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -44,7 +44,7 @@ class UserController extends AdminController
             $filter->equal('ID', 'ID');
             $filter->like('name', 'Name');
             $filter->like('mobile', 'Mobile');
-            $filter->like('userNo', 'UserNo');
+            $filter->like('email', 'Email');
             
         });
 
