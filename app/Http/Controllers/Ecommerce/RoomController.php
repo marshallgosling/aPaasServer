@@ -45,7 +45,11 @@ class RoomController extends ApiController {
     }
 
     public function info($roomNo) {
-        $room = Room::findByRoomNo($roomNo)->toArray();
+        $room = Room::findByRoomNo($roomNo);
+        if(!$room) {
+            return $this->err("404", "room not exists", 404);
+        }
+        $room = $room->toArray();
         $user = User::find($room['user_id']);
 
         $room['user'] = $user;

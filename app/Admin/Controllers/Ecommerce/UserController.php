@@ -94,9 +94,9 @@ class UserController extends AdminController
 
         $form->display('id', __('ID'));
         $form->text('user_no', __('UserNo'))->default(Str::random(16));
-        $form->text('email', __('Email'));
-        $form->text('phone', __('Phone'));
-        $form->text('password', __('Password'));
+        $form->email('email', __('Email'));
+        $form->mobile('phone', __('Phone'));
+        $form->password('password', __('Password'));
         $form->text('role', __('Role'));
         $form->text('status', __('Status'));
         $form->text('verified', __('Verified'));
