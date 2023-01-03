@@ -6,12 +6,17 @@ trait ResponseJson
 {
     protected function responseJson($data)
     {
-        return $this->json?response($data)->header("Content-Type", "application/json"):response($data['result']);
+        return $this->json?response()->json($data):response($data['result']);
     }
 
-    protected function err($code, $msg)
+    protected function succ($data)
+    {
+        return response()->json($data);
+    }
+
+    protected function err($code, $msg, $status=401)
     {
         $data = ["errorCode" => $code, "message" => $msg];
-        return response($data)->header("Content-Type", "application/json");
+        return response()->json($data, $status);
     }
 }

@@ -53,7 +53,7 @@ class AuctionController extends AdminController
             ]
         );
         $grid->column('last_bid_at', __('Last bid at'))->display(function () {
-            return "<a href='".url("/admin/bid?auction_id=".$this->id)."'>".$this->last_bid_at."</a>";
+            return "<a href='".url("bid?auction_id=".$this->id)."'>".$this->last_bid_at."</a>";
         });
         $grid->column('start_at', __('start at'));
         $grid->column('end_at', __('End at'));

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group([
     'middleware' => ['api'],
-    'namespace' => 'App\Http\Controllers\Api',
+    'namespace' => 'App\Http\Controllers\Ecommerce',
     'as'=>'user.',
     'prefix'=>'account'
 ], function ($router) {
@@ -26,7 +26,7 @@ Route::group([
 
 Route::group([
     'middleware' => ['api'],
-    'namespace' => 'App\Http\Controllers\Api',
+    'namespace' => 'App\Http\Controllers\Ecommerce',
     'as'=>'user.',
     'prefix'=>'profile'
 ], function ($router) {
@@ -35,6 +35,18 @@ Route::group([
     Route::get('{userid}', 'ProfileController@user')->name('profile.user');
     Route::post('follow', 'ProfileController@follow')->name('profile.follow');
     Route::delete('follow', 'ProfileController@unfollow')->name('profile.unfollow');
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Ecommerce',
+    'as'=>'user.',
+    'prefix'=>'room'
+], function ($router) {
+    Route::get('list', 'RoomController@list')->name('room.get');
+    Route::get('{roomNo}', 'RoomController@info')->name('room.info');
+    Route::patch('create', 'RoomController@create')->name('room.create');
+    
 });
 
 Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {

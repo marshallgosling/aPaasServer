@@ -42,7 +42,7 @@ return [
         ],
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'ecommerce',
             'hash' => false,
         ],
     ],
@@ -68,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'ecommerce' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Ecommerce\User::class,
         ],
 
         // 'users' => [
