@@ -44,7 +44,7 @@ Route::group([
     'prefix'=>'commodity'
 ], function ($router) {
     Route::get('list', 'CommodityController@list')->name('list');
-    
+    Route::patch('item', 'CommodityController@item')->name('item');
     
 });
 

@@ -47,7 +47,20 @@ class CommodityController extends ApiController
             'totalrows' => $count
         ];
 
-        return $this->responseJson($result);
+        return $this->succ($result);
     }
 
+    public function item(Request $request) {
+        $data = $request->all();
+
+        if ($c = Commodity::find($data['id'])) {
+            if ($c->user_id == $data['user_id']) {
+                $c->update($data);
+
+                return $this->succ(['commodity'=>$c->toArray()]);
+            }
+        }
+
+        return $this->err(500, "update error", 500);
+    }
 }
