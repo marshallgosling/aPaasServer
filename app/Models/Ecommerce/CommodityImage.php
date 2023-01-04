@@ -20,10 +20,6 @@ class CommodityImage extends Model
         'order_no'
     ];
 
-    protected $hidden = [
-        'order_no'
-    ];
-
     public function commodity()
     {
         return $this->belongsTo(Commodity::class, 'commodity_id', 'id');
