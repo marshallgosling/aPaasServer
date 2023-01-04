@@ -39,6 +39,8 @@ class CommodityImageController extends AdminController
             return $this->commodity->name;
         });
 
+        $grid->column('order_no', __('Order'));
+
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
@@ -72,6 +74,7 @@ class CommodityImageController extends AdminController
         $show->field('id', __('Id'));
         $show->field('image_url', __('Image'));
         $show->field('commodity_id', __('Commodity'));
+        $show->field('order_no', __('Order'));
 
         return $show;
     }
@@ -92,6 +95,7 @@ class CommodityImageController extends AdminController
         );
 
         $form->image('image_url', __('Image'));
+        $form->number('order_no', __('Order'));
         
         return $form;
     }

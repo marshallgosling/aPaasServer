@@ -28,6 +28,7 @@ class Commodity extends Migration
             $table->id();
             $table->unsignedInteger('commodity_id');
             $table->string('image_url');
+            $table->unsignedInteger('order_no');
         });
     }
 

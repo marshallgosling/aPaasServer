@@ -37,6 +37,6 @@ class Commodity extends Model
 
     public function images()
     {
-        return $this->hasMany(CommodityImage::class, 'commodity_id', 'id');
+        return $this->hasMany(CommodityImage::class, 'commodity_id', 'id')->orderBy('order_no', 'desc');
     }
 }

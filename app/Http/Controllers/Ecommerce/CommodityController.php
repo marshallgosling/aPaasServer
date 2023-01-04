@@ -40,7 +40,7 @@ class CommodityController extends ApiController
         $count = $query->count();
 
         $result =[
-            'rooms' => $data,
+            'commodity' => $data,
             'currpage' => $page,
             'pagesize' => $pagesize,
             'totalpage' => ceil($count / $pagesize),
