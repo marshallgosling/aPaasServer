@@ -26,6 +26,6 @@ class CommodityImage extends Model
 
     public function commodity()
     {
-        return $this->belongsTo(Commodity::class, 'commodity_id', 'id')->orderBy('order_no', 'desc');
+        return $this->belongsTo(Commodity::class, 'commodity_id', 'id');
     }
 }
