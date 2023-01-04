@@ -7,6 +7,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use App\Models\Ecommerce\User;
 use App\Models\Ecommerce\Commodity;
 use Illuminate\Support\Str;
 
@@ -36,7 +37,9 @@ class CommodityController extends AdminController
         $grid->column('name', __('Name'));
         $grid->column('currency', __('Currency'));
         $grid->column('price', __('Price'));
-        $grid->column('user_id', __('user_id'));
+        $grid->column('user', __('Account'))->display(function () {
+            return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
+        });
         $grid->column('image', __('Images'))->display(function () {
             return '<a href="commodityimages?commodity_id='.$this->id.'">Manage Images</a>';
         });
@@ -107,9 +110,14 @@ class CommodityController extends AdminController
         $form->text('currency', __('currency'))->default('$');
         $form->text('price', __('Price'))->default('0');
         $form->text('description', __('Description'));
-        $form->text('user_id', __('Owner'));
-        $form->text('status', __('Status'));
-
+        $form->select('user_id', __('Owner'))->options(
+            User::pluck("email", 'id')->toArray()
+        );
+        $form->radio('status', __('Status'))->options(
+            [Commodity::STATUS_READY=>'Ready', Commodity::STATUS_CLOSE=>'Closed']
+        );
+        
+        
         // $form->multipleImage('images');
 
         // $form->submitted(function (Form $form) {

@@ -112,7 +112,7 @@ class RoomController extends AdminController
         $form->select('user_id', __('Owner'))->options(
             User::pluck("email", 'id')->toArray()
         );
-        $form->select('status', __('Status'))->options(
+        $form->radio('status', __('Status'))->options(
             [User::STATUS_READY=>'Ready', User::STATUS_CLOSE=>'Closed']
         );
         $form->date('start_datetime', __('Start at'));
