@@ -115,8 +115,8 @@ class RoomController extends AdminController
         $form->radio('status', __('Status'))->options(
             [User::STATUS_READY=>'Ready', User::STATUS_CLOSE=>'Closed']
         );
-        $form->date('start_datetime', __('Start at'));
-        $form->date('end_datetime', __('End at'));
+        $form->datetime('start_datetime', __('Start at'))->format('Y-m-d h:i:s');
+        $form->datetime('end_datetime', __('End at'))->format('Y-m-d h:i:s');
 
         return $form;
     }

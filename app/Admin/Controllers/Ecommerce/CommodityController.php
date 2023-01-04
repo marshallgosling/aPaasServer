@@ -107,8 +107,8 @@ class CommodityController extends AdminController
 
         $form->display('id', __('ID'));
         $form->text('name', __('Name'));
-        $form->text('currency', __('currency'))->default('$');
-        $form->text('price', __('Price'))->default('0');
+        $form->radio('currency', __('currency'))->options(['$','¥']);
+        $form->text('price', __('Price'));
         $form->text('description', __('Description'));
         $form->select('user_id', __('Owner'))->options(
             User::pluck("email", 'id')->toArray()
@@ -116,15 +116,6 @@ class CommodityController extends AdminController
         $form->radio('status', __('Status'))->options(
             [Commodity::STATUS_READY=>'Ready', Commodity::STATUS_CLOSE=>'Closed']
         );
-        
-        
-        // $form->multipleImage('images');
-
-        // $form->submitted(function (Form $form) {
-        //     $images = request()->get('images');
-        //     $form->password = Hash::make($pwd);
-        // });
-
         
         return $form;
     }

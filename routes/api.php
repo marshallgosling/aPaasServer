@@ -15,39 +15,51 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => ['api'],
     'namespace' => 'App\Http\Controllers\Ecommerce',
-    'as'=>'user.',
+    'as'=>'account.',
     'prefix'=>'account'
 ], function ($router) {
-    Route::post('signin', 'AuthController@login')->name('auth.login');
-    Route::get('signout', 'AuthController@logout')->name('auth.logout');
-    Route::get('refresh', 'AuthController@refresh')->name('auth.refresh');
+    Route::post('signin', 'AuthController@login')->name('login');
+    Route::get('signout', 'AuthController@logout')->name('logout');
+    Route::get('refresh', 'AuthController@refresh')->name('refresh');
     Route::get('me', 'AuthController@me')->name('auth.me');
 });
 
 Route::group([
     'middleware' => ['api'],
     'namespace' => 'App\Http\Controllers\Ecommerce',
-    'as'=>'user.',
+    'as'=>'profile.',
     'prefix'=>'profile'
 ], function ($router) {
-    Route::get('self', 'ProfileController@self')->name('profile.get');
-    Route::patch('self', 'ProfileController@edit')->name('profile.patch');
-    Route::get('{userid}', 'ProfileController@user')->name('profile.user');
-    Route::post('follow', 'ProfileController@follow')->name('profile.follow');
-    Route::delete('follow', 'ProfileController@unfollow')->name('profile.unfollow');
+    Route::get('self', 'ProfileController@self')->name('get');
+    Route::patch('self', 'ProfileController@edit')->name('patch');
+    Route::get('{userid}', 'ProfileController@user')->name('user');
+    Route::post('follow', 'ProfileController@follow')->name('follow');
+    Route::delete('follow', 'ProfileController@unfollow')->name('unfollow');
 });
 
 Route::group([
     'middleware' => ['api'],
     'namespace' => 'App\Http\Controllers\Ecommerce',
-    'as'=>'user.',
-    'prefix'=>'room'
+    'as'=>'commodity.',
+    'prefix'=>'commodity'
 ], function ($router) {
-    Route::get('list', 'RoomController@list')->name('room.get');
-    Route::get('{roomNo}', 'RoomController@info')->name('room.info');
-    Route::patch('create', 'RoomController@create')->name('room.create');
+    Route::get('list', 'CommodityController@list')->name('list');
+    
     
 });
+
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Ecommerce',
+    'as'=>'room.',
+    'prefix'=>'room'
+], function ($router) {
+    Route::get('list', 'RoomController@list')->name('get');
+    Route::get('{roomNo}', 'RoomController@info')->name('info');
+    Route::patch('create', 'RoomController@create')->name('create');
+    
+});
+
 
 Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('rtctoken', 'TokenController@rtctoken');

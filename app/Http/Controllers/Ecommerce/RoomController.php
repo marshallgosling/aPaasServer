@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Redis;
 
 class RoomController extends ApiController {
 
-    protected $json = true;
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     public function list(Request $request) {
         $model = new Room;
