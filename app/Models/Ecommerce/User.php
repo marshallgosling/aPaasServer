@@ -10,7 +10,13 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+    public const STATUS_READY = 0;
+    public const STATUS_VALID = 1;
+    public const STATUS_CLOSE = 9;
 
+    public const ROLE_AUDIENCE = 2;
+    public const ROLE_HOST = 1;
+    
     protected $table = "fa_users";
 
     /**

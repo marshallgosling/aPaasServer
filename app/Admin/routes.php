@@ -21,6 +21,7 @@ Route::group([
 
     $router->resource('/ecommerce/rooms', 'Ecommerce\RoomController')->names('ecommerce.room');
     $router->resource('/ecommerce/commodity', 'Ecommerce\CommodityController')->names('ecommerce.commodity');
+    $router->resource('/ecommerce/commodityimages', 'Ecommerce\CommodityImageController')->names('ecommerce.commodity.image');
 
     $router->resource('/ent/users', 'Ent\UserController')->names('ent.users');
     $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');

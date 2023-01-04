@@ -7,18 +7,17 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
-use App\Models\Ecommerce\Room;
-use App\Models\Ecommerce\User;
+use App\Models\Ecommerce\Commodity;
 use Illuminate\Support\Str;
 
-class RoomController extends AdminController
+class CommodityController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Rooms';
+    protected $title = 'Commodities';
 
     /**
      * Make a grid builder.
@@ -27,7 +26,7 @@ class RoomController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Room, function ($model) {
+        $grid = new Grid(new Commodity, function ($model) {
             return $model->with(['user']);
         });
 
@@ -35,21 +34,20 @@ class RoomController extends AdminController
 
         $grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Name'));
-        $grid->column('cover_image', __('Image'))->image('/storage/', 160, 80);
-        $grid->column('user', __('Account'))->display(function () {
-            return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
+        $grid->column('currency', __('Currency'));
+        $grid->column('price', __('Price'));
+        $grid->column('user_id', __('user_id'));
+        $grid->column('image', __('Images'))->display(function () {
+            return '<a href="commodityimages?commodity_id='.$this->id.'">Manage Images</a>';
         });
-        $grid->column('channel_id', __('Channel'));
-        $grid->column('room_no', __('roomNo'));
         
         $grid->column('status', __('Status'))->using(
             [
-                Room::STATUS_READY  => 'Ready',
-                Room::STATUS_CLOSE => 'Closed'
+                Commodity::STATUS_READY  => 'Ready',
+                Commodity::STATUS_CLOSE => 'Closed'
             ]
         );
-        $grid->column('start_datetime', __('Start at'));
-        $grid->column('end_datetime', __('End at'));
+        $grid->column('created_at', __('Create at'));
         
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -79,18 +77,18 @@ class RoomController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Room::findOrFail($id));
+        $show = new Show(Commodity::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
-        $show->field('channel_id', __('Channel ID'));
-        $show->field('room_no', __('Room ID'));
-        $show->field('cover_image', __('Icon'))->image('/storage/');
+        $show->field('currency', __('Currency'));
+        $show->field('price', __('Price'));
+        $show->field('description', __('Description'));
         $show->field('user_id', __('Owner'));
         $show->field('status', __('Status'));
         
-        $show->field('start_datetime', __('Start at'));
-        $show->field('end_datetime', __('End at'));
+        $show->field('created_at', __('Start at'));
+        $show->field('updated_at', __('End at'));
 
         return $show;
     }
@@ -102,22 +100,24 @@ class RoomController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Room);
+        $form = new Form(new Commodity);
 
         $form->display('id', __('ID'));
         $form->text('name', __('Name'));
-        $form->text('channel_id', __('Channel ID'))->default(Str::random(16));
-        $form->text('room_no', __('Room ID'))->default(Str::random(16));
-        $form->image('cover_image', __("Icon"));
-        $form->select('user_id', __('Owner'))->options(
-            User::pluck("email", 'id')->toArray()
-        );
-        $form->select('status', __('Status'))->options(
-            [User::STATUS_READY=>'Ready', User::STATUS_CLOSE=>'Closed']
-        );
-        $form->date('start_datetime', __('Start at'));
-        $form->date('end_datetime', __('End at'));
+        $form->text('currency', __('currency'))->default('$');
+        $form->text('price', __('Price'))->default('0');
+        $form->text('description', __('Description'));
+        $form->text('user_id', __('Owner'));
+        $form->text('status', __('Status'));
 
+        // $form->multipleImage('images');
+
+        // $form->submitted(function (Form $form) {
+        //     $images = request()->get('images');
+        //     $form->password = Hash::make($pwd);
+        // });
+
+        
         return $form;
     }
 }

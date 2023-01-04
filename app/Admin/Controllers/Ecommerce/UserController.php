@@ -34,8 +34,9 @@ class UserController extends AdminController
         $grid->column('user_no', __('ID'));
         $grid->column('email', __('Email'));
         $grid->column('phone', __('Phone'));
-        $grid->column('email', __('Email'));
-        $grid->column('role', __('Role'));
+        $grid->column('role', __('Role'))->using(
+            [User::ROLE_HOST=>'Host', User::ROLE_AUDIENCE=>'Audience']
+        );
         $grid->column('verified', __('Verified'))->bool();
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -97,9 +98,13 @@ class UserController extends AdminController
         $form->email('email', __('Email'));
         $form->mobile('phone', __('Phone'));
         $form->password('password', __('Password'));
-        $form->text('role', __('Role'));
-        $form->text('status', __('Status'));
-        $form->text('verified', __('Verified'));
+        $form->radio('role', __('Role'))->options(
+            [User::ROLE_HOST=>'Host', User::ROLE_AUDIENCE=>'Audience']
+        );
+        $form->radio('status', __('Status'))->options(
+            [User::STATUS_READY=>'Ready', User::STATUS_CLOSE=>'Closed']
+        );
+        $form->switch('verified', __('Verified'));
 
         $form->submitted(function (Form $form) {
             $pwd = request()->get('password');
