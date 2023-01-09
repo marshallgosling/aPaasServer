@@ -56,7 +56,7 @@ class CommodityController extends AdminController
             // Remove the default id filter
             $filter->disableIdFilter();
             
-            $filter->equal('ID', 'ID');
+            $filter->equal('id', 'ID');
             $filter->like('name', 'Name');
             
         });
@@ -107,7 +107,7 @@ class CommodityController extends AdminController
 
         $form->display('id', __('ID'));
         $form->text('name', __('Name'));
-        $form->radio('currency', __('currency'))->options(['$','¥']);
+        $form->radio('currency', __('currency'))->options(['$'=>'$','¥'=>'¥']);
         $form->text('price', __('Price'));
         $form->text('description', __('Description'));
         $form->select('user_id', __('Owner'))->options(
@@ -116,7 +116,7 @@ class CommodityController extends AdminController
         $form->radio('status', __('Status'))->options(
             [Commodity::STATUS_READY=>'Ready', Commodity::STATUS_CLOSE=>'Closed']
         );
-        
+
         return $form;
     }
 }

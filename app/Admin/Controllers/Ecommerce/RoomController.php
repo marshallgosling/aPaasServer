@@ -55,7 +55,7 @@ class RoomController extends AdminController
             // Remove the default id filter
             $filter->disableIdFilter();
             
-            $filter->equal('ID', 'ID');
+            $filter->equal('id', 'ID');
             $filter->like('name', 'Name');
             
         });
