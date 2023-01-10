@@ -60,6 +60,16 @@ Route::group([
     
 });
 
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Ecommerce',
+    'as'=>'auction.',
+    'prefix'=>'auction'
+], function ($router) {
+    Route::get('{roomNo}', 'AuctionController@list')->name('get');
+    
+});
+
 
 Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('rtctoken', 'TokenController@rtctoken');

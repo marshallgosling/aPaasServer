@@ -45,7 +45,7 @@ class Auction extends Model
 
     public function commodity()
     {
-        return $this->hasMany(Bid::class);
+        return $this->hasMany(AuctionCommodity::class, "auction_id", "id");
     }
 
     public function stop()
