@@ -87,6 +87,7 @@ class Room extends Command
             //$this->info("running:".date('Y-m-d H:i:s'));
         }
 
+        echo $process->getOutput();
 
     }
 }
