@@ -55,6 +55,8 @@ class Auction extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('fa_auction');
+        Schema::dropIfExists('fa_auction_commodity');
+        Schema::dropIfExists('fa_auction_bid');
     }
 }

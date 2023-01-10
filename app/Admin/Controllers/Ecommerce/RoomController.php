@@ -48,9 +48,14 @@ class RoomController extends AdminController
                 Room::STATUS_CLOSE => 'Closed'
             ]
         );
-        $grid->column('start_datetime', __('Start at'));
-        $grid->column('end_datetime', __('End at'));
+        $grid->column('datetime', __('Start / End'))->display(function (){
+            return $this->start_datetime . '<br />'.$this->end_datetime;
+        });
         
+        $grid->column('command', 'Cmd')->display(function () {
+            return '<a href="room/command">CMD</a>';
+        });
+
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
@@ -61,7 +66,7 @@ class RoomController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-            //$actions->add(new StopAuction);
+            //$actions->add(new RoomCommands);
         });
 
         $grid->tools(function ($tools) {

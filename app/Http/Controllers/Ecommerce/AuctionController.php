@@ -7,9 +7,6 @@ use App\Models\Ecommerce\Auction;
 use App\Models\Ecommerce\Commodity;
 use App\Models\Ecommerce\Room;
 use Illuminate\Http\Request;
-use App\Models\User;
-
-use Carbon\Carbon;
 
 class AuctionController extends ApiController
 {
@@ -20,7 +17,7 @@ class AuctionController extends ApiController
      */
     public function __construct()
     {
-        //$this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
 
     public function list($roomNo, Request $request) {

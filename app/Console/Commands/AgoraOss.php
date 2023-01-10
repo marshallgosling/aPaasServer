@@ -46,7 +46,7 @@ class AgoraOss extends Command
      */
     public function handle()
     {
-        $file = $this->input('file');
+        $file = $this->argument('file');
 
 
         return 0;
