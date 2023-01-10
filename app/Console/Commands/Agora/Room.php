@@ -80,6 +80,8 @@ class Room extends Command
         //$process->setTimeout(3600);
         $process->start();
 
+        $this->info("Start process");
+
         while($process->isRunning()) {
 
             //if ()
@@ -87,6 +89,7 @@ class Room extends Command
             //$this->info("running:".date('Y-m-d H:i:s'));
         }
 
+        $this->info("End process");
         echo $process->getOutput();
 
     }
