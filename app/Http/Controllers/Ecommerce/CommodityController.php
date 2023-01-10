@@ -50,6 +50,19 @@ class CommodityController extends ApiController
         return $this->succ($result);
     }
 
+    public function get($item)
+    {
+        $commodity = Commodity::find($item);
+
+        if (!$commodity) {
+            return $this->err('404', "Commodity not exists.", 404);
+        }
+
+        return $this->succ(
+            ["commodity" => $commodity]
+        );
+    }
+
     public function item(Request $request) {
         $data = $request->all();
 

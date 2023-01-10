@@ -44,6 +44,7 @@ Route::group([
     'prefix'=>'commodity'
 ], function ($router) {
     Route::get('list', 'CommodityController@list')->name('list');
+    Route::get('{item}', 'CommodityController@get')->name('get');
     Route::patch('item', 'CommodityController@item')->name('item');
     
 });
@@ -66,7 +67,7 @@ Route::group([
     'as'=>'auction.',
     'prefix'=>'auction'
 ], function ($router) {
-    Route::get('{roomNo}', 'AuctionController@list')->name('get');
+    Route::get('room/{roomNo}', 'AuctionController@list')->name('list');
     
 });
 
