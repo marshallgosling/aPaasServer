@@ -77,14 +77,14 @@ class Room extends Command
     private function runProcessCommand($cmd)
     {
         $process = new Process($cmd);
-        $process->setTimeout(3600);
+        //$process->setTimeout(3600);
         $process->start();
 
         while($process->isRunning()) {
 
             //if ()
 
-            $this->info("running:".date('Y-m-d H:i:s'));
+            //$this->info("running:".date('Y-m-d H:i:s'));
         }
 
 
