@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ecommerce;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Ecommerce\Auction;
+use App\Models\Ecommerce\Commodity;
 use App\Models\Ecommerce\Room;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -55,6 +56,19 @@ class AuctionController extends ApiController
         ];
 
         return $this->succ($result);
+    }
+
+    public function detail($auctionId)
+    {
+        $auction = Auction::with(['user:id,user_no','commodity'])->find($auctionId);
+
+        if (!$auction) {
+            return $this->err('404', 'Auction not exists', 404);
+        }
+
+        $auction = $auction->toArray();
+
+        return $this->succ(['auction' => $auction]);
     }
 
 }
