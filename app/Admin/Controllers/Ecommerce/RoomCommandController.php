@@ -49,7 +49,7 @@ class RoomCommandController extends AdminController
         
         $grid->column('status', __('Status'))->using(
             [
-                RoomCommand::STATUS_STOPED  => 'Stop',
+                RoomCommand::STATUS_STOPED  => 'Stoped',
                 RoomCommand::STATUS_RUNNING  => 'Running',
                 RoomCommand::STATUS_CLOSE => 'Closed'
             ]
@@ -118,7 +118,7 @@ class RoomCommandController extends AdminController
         $form->textarea('data', 'Config');
         $form->radio('status', __('Status'))->options(
             [
-                RoomCommand::STATUS_STOPED  => 'Stop',
+                RoomCommand::STATUS_STOPED  => 'Stoped',
                 RoomCommand::STATUS_RUNNING  => 'Running',
                 RoomCommand::STATUS_CLOSE => 'Closed'
             ]

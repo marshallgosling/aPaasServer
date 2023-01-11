@@ -19,7 +19,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
 
     public $failOnTimeout = false;
 
-    public $uniqueFor = 3600;
+    //public $uniqueFor = 3600;
     private $id;
     private $model;
     /**
