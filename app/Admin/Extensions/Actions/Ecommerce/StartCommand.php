@@ -17,13 +17,13 @@ class StartCommand extends RowAction
             $model->status = RoomCommand::STATUS_RUNNING;
             $model->save();
 
-            $this->response()->success('Start running job succeed.')->refresh();
+            return $this->response()->success('Start running job succeed.')->refresh();
         }
-        else if ($model->status == RoomCommand::STATUS_RUNNING) {
-            $this->response()->error('The job is running.')->refresh();
+        if ($model->status == RoomCommand::STATUS_RUNNING) {
+            return $this->response()->error('The job is running.')->refresh();
         }
         else {
-            $this->response()->error('The job is closed. Please manually change the state.')->refresh();
+            return $this->response()->error('The job is closed. Please manually change the state.')->refresh();
         }
         
         
