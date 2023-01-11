@@ -44,7 +44,8 @@ class RoomController extends AdminController
         
         $grid->column('status', __('Status'))->using(
             [
-                Room::STATUS_READY  => 'Ready',
+                Room::STATUS_READY => 'Ready',
+                Room::STATUS_AUTO  => 'Auto',
                 Room::STATUS_CLOSE => 'Closed'
             ]
         );
@@ -53,7 +54,7 @@ class RoomController extends AdminController
         });
         
         $grid->column('command', 'Cmd')->display(function () {
-            return '<a href="room/command">CMD</a>';
+            return '<a href="room/command?room_id='.$this->id.'">CMD</a>';
         });
 
         $grid->filter(function ($filter) {
@@ -118,7 +119,7 @@ class RoomController extends AdminController
             User::pluck("email", 'id')->toArray()
         );
         $form->radio('status', __('Status'))->options(
-            [User::STATUS_READY=>'Ready', User::STATUS_CLOSE=>'Closed']
+            [Room::STATUS_READY=>'Ready', Room::STATUS_AUTO => 'Auto', Room::STATUS_CLOSE=>'Closed']
         );
         $form->datetime('start_datetime', __('Start at'))->format('YYYY-MM-DD HH:mm:ss');
         $form->datetime('end_datetime', __('End at'))->format('YYYY-MM-DD HH:mm:ss');

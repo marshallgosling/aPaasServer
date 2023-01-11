@@ -21,7 +21,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
 
     public $uniqueFor = 3600;
     private $id;
-    private $command;
+    private $model;
     /**
      * Create a new job instance.
      *
@@ -57,7 +57,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
             return 1;
         }
 
-        $this->command = $roomCommand;
+        $this->model = $roomCommand;
 
         $room = $roomCommand->room;
 
@@ -105,9 +105,9 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
         $this->info("End process:".$pid);
         $log = $process->getOutput();
 
-        $this->command->log = $log;
-        $this->command->status = RoomCommand::STATUS_STOPED;
-        $this->command->save();
+        $this->model->log = $log;
+        $this->model->status = RoomCommand::STATUS_STOPED;
+        $this->model->save();
 
     }
 

@@ -9,7 +9,7 @@ class Room extends Model
 {
     use HasFactory;
     public const STATUS_READY = 0;
-    public const STATUS_VALID = 1;
+    public const STATUS_AUTO = 1;
     public const STATUS_CLOSE = 9;
 
     protected $table = 'fa_rooms';
