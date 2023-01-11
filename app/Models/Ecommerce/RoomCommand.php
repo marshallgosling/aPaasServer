@@ -20,6 +20,7 @@ class RoomCommand extends Model
         'data',
         'room_id',
         'status',
+        'log'
     ];
 
     protected $casts = [
@@ -31,10 +32,5 @@ class RoomCommand extends Model
     public function room()
     {
         return $this->belongsTo(Room::class, "room_id", 'id');
-    }
-
-    public function start()
-    {
-        
     }
 }
