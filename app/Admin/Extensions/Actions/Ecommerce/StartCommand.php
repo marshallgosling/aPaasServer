@@ -10,8 +10,6 @@ class StartCommand extends RowAction
 {
     public $name = 'Start';
 
-    public $failOnTimeout = false;
-
     public $timeout = 600;
 
     public function handle(RoomCommand $model)
