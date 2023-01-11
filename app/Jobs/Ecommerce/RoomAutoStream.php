@@ -62,7 +62,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
         $this->info("room channelid:".$room->channel_id);
 
         $config = $roomCommand->data;
-        $config['channelId'] = $room->channel_id;
+        $config['cmd']['channelId'] = $room->channel_id;
 
         $this->info("config: ". json_encode($config));
 
@@ -99,7 +99,9 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
         $this->info("End process:".$pid);
         $log = $process->getOutput();
 
-        $this->command->update(['log'=>$log, 'status'=>RoomCommand::STATUS_STOPED]);
+        $this->command->log = $log;
+        $this->command->status = RoomCommand::STATUS_STOPED;
+        $this->command->save();
 
     }
 
