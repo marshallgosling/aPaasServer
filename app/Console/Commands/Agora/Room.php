@@ -76,7 +76,7 @@ class Room extends Command
 
     private function runProcessCommand($cmd)
     {
-        $process = new Process($cmd);
+        $process = Process::fromShellCommandline(implode(' ', $cmd));
         //$process->setTimeout(3600);
         $process->start();
 
