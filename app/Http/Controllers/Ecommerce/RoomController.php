@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use App\Models\Ecommerce\RoomCommand;
+use App\Jobs\Ecommerce\RoomAutoStream;
 
 class RoomController extends ApiController {
 
@@ -49,7 +51,7 @@ class RoomController extends ApiController {
 
     public function info($roomNo) {
         $room = Room::findByRoomNo($roomNo);
-        if(!$room) {
+        if (!$room) {
             return $this->err("404", "room not exists", 404);
         }
         $room = $room->toArray();
@@ -61,6 +63,33 @@ class RoomController extends ApiController {
         ];
 
         return $this->succ($result);
+    }
+
+    public function stream(Request $request) {
+        $data = $request->all();
+
+        $room = Room::findByRoomNo($data['room_no']);
+        if (!$room) {
+            return $this->err("404", "room not exists", 404);
+        }
+
+        $command = RoomCommand::where('room_id', $room->id)->first();
+
+        if (!$command) {
+            return $this->err("404", "stream not exists", 404);
+        }
+
+        if ($command->status == RoomCommand::STATUS_STOPED) {
+            RoomAutoStream::dispatch($command->id);
+            $command->status = RoomCommand::STATUS_RUNNING;
+            $command->save();
+
+            return $this->succ(["stream"=>'start']);
+        }
+        else {
+            return $this->succ(["stream"=>'started']);
+        }
+
     }
 
     public function create(Request $request) {
