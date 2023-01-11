@@ -60,7 +60,7 @@ class Room extends Command
 
         $cmd = ['cd', config('AgoraSDKPath'), '&&', config('SendMediaBinFile')];
 
-        foreach ($config as $c => $v) {
+        foreach ($config['cmd'] as $c => $v) {
             $cmd[] = '--'.$c;
             $cmd[] = $v;
         }
@@ -77,16 +77,14 @@ class Room extends Command
     private function runProcessCommand($cmd)
     {
         $process = Process::fromShellCommandline(implode(' ', $cmd));
-        //$process->setTimeout(3600);
+        $process->setTimeout(300);
         $process->start();
 
         $this->info("Start process");
 
-        while($process->isRunning()) {
+        while ($process->isRunning()) {
 
-            //if ()
-
-            //$this->info("running:".date('Y-m-d H:i:s'));
+            sleep(30);
         }
 
         $this->info("End process");

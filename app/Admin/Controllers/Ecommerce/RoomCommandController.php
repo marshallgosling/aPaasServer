@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers\Ecommerce;
 
+use App\Admin\Extensions\Actions\Ecommerce\StartCommand;
 use App\Models\Ecommerce\Room;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -34,13 +35,13 @@ class RoomCommandController extends AdminController
 
         $grid->model()->orderBy('id', 'desc');
 
-        $grid->column('id', __('ID'))->sortable();
+        //$grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Name'));
         $grid->column('room', __('Room'))->display(function () {
             return '<a href="rooms?id='.$this->room->id.'">'.$this->room->name.'</a>';
         });
         $grid->column('command', __('Command'))->display(function () {
-            return "Config";
+            return "Json Config";
         })->expand(function ($model) {
             return new Box('Json Config', view('admin.form.config', ['id'=>$model->id,'config'=>json_encode($model->data, JSON_UNESCAPED_UNICODE)]));
         });
@@ -52,18 +53,24 @@ class RoomCommandController extends AdminController
                 RoomCommand::STATUS_CLOSE => 'Closed'
             ]
         );
+
+        $grid->column('logs', __('Log'))->display(function () {
+            return "log";
+        });
         
         $grid->filter(function ($filter) {
             // Remove the default id filter
             $filter->disableIdFilter();
             
-            $filter->equal('id', 'ID');
+            $filter->equal('room_id', 'Room')->select(
+                Room::pluck('name', 'id')->toArray()
+            );
             $filter->like('name', 'Name');
             
         });
 
         $grid->actions(function ($actions) {
-            //$actions->add(new StopAuction);
+            $actions->add(new StartCommand);
         });
 
         $grid->tools(function ($tools) {

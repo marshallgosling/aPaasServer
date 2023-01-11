@@ -16,9 +16,10 @@ class RoomCommand extends Migration
         Schema::create('fa_room_command', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('data');
+            $table->string('data', 500);
             $table->unsignedInteger('room_id')->default(0);
             $table->unsignedSmallInteger('status')->default(0);
+            $table->text('logs')->nullable();
             $table->timestamps();
         });
     }

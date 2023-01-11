@@ -32,4 +32,9 @@ class RoomCommand extends Model
     {
         return $this->belongsTo(Room::class, "room_id", 'id');
     }
+
+    public function start()
+    {
+        
+    }
 }
