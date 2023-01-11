@@ -54,7 +54,7 @@ class RoomController extends AdminController
         });
         
         $grid->column('stream', 'Stream')->display(function () {
-            return '<a href="room/command?room_id='.$this->id.'">Stream Config</a>';
+            return '<a href="room/stream?room_id='.$this->id.'">Stream Config</a>';
         });
 
         $grid->filter(function ($filter) {
