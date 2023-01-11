@@ -55,9 +55,9 @@ class RoomCommandController extends AdminController
             ]
         );
 
-        $grid->column('logs', __('Log'))->display(function () {
-            return "Logs";
-        })->modal('Running Logs', ShowLogs::class);
+        // $grid->column('logs', __('Log'))->display(function () {
+        //     return "Logs";
+        // })->modal('Running Logs', ShowLogs::class);
         
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -94,8 +94,9 @@ class RoomCommandController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('room_id', __('Room ID'));
-        $show->field('data', __('Owner'));
+        $show->field('data', __('Config'))->json();
         $show->field('status', __('Status'));
+        $show->field('log', __("Log"));
 
         return $show;
     }
