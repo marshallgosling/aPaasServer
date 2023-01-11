@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers\Ecommerce;
 
 use App\Admin\Extensions\Actions\Ecommerce\StartCommand;
+use App\Admin\Renders\ShowLogs;
 use App\Models\Ecommerce\Room;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -55,8 +56,8 @@ class RoomCommandController extends AdminController
         );
 
         $grid->column('logs', __('Log'))->display(function () {
-            return "log";
-        });
+            return "Logs";
+        })->modal('Running Logs', ShowLogs::class);
         
         $grid->filter(function ($filter) {
             // Remove the default id filter
