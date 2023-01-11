@@ -53,8 +53,8 @@ class RoomController extends AdminController
             return $this->start_datetime . '<br />'.$this->end_datetime;
         });
         
-        $grid->column('command', 'Cmd')->display(function () {
-            return '<a href="room/command?room_id='.$this->id.'">CMD</a>';
+        $grid->column('stream', 'Stream')->display(function () {
+            return '<a href="room/command?room_id='.$this->id.'">Stream Config</a>';
         });
 
         $grid->filter(function ($filter) {
