@@ -19,7 +19,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
 
     public $failOnTimeout = false;
 
-    //public $uniqueFor = 3600;
+    public $uniqueFor = 3600;
     private $id;
     private $model;
     /**
@@ -87,7 +87,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
     private function runProcessCommand($cmd, $timeout=300)
     {
         $process = Process::fromShellCommandline(implode(' ', $cmd));
-        $process->setTimeout($timeout);
+        //$process->setTimeout($timeout);
         $process->start();
         $pid = $process->getPid();
 
