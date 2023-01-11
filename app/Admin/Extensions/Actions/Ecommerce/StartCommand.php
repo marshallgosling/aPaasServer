@@ -2,6 +2,7 @@
 
 namespace App\Admin\Extensions\Actions\Ecommerce;
 
+use App\Jobs\Ecommerce\RoomAutoStream;
 use Encore\Admin\Actions\RowAction;
 use App\Models\Ecommerce\RoomCommand;
 
@@ -12,7 +13,7 @@ class StartCommand extends RowAction
     public function handle(RoomCommand $model)
     {
         if ($model->status == RoomCommand::STATUS_STOPED) {
-            dispatch(new StartCommand($model->id));
+            RoomAutoStream::dispatch($model->id);
             $model->status = RoomCommand::STATUS_RUNNING;
             $model->save();
 
