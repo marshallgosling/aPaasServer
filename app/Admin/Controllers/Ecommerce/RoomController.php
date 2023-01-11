@@ -39,7 +39,7 @@ class RoomController extends AdminController
         $grid->column('user', __('Account'))->display(function () {
             return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
         });
-        $grid->column('channel_id', __('Channel'));
+        $grid->column('channel_id', __('ChannelId'));
         $grid->column('room_no', __('roomNo'));
         
         $grid->column('status', __('Status'))->using(

@@ -21,7 +21,7 @@ class RoomCommandController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Room Commands';
+    protected $title = 'Room Streams';
 
     /**
      * Make a grid builder.

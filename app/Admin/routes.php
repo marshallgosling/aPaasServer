@@ -24,7 +24,7 @@ Route::group([
     $router->resource('/ecommerce/auction', 'Ecommerce\AuctionController')->names('ecommerce.auction');
     $router->resource('/ecommerce/auctioncommodity', 'Ecommerce\AuctionCommodityController')->names('ecommerce.auction.commodity');
 
-    $router->resource('/ecommerce/room/command', 'Ecommerce\RoomCommandController')->names('ecommerce.room.command');
+    $router->resource('/ecommerce/room/stream', 'Ecommerce\RoomCommandController')->names('ecommerce.room.stream');
 
     $router->resource('/ent/users', 'Ent\UserController')->names('ent.users');
     $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');
