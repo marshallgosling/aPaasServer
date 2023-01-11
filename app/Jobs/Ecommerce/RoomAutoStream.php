@@ -18,7 +18,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $failOnTimeout = false;
-    
+
     public $uniqueFor = 3600;
     private $id;
     private $command;
@@ -94,8 +94,12 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
         $this->info("Start process:".$pid);
 
         while ($process->isRunning()) {
-
+            $timeout-=10;
             sleep(10);
+            if ($timeout<=0) {
+                $process->stop();
+                break;
+            }
         }
 
         $this->info("End process:".$pid);
