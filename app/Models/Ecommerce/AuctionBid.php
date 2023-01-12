@@ -10,9 +10,10 @@ class AuctionBid extends Model
 {
     use HasFactory;
 
-    public const STATUS_READY = 0;
-    public const STATUS_SYNCING = 1;
-    public const STATUS_STOPED = 2;
+    public const STATUS_PENDING = 0;
+    public const STATUS_VALID = 1;
+    public const STATUS_SORRY = 2;
+    public const STATUS_CLOSED = 9;
 
     protected $table = 'fa_auction_bid';
 
@@ -48,8 +49,4 @@ class AuctionBid extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function processBid($auction_id, $uid, $amount)
-    {
-        
-    }
 }

@@ -70,6 +70,7 @@ Route::group([
 ], function ($router) {
     Route::get('room/{roomNo}', 'AuctionController@list')->name('list');
     Route::get('{auctionId}', 'AuctionController@detail')->name('detail');
+    Route::post('bid', 'AuctionController@bid')->name('bid');
 });
 
 

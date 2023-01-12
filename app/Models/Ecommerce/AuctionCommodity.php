@@ -46,5 +46,80 @@ class AuctionCommodity extends Model
         return $this->belongsTo(Commodity::class, 'commodity_id', 'id');
     }
 
+    public function lastBid()
+    {
+        return AuctionBid::where('auction_id', $this->auction_id)
+            ->where('commodity_id', $this->commodity_id)
+            ->where('status', AuctionBid::STATUS_VALID)
+            ->orderBy('id', 'desc')->first();
+    }
+
+    public function findByID($auction_id, $commodity_id)
+    {
+        return AuctionCommodity::where('auction_id', $auction_id)
+        ->where('commodity_id', $commodity_id)
+        ->first();
+    }
+
+    public function processBid($user_id, $price, $currency='$')
+    {
+        $status = 0;
+        $reason = "";
+        $auction_id = $this->auction_id;
+        $commodity_id = $this->commodity_id;
+
+        $bidAction = AuctionBid::create(compact(['auction_id','commodity_id','user_id','price','currency']));
+
+
+        if ($this->auction->status != Auction::STATUS_SYNCING) {
+            $bidAction->status = AuctionBid::STATUS_CLOSED;
+            $bidAction->save();
+            Log::info("bid is closed: {$this->id} {$user_id} {$commodity_id} {$price}");
+            
+            return [ "result"=> false, "reason" => "Auction is closed." ];
+        }
+
+        $lastbid = $this->lastBid();
+
+        $valid = false;
+
+        if (!$lastbid)
+        {
+            $valid = true;
+            Log::info("Bid: {$this->id} Userid:{$user_id} is true");
+        }
+        else
+        {
+            $p = $lastbid->price + $this->price_step;
+            if ($p <= $price)// && $lastbid->uid != $uid)
+            {
+                $valid = true;
+                Log::info("Bid: {$this->id} Uid:{$user_id} is true. Reason: price {$price} >= {$lastbid->price} + {$this->price_step}");
+            }
+            else {
+                $reason = 'Your bid amount must greater than '.$p.'.';
+            }
+        }
+
+        
+        if ($valid) {
+            $bidAction->status = AuctionBid::STATUS_VALID;
+            $bidAction->save();
+            // $this->last_bid = $bidAction->id;
+            // $this->last_bid_at = $bidAction->created_at;
+            // $this->amount = $amount;
+            // $this->owner = $uid;
+            // $this->save();
+            Log::info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
+            return [ "result"=> true, "reason" => "Your bid is accepted" ];
+        }
+        else {
+            $bidAction->status = AuctionBid::STATUS_SORRY;
+            $bidAction->save();
+            Log::info("Save invalid bid: {$this->id} {$user_id} {$price}");
+            return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason ];
+        }
+        
+    }
     
 }

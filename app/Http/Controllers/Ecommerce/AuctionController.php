@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Ecommerce;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Ecommerce\Auction;
+use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
 use App\Models\Ecommerce\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AuctionController extends ApiController
 {
@@ -66,6 +68,39 @@ class AuctionController extends ApiController
         $auction = $auction->toArray();
 
         return $this->succ(['auction' => $auction]);
+    }
+
+
+    public function bid(Request $request)
+    {
+        $data = $request->all();
+
+        if (!Arr::exists($data, 'auction_id')) {
+            return $this->err('404', 'Auction ID must not be null. ', 404);
+        }
+
+        if (!Arr::exists($data, 'commodity_id')) {
+            return $this->err('404', 'Commodity ID must not be null. ', 404);
+        }
+
+        $auction = AuctionCommodity::findByID($data['auction_id'], $data['commodity_id']);
+
+        if (!$auction) {
+            return $this->err('404', 'Auction does not exist.', 404);
+        }
+
+        $user = auth()->user();
+
+        if (!Arr::exists($data, 'currency')) {
+            $data['currency'] = $auction->commodity->currency;
+        }
+
+        $result = $auction->processBid($user->id, $data['price'], $data['currency']);
+
+        return $this->succ(
+            ["bid" => $result]
+        );
+
     }
 
 }
