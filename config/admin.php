@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Agora-admin',
+    'name' => 'Agora Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Agora</b> admin',
+    'logo' => '<b>Agora</b> Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -232,14 +232,14 @@ return [
     | Indicates whether to check route permission.
     |--------------------------------------------------------------------------
     */
-    'check_route_permission' => true,
+    'check_route_permission' => false,
 
     /*
     |--------------------------------------------------------------------------
     | Indicates whether to check menu roles.
     |--------------------------------------------------------------------------
     */
-    'check_menu_roles'       => true,
+    'check_menu_roles'       => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -289,7 +289,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['sidebar-collapse'],
 
     /*
     |--------------------------------------------------------------------------
