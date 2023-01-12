@@ -52,6 +52,14 @@ class AuctionController extends AdminController
         $grid->column('bids', __('Bids'))->display(function () {
             return '<a href="auctionbid?auction_id='.$this->id.'">View Bids</a>';
         });
+
+        $grid->column('status', __('Status'))->using(
+            [
+                Auction::STATUS_READY => 'Ready',
+                Auction::STATUS_SYNCING  => 'Syncing',
+                Auction::STATUS_STOPED => 'Stoped'
+            ]
+        );
         
         $grid->column('created_at', __('start at'));
 
@@ -92,7 +100,11 @@ class AuctionController extends AdminController
         $show->field('name', __('Name'));
         $show->field('room_id', __('Room ID'));
         $show->field('owner_id', __('Owner'));
-        $show->field('status', __('Status'))->using(['Pending', 'Online', 'Offline']);
+        $show->field('status', __('Status'))->using([
+            Auction::STATUS_READY => 'Ready',
+            Auction::STATUS_SYNCING  => 'Syncing',
+            Auction::STATUS_STOPED => 'Stoped'
+        ]);
         
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -118,6 +130,14 @@ class AuctionController extends AdminController
         );
         $form->select('owner_id', __('Owner'))->options(
             User::pluck("email", "id")->toArray()
+        );
+
+        $form->radio('status', __("Status"))->options(
+            [
+                Auction::STATUS_READY => 'Ready',
+                Auction::STATUS_SYNCING  => 'Syncing',
+                Auction::STATUS_STOPED => 'Stoped'
+            ]
         );
 
         return $form;
