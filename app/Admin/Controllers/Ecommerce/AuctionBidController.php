@@ -2,8 +2,9 @@
 
 namespace App\Admin\Controllers\Ecommerce;
 
-use App\Models\Auction;
-use App\Models\Bid;
+use App\Models\Ecommerce\Auction;
+use App\Models\Ecommerce\Commodity;
+use App\Models\Ecommerce\AuctionBid;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,14 +12,14 @@ use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class BidController extends AdminController
+class AuctionBidController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Bids';
+    protected $title = 'Auction Bids';
 
     /**
      * Make a grid builder.
@@ -27,8 +28,8 @@ class BidController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Bid(), function ($model) {
-            return $model->with(['auction:id,name']);
+        $grid = new Grid(new AuctionBid(), function ($model) {
+            return $model->with(['auction:id,name','commodity:id,name','user:id,user_no']);
         });
 
         $grid->model()->orderBy('id', 'desc');
@@ -37,8 +38,16 @@ class BidController extends AdminController
         $grid->column('auction', __('Auction'))->display(function () {
             return $this->auction->name;
         });
-        $grid->column('uid', __('Uid'));
-        $grid->column('amount', __('Amount'));
+        $grid->column('commodity', __('Commodity'))->display(function () {
+            return $this->commodity->name;
+        });
+        $grid->column('account', __('Account'))->display(function () {
+            return $this->user->user_no;
+        });
+        
+        $grid->column('amount', __('Price'))->display(function () {
+            return $this->currency . ' ' . $this->price;
+        });
         $grid->column('status', __('Status'))->using([0=>'Pending', 1=>'Succuss', 2=>'Sorry', 9=>'Closed'])
             ->label([
                 0 => 'default',
@@ -47,7 +56,6 @@ class BidController extends AdminController
                 9 => 'danger',
             ]);
         $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
 
         $grid->filter(function ($filter) {
 
@@ -56,9 +64,19 @@ class BidController extends AdminController
         
             // 在这里添加字段过滤器
             $filter->equal('auction_id', 'Auction')->select(Auction::pluck('name', 'id')->toArray());
+            $filter->equal('commodity_id', 'Commodity')->select(Commodity::pluck('name', 'id')->toArray());
+            $filter->equal('user_id', 'Account');
         
         });
+
+        $grid->disableCreateButton();
+        $grid->disableBatchActions();
         
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            $actions->disableView();
+            $actions->disableEdit();
+            //$actions->disableDelete();
+        });
 
         return $grid;
     }
@@ -71,7 +89,7 @@ class BidController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Bid::findOrFail($id));
+        $show = new Show(AuctionBid::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('auction_id', __('Auction id'));
@@ -91,12 +109,12 @@ class BidController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Bid());
+        $form = new Form(new AuctionBid());
 
-        $form->number('auction_id', __('Auction id'));
-        $form->text('uid', __('Uid'));
-        $form->number('amount', __('Amount'))->default(1);
-        $form->number('status', __('Status'));
+        // $form->number('auction_id', __('Auction id'));
+        // $form->text('uid', __('Uid'));
+        // $form->number('amount', __('Amount'))->default(1);
+        // $form->number('status', __('Status'));
 
         return $form;
     }

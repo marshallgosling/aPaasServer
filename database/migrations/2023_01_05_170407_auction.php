@@ -42,6 +42,7 @@ class Auction extends Migration
             $table->unsignedInteger('user_id')->default(0);
             $table->unsignedInteger('price')->default(0);
             $table->unsignedInteger('commodity_id')->default(0);
+            $table->unsignedInteger('auction_id')->default(0);
             $table->string('currency')->default('');
             $table->unsignedSmallInteger('status')->default(0);
             $table->timestamps();
