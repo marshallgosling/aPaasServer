@@ -59,6 +59,7 @@ Route::group([
     Route::get('{roomNo}', 'RoomController@info')->name('info');
     Route::patch('create', 'RoomController@create')->name('create');
     Route::post("stream", 'RoomController@stream')->name('stream');
+    Route::get("stream/list", 'RoomController@listStream')->name('stream.list');
 });
 
 Route::group([

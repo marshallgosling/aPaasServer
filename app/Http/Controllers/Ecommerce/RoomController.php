@@ -92,6 +92,11 @@ class RoomController extends ApiController {
 
     }
 
+    public function listStream() {
+        $commands = RoomCommand::lazy();
+        return $this->succ(["stream"=> $commands]);
+    }
+
     public function create(Request $request) {
         $data = $request->all();
 
