@@ -87,7 +87,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
     private function runProcessCommand($cmd, $timeout=300)
     {
         $process = Process::fromShellCommandline(implode(' ', $cmd));
-        //$process->setTimeout($timeout);
+        // $process->setTimeout($timeout);
         $process->start();
         $pid = $process->getPid();
 
@@ -115,7 +115,7 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
     {
         $msg = date('Y/m/d H:i:s ') . "CMD ".$this->id. " error: " . $msg;
         echo $msg.$enterspace;
-        Log::channel('jobs')->info($msg);
+        Log::channel('jobs')->error($msg);
     }
 
     private function info($msg, $enterspace="\n")
