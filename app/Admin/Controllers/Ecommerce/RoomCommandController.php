@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers\Ecommerce;
 
-use App\Admin\Extensions\Actions\Ecommerce\StartCommand;
+
 use App\Admin\Renders\ShowLogs;
 use App\Models\Ecommerce\Room;
 use Encore\Admin\Controllers\AdminController;
@@ -11,6 +11,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Box;
 use App\Models\Ecommerce\RoomCommand;
+use App\Admin\Actions\Ecommerce\StartCommand;
+use App\Admin\Actions\Ecommerce\BatchStartStream;
 use App\Models\Ecommerce\User;
 use Illuminate\Support\MessageBag;
 
@@ -54,10 +56,6 @@ class RoomCommandController extends AdminController
                 RoomCommand::STATUS_CLOSE => 'Closed'
             ]
         );
-
-        // $grid->column('logs', __('Log'))->display(function () {
-        //     return "Logs";
-        // })->modal('Running Logs', ShowLogs::class);
         
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -76,6 +74,10 @@ class RoomCommandController extends AdminController
 
         $grid->tools(function ($tools) {
             //$tools->append(new SyncAuction());
+        });
+
+        $grid->batchActions(function ($batch) {
+            $batch->add(new BatchStartStream);
         });
 
         return $grid;
