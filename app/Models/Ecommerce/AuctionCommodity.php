@@ -5,7 +5,6 @@ namespace App\Models\Ecommerce;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-use App\Models\Bid;
 
 class AuctionCommodity extends Model
 {
@@ -77,7 +76,7 @@ class AuctionCommodity extends Model
         if ($this->auction->status != Auction::STATUS_SYNCING) {
             $bidAction->status = AuctionBid::STATUS_CLOSED;
             $bidAction->save();
-            Log::channel("Auction")->info("bid is closed: {$this->id} {$user_id} {$commodity_id} {$price}");
+            Log::channel("auction")->info("bid is closed: {$this->id} {$user_id} {$commodity_id} {$price}");
             
             return [ "result"=> false, "reason" => "Auction is closed." ];
         }
@@ -94,7 +93,7 @@ class AuctionCommodity extends Model
             if ($p <= $price)// && $lastbid->uid != $uid)
             {
                 $valid = true;
-                Log::channel("Auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: price {$price} >= {$this->floor_price} + {$this->price_step}");
+                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: price {$price} >= {$this->floor_price} + {$this->price_step}");
             }
             else {
                 $reason = 'Your bid amount must greater than '.$p.'.';
@@ -106,13 +105,12 @@ class AuctionCommodity extends Model
             if ($p <= $price)// && $lastbid->uid != $uid)
             {
                 $valid = true;
-                Log::channel("Auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: price {$price} >= {$lastbid->price} + {$this->price_step}");
+                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: price {$price} >= {$lastbid->price} + {$this->price_step}");
             }
             else {
                 $reason = 'Your bid amount must greater than '.$p.'.';
             }
         }
-
         
         if ($valid) {
             $bidAction->status = AuctionBid::STATUS_VALID;
@@ -122,13 +120,13 @@ class AuctionCommodity extends Model
             // $this->amount = $amount;
             // $this->owner = $uid;
             // $this->save();
-            Log::channel("Auction")->info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
+            Log::channel("auction")->info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
             return [ "result"=> true, "reason" => "Your bid is accepted" ];
         }
         else {
             $bidAction->status = AuctionBid::STATUS_SORRY;
             $bidAction->save();
-            Log::channel("Auction")->info("Save invalid bid: {$this->id} {$user_id} {$price}");
+            Log::channel("auction")->info("Save invalid bid: {$this->id} {$user_id} {$price}");
             return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason ];
         }
         
