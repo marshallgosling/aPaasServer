@@ -48,6 +48,11 @@ class AuctionCommodity extends Model
         return $this->belongsTo(Commodity::class, 'commodity_id', 'id');
     }
 
+    public function bids()
+    {
+        return $this->hasMany(AuctionBid::class, 'auction_id', 'auction_id');
+    }
+
     public function lastBid()
     {
         return AuctionBid::where('auction_id', $this->auction_id)
