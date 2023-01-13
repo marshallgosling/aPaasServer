@@ -100,7 +100,7 @@ class AuctionCommodity extends Model
             {
                 $valid = true;
                 $reason = "Price {$price} >= {$this->floor_price} + {$this->price_step}";
-                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: $reason");
+                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is valid. Reason: $reason");
             }
             else {
                 $reason = 'Your bid price must greater than '.$p.'.';
@@ -113,7 +113,7 @@ class AuctionCommodity extends Model
             {
                 $valid = true;
                 $reason = "Price {$price} >= {$lastbid->price} + {$this->price_step}";
-                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is true. Reason: {$reason}");
+                Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is valid. Reason: {$reason}");
             }
             else {
                 $reason = 'Your bid price must greater than '.$p.'.';

@@ -87,7 +87,7 @@ class OrderCommodityController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(AuctionCommodity::findOrFail($id));
+        $show = new Show(OrderCommodity::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('auction_id', __('Auction ID'));
@@ -107,7 +107,7 @@ class OrderCommodityController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new AuctionCommodity);
+        $form = new Form(new OrderCommodity);
 
         $form->display('id', __('ID'));
 
