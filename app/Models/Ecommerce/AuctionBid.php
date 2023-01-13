@@ -24,7 +24,8 @@ class AuctionBid extends Model
         'commodity_id',
         'auction_id',
         'currency',
-        'status'
+        'status',
+        'reason'
     ];
 
     protected $casts = [

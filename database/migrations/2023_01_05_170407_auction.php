@@ -45,6 +45,7 @@ class Auction extends Migration
             $table->unsignedInteger('auction_id')->default(0);
             $table->string('currency')->default('');
             $table->unsignedSmallInteger('status')->default(0);
+            $table->string('reason', 120)->nullable();
             $table->timestamps();
         });
     }
