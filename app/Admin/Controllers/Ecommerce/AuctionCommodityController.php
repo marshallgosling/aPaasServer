@@ -11,6 +11,7 @@ use App\Models\Ecommerce\Auction;
 
 use App\Models\Ecommerce\User;
 use App\Admin\Extensions\Tools\SyncAuction;
+use App\Models\Ecommerce\AuctionBid;
 use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
 
@@ -44,14 +45,6 @@ class AuctionCommodityController extends AdminController
             return '<a href="../commodity?id='.$this->id.'">'.$this->commodity->name.'</a>';
         });
 
-        $grid->column('bids', __('Bid Logs'))->expand(function ($model) {
-            $bids = $model->bids()->where('status', 1)->orderBy('id', 'desc')->take(10)->get()->map(function ($bid) {
-                return $bid->only(['id', 'uid', 'amount', 'created_at']);
-            });
-
-            return new Table(['ID', 'uid', 'bid amount', 'created_at'], $bids->toArray());
-        });
-
         $grid->column('amount', __('Amount'));
         $grid->column('floor_price', __('Base Price'));
         $grid->column('ceiling_price', __('Ceiling Price'));
@@ -65,8 +58,6 @@ class AuctionCommodityController extends AdminController
                 Auction::pluck('name', 'id')->toArray()
             );
         });
-
-        
 
         $grid->actions(function ($actions) {
             //$actions->add(new StopAuction);
