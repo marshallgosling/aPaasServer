@@ -26,7 +26,7 @@
 </style>
 
 <div class="title">
-    Ecommerce & Entertainment(aPaas) Admin Platform
+    Ecommerce & Entertainment(aPaas) <br />
 </div>
 <div class="links">
     <a href="https://github.com/marshallgosling/auction_server" target="_blank">Github</a>
