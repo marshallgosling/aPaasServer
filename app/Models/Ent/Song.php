@@ -31,6 +31,17 @@ class Song extends Model
         'updated_at' => 'datetime:Y-m-d h:i:s'
     ];
 
+    public static function getPageList($name=0, $curr=0, $size = 20)
+    {
+        if ($name) {
+            return Song::where('name', 'like', "%$name%")->orderBy('id', 'desc')->offset($curr)->limit($size)->get();
+        }
+        else {
+            return Song::orderBy('id', 'desc')->offset($curr)->limit($size)->get();
+        }
+        
+    }
+
 
     // {
         //     "userNo": "8bNZe659Y6dd106851a9644F054ab7Z8",

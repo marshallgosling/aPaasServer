@@ -37,6 +37,32 @@ Route::prefix("roomInfo")->namespace('App\Http\Controllers\Ent')->group(function
 
 });
 
+Route::prefix("roomSong")->namespace('App\Http\Controllers\Ent')->group(function () {
+    Route::get('haveOrderedList', 'RoomSongController@haveOrderedList');
+    Route::get('chooseSong', 'RoomSongController@chooseSong');
+    Route::get('delSong', 'RoomSongController@delSong');
+    Route::get('toDevelop', 'RoomSongController@toDevelop');
+
+    Route::get('switchSong', 'RoomSongController@switchSong');
+    Route::get('closeRoom', 'RoomSongController@closeRoom');
+
+    Route::get('chorus', 'RoomSongController@chorus');
+    Route::get('cancelChorus', 'RoomSongController@cancelChorus');
+
+    Route::get('begin', 'RoomSongController@begin');
+    Route::get('over', 'RoomSongController@over');
+
+});
+
+Route::prefix("songs")->namespace('App\Http\Controllers\Ent')->group(function () {
+    Route::get('getListPage', 'SongController@getListPage');
+    Route::post('getListPagePost', 'SongController@getListPage');
+    Route::get('getSongOnline', 'SongController@getSongOnline');
+    Route::get('songHot', 'SongController@getSongHot');
+
+});
+
+
 Route::prefix("roomUsers")->namespace('App\Http\Controllers\Ent')->group(function () {
     Route::get('ifQuiet', 'UsersController@ifQuiet');
     Route::get('openCamera', 'UsersController@openCamera');
