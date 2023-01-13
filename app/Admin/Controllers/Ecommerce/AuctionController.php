@@ -46,11 +46,11 @@ class AuctionController extends AdminController
         });
 
         $grid->column('commodities', __('Commodities'))->display(function () {
-            return '<a href="auctioncommodity?auction_id='.$this->id.'">Manage Commodities</a>';
+            return '<a href="auction/commodity?auction_id='.$this->id.'">Manage Commodities</a>';
         });
 
         $grid->column('bids', __('Bids'))->display(function () {
-            return '<a href="auctionbid?auction_id='.$this->id.'">View Bids</a>';
+            return '<a href="auction/bid?auction_id='.$this->id.'">View Bids</a>';
         });
 
         $grid->column('status', __('Status'))->using(

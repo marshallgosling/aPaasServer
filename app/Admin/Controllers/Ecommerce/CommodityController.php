@@ -41,7 +41,7 @@ class CommodityController extends AdminController
             return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
         });
         $grid->column('image', __('Images'))->display(function () {
-            return '<a href="commodityimages?commodity_id='.$this->id.'">Manage Images</a>';
+            return '<a href="commodity/images?commodity_id='.$this->id.'">Manage Images</a>';
         });
         
         $grid->column('status', __('Status'))->using(

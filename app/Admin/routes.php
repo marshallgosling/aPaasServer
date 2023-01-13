@@ -17,20 +17,20 @@ Route::group([
 
     $router->resource('/ecommerce/users', 'Ecommerce\UserController')->names('ecommerce.user');
     
-
-    $router->resource('/ecommerce/rooms', 'Ecommerce\RoomController')->names('ecommerce.room');
-    $router->resource('/ecommerce/commodity', 'Ecommerce\CommodityController')->names('ecommerce.commodity');
-    $router->resource('/ecommerce/commodityimages', 'Ecommerce\CommodityImageController')->names('ecommerce.commodity.image');
-
-    $router->resource('/ecommerce/auction', 'Ecommerce\AuctionController')->names('ecommerce.auction');
-    $router->resource('/ecommerce/auctioncommodity', 'Ecommerce\AuctionCommodityController')->names('ecommerce.auction.commodity');
-    $router->resource('/ecommerce/auctionbid', 'Ecommerce\AuctionBidController')->names('ecommerce.auction.bid');
-
     $router->resource('/ecommerce/room/stream', 'Ecommerce\RoomCommandController')->names('ecommerce.room.stream');
+    $router->resource('/ecommerce/rooms', 'Ecommerce\RoomController')->names('ecommerce.room');
+    
+    $router->resource('/ecommerce/commodity/images', 'Ecommerce\CommodityImageController')->names('ecommerce.commodity.image');
+    $router->resource('/ecommerce/commodity', 'Ecommerce\CommodityController')->names('ecommerce.commodity');
+    
+    $router->resource('/ecommerce/auction/commodity', 'Ecommerce\AuctionCommodityController')->names('ecommerce.auction.commodity');
+    $router->resource('/ecommerce/auction/bid', 'Ecommerce\AuctionBidController')->names('ecommerce.auction.bid');
+    $router->resource('/ecommerce/auction', 'Ecommerce\AuctionController')->names('ecommerce.auction');
+    
+    $router->resource('/ecommerce/order', 'Ecommerce\OrderController')->names('ecommerce.order');
 
     $router->resource('/ent/users', 'Ent\UserController')->names('ent.users');
     $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');
-
 
     $router->resource('/demo/auction', 'AuctionController')->names('demo.auction');
     $router->resource('/demo/channel', 'ChannelController')->names('demo.channel');
