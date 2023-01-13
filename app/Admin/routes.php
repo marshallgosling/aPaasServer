@@ -29,6 +29,8 @@ Route::group([
     
     $router->resource('/ecommerce/order', 'Ecommerce\OrderController')->names('ecommerce.order');
 
+    $router->resource('/ecommerce/address', 'Ecommerce\AddressController')->names('ecommerce.address');
+
     $router->resource('/ent/users', 'Ent\UserController')->names('ent.users');
     $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');
 
