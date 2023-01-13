@@ -14,8 +14,8 @@ class HomeController extends Controller
     {
         return $content
             ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
+            ->description('Agora Ecommerce Admin Platform')
+            ->row(view('admin.dashboard.title'))
             ->row(function (Row $row) {
 
                 $row->column(4, function (Column $column) {
