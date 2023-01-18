@@ -79,6 +79,7 @@ Route::group([
     'as'=>'address.',
     'prefix'=>'address'
 ], function ($router) {
+    Route::get('self', 'AddressController@list')->name('self');
     Route::get('province', 'AddressController@province')->name('province');
     Route::get('city/{id}', 'AddressController@city')->name('city');
     Route::get('district/{id}', 'AddressController@district')->name('district');

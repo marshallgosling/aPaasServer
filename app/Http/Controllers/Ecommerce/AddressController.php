@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ecommerce;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Address\ChinaArea;
+use App\Models\Ecommerce\Address;
 
 class AddressController extends ApiController
 {
@@ -14,12 +15,33 @@ class AddressController extends ApiController
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except'=>['province', 'city', 'district']]);
     }
 
+    public function list()
+    {
+        $account = auth()->user();
+
+        $list = Address::getByAccount($account->id)->toArray();
+
+        foreach ($list as &$address)
+        {
+            $address['provice'] = ChinaArea::findByCode($address['province_id'])->name;
+            $address['city'] = ChinaArea::findByCode($address['city_id'])->name;
+            $address['disctrict'] = ChinaArea::findByCode($address['disctrict_id'])->name;
+        }
+        return $this->succ(
+            [
+                'address' => $list,
+                'pagesize' => 15,
+                'total' => count($list)
+            ]
+        );
+    }
 
     public function province()
     {
+        
         $data = ChinaArea::getByParentId(1, ChinaArea::FIELDS)->toArray();
 
         return $this->succ(
@@ -27,12 +49,12 @@ class AddressController extends ApiController
         );
     }
 
-    public function city($id)
+    public function city($code)
     {
-        $item = ChinaArea::find($id);
+        $item = ChinaArea::findByCode($code);
 
         if (!$item) {
-            return $this->err('404', 'Error id', 404);
+            return $this->err('404', 'Error code', 404);
         }
 
         return $this->succ(
@@ -40,12 +62,12 @@ class AddressController extends ApiController
         );
     }
 
-    public function district($id)
+    public function district($code)
     {
-        $item = ChinaArea::find($id);
+        $item = ChinaArea::findByCode($code);
 
         if (!$item) {
-            return $this->err('404', 'Error id', 404);
+            return $this->err('404', 'Error code', 404);
         }
 
         return $this->succ(

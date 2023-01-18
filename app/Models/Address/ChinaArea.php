@@ -9,7 +9,7 @@ class ChinaArea extends Model
 {
     use HasFactory;
 
-    public const FIELDS = ['id','code','name'];
+    public const FIELDS = ['code','name'];
     
     protected $table = 'china_area';
 
@@ -24,6 +24,11 @@ class ChinaArea extends Model
         'created_at' => 'datetime:Y-m-d h:i:s',
         'updated_at' => 'datetime:Y-m-d h:i:s'
     ];
+
+    public static function findByCode($code)
+    {
+        return self::where('code', $code)->first();
+    }
 
     public static function getByParentId($id, $fields=['*'])
     {

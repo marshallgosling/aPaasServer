@@ -39,4 +39,13 @@ class Address extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public static function getByAccount($user_id)
+    {
+        return self::with(["user:id,user_no,email"])
+            ->where('user_id', $user_id)
+            ->orderBy('id', 'desc')
+            ->limit(15)
+            ->get();
+    }
 }
