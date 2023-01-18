@@ -73,6 +73,17 @@ Route::group([
     Route::post('bid', 'AuctionController@bid')->name('bid');
 });
 
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Ecommerce',
+    'as'=>'address.',
+    'prefix'=>'address'
+], function ($router) {
+    Route::get('province', 'AddressController@province')->name('province');
+    Route::get('city/{id}', 'AddressController@city')->name('city');
+    Route::get('district/{id}', 'AddressController@district')->name('district');
+});
+
 
 Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('rtctoken', 'TokenController@rtctoken');
