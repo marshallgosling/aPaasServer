@@ -45,7 +45,7 @@ class RoomSongService {
     {
         $key = 'RoomSong-'.$roomNo;
 
-        $data = Redis::smember($key);
+        $data = Redis::lrange($key,0, 100);
         $list = [];
         foreach ($data as $d) {
             $list[] = json_decode($d);
