@@ -49,7 +49,7 @@ class AddressController extends ApiController
 
         try {
             Address::create($data);
-            $this->succ(['address'=>$data]);
+            return $this->succ(['address'=>$data]);
         }
         catch (Exception $err)
         {
