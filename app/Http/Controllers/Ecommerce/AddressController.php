@@ -15,7 +15,7 @@ class AddressController extends ApiController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except'=>['province', 'city', 'district']]);
+        $this->middleware('auth:api', ['except'=>['country', 'province', 'city', 'district']]);
     }
 
     public function list()
@@ -36,6 +36,15 @@ class AddressController extends ApiController
                 'pagesize' => 15,
                 'total' => count($list)
             ]
+        );
+    }
+
+    public function country()
+    {
+        $data = ChinaArea::getByParentId(0, ChinaArea::FIELDS)->toArray();
+
+        return $this->succ(
+            ["country" =>$data]
         );
     }
 
