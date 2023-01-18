@@ -99,7 +99,7 @@ class AddressController extends AdminController
 
         $form->display('id', __('ID'));
         $form->text('name', __('Name'));
-        $form->select('country', __('Country'))->options(['中华人民共和国']);
+        $form->select('country', __('Country'))->options(['中华人民共和国'=>'中华人民共和国']);
         $form->distpicker(['province_id' => 'Province', 'city_id' => 'City', 'district_id' => 'District'], "Area");
         $form->select('user_id', __('Owner'))->options(
             User::pluck("email", 'id')->toArray()
