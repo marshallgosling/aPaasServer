@@ -28,7 +28,7 @@ class AddressController extends ApiController
         {
             $address['provice'] = ChinaArea::findByCode($address['province_id'])->name;
             $address['city'] = ChinaArea::findByCode($address['city_id'])->name;
-            $address['disctrict'] = ChinaArea::findByCode($address['disctrict_id'])->name;
+            $address['disctrict'] = ChinaArea::findByCode($address['district_id'])->name;
         }
         return $this->succ(
             [
