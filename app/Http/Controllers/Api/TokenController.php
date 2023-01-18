@@ -20,6 +20,9 @@ class TokenController extends ApiController {
             $appid, config("Certificate-nate"), $channelname, $uid, 2, 3600, 3600
         );
 
+        if ($request->get("nojson")) {
+            return $token;
+        }
         return $this->responseJson(['result'=>$token]);
     }
 

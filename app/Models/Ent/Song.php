@@ -42,6 +42,11 @@ class Song extends Model
         
     }
 
+    public static function findBySongNo($songNo)
+    {
+        return Room::where('songNo', $songNo)->first();
+    }
+
 
     // {
         //     "userNo": "8bNZe659Y6dd106851a9644F054ab7Z8",
