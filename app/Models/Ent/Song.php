@@ -44,7 +44,7 @@ class Song extends Model
 
     public static function findBySongNo($songNo)
     {
-        return Song::where('songNo', $songNo)->first();
+        return Song::where('song_no', $songNo)->first();
     }
 
 
