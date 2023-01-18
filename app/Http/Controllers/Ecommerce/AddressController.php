@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ecommerce;
 use App\Http\Controllers\ApiController;
 use App\Models\Address\ChinaArea;
 use App\Models\Ecommerce\Address;
+use Exception;
+use Illuminate\Http\Request;
 
 class AddressController extends ApiController
 {
@@ -37,6 +39,22 @@ class AddressController extends ApiController
                 'total' => count($list)
             ]
         );
+    }
+
+    public function create(Request $request)
+    {
+        $data = $request->all();
+        $account = auth()->user();
+        $data['user_id'] = $account->id;
+
+        try {
+            Address::create($data);
+            $this->succ(['address'=>$data]);
+        }
+        catch (Exception $err)
+        {
+            return $this->err('500', 'create error', 404);
+        }
     }
 
     public function country()

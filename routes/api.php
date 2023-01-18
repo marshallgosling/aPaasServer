@@ -80,6 +80,7 @@ Route::group([
     'prefix'=>'address'
 ], function ($router) {
     Route::get('self', 'AddressController@list')->name('self');
+    Route::patch('self', 'AddressController@create')->name('create');
     Route::get('country', 'AddressController@country')->name('country');
     Route::get('province', 'AddressController@province')->name('province');
     Route::get('city/{id}', 'AddressController@city')->name('city');

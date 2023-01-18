@@ -30,7 +30,7 @@ class Room extends Command
     public function handle()
     {
         // ffmpeg -i 3.mp4 -ac 2 -ar 48000 -c:a aac 3.aac
-        // ffmpeg -i 3.mp4 -c:v h264 -bf 0 -g 25 -an -f m4v 3.h264
+        // ffmpeg -i 3.mp4 -c:v h264 -bf 0 -g 25 -s 360*640 -an -f m4v 3.h264
 
         $id = $this->argument('id');
 
