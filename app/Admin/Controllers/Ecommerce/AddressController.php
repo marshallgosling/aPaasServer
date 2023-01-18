@@ -38,6 +38,7 @@ class AddressController extends AdminController
         $grid->column('user', __('Account'))->display(function () {
             return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
         });
+        $grid->column('country', __('Country'));
         $grid->column('address', __('ChannelId'));
         $grid->column('post_code', __('roomNo'));
 
@@ -74,6 +75,7 @@ class AddressController extends AdminController
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
+        $show->field('country', __('Country'));
         $show->field('province_id', __('Province'));
         $show->field('city_id', __('City'));
         $show->field('district_id', __('District'));
@@ -97,6 +99,7 @@ class AddressController extends AdminController
 
         $form->display('id', __('ID'));
         $form->text('name', __('Name'));
+        $form->select('country', __('Country'))->options(['中华人民共和国']);
         $form->distpicker(['province_id' => 'Province', 'city_id' => 'City', 'district_id' => 'District'], "Area");
         $form->select('user_id', __('Owner'))->options(
             User::pluck("email", 'id')->toArray()
