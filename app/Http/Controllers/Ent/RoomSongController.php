@@ -33,7 +33,7 @@ class RoomSongController extends ApiController {
         $userNo = $request->get('userNo', '');
         $isChorus = $request->get('isChorus', '0');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             RoomSongService::addRoomSong($roomNo, $song, '');
@@ -52,7 +52,7 @@ class RoomSongController extends ApiController {
         $songNo = $request->get('songNo', '');
         $sort = $request->get('sort', '');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             RoomSongService::delRoomSong($roomNo, $song, '', $sort);
@@ -71,7 +71,7 @@ class RoomSongController extends ApiController {
         $songNo = $request->get('songNo', '');
         $userNo = $request->get('userNo', '');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             if (RoomSongService::begin($roomNo, $songNo, $userNo))
@@ -95,7 +95,7 @@ class RoomSongController extends ApiController {
         $songNo = $request->get('songNo', '');
         $userNo = $request->get('userNo', '');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             RoomSongService::over($roomNo, $songNo, $userNo);
@@ -114,7 +114,7 @@ class RoomSongController extends ApiController {
         $songNo = $request->get('songNo', '');
         $userNo = $request->get('userNo', '');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             RoomSongService::chorus($roomNo, $songNo, $userNo);
@@ -133,7 +133,7 @@ class RoomSongController extends ApiController {
         $songNo = $request->get('songNo', '');
         $userNo = $request->get('userNo', '');
 
-        $song = Song::findBySongNo($songNo);
+        $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
             RoomSongService::cancelChorus($roomNo, $songNo, $userNo);

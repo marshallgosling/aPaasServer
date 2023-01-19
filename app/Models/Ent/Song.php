@@ -12,6 +12,8 @@ class Song extends Model
     public const STATUS_VALID = 1;
     public const STATUS_CLOSE = 9;
 
+    public const FIELDS = ['song_no','song_name','song_url','image_url','singer','lyric'];
+
     protected $table = 'songs';
 
     protected $fillable = [
@@ -42,9 +44,9 @@ class Song extends Model
         
     }
 
-    public static function findBySongNo($songNo)
+    public static function findBySongNo($songNo, $fields=['*'])
     {
-        return Song::where('song_no', $songNo)->first();
+        return Song::where('song_no', $songNo)->limit(1)->get($fields);
     }
 
 

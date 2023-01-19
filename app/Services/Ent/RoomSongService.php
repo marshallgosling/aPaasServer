@@ -16,7 +16,7 @@ class RoomSongService {
 
         $json = $song->toArray();
         $json['sort'] = $index;
-        $json['userNo'] = $userNo;
+        $json['user_no'] = $userNo;
 
         Redis::rpush($key, json_encode($json));
 
@@ -29,7 +29,7 @@ class RoomSongService {
 
         $json = $song->toArray();
         $json['sort'] = $index;
-        $json['userNo'] = $userNo;
+        $json['user_no'] = $userNo;
         
         Redis::lrem($key, 1, json_encode($json));
     }
