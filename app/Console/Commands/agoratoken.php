@@ -44,17 +44,25 @@ class agoratoken extends Command
         $key = 'RoomSong-demo123';
 
         $list = Redis::lrange($key, 0, 10);
+        $sample = "eyJzb25nX25vIjoiNjI0NjI2MjcyNzI4MTg3MCIsInNvbmdfbmFtZSI6Ilx1NWM0Ylx1OTg3NiIsInNvbmdfdXJsIjoiaHR0cHM6XC9cL2FjY2t0di5zZC1ydG4uY29tXC8yMDIyMDcxOTE0NDBcLzI1OGYxMjI3MzU2YmQxNDZmYTJkOTM3ZjJmZDVmYWE1XC9yZWxlYXNlXC8xXC8zZVwvbXAzXC83MFwvQ2htRkdscHpUYUNBT2x1OEFFM0xHbUpqQlI0NjcwLm1wMyIsImltYWdlX3VybCI6Imh0dHBzOlwvXC9hY2NwaWMuc2QtcnRuLmNvbVwvcGljXC9yZWxlYXNlXC9qcGdcLzFcLzJkMWFlZFwvQ2htRloxUzBpbW1BVnRTREFBT0RWUnpNTkhnNDU0LmpwZyIsInNpbmdlciI6Ilx1NTQ2OFx1Njc3MFx1NGYyNixcdTZlMjlcdTVjOWEiLCJseXJpYyI6Imh0dHBzOlwvXC9hY2NrdHYuc2QtcnRuLmNvbVwvMjAyMjA3MjAxNDAyXC82NzFlOTAyMGNlMTFmMTQ0YmY1Yzc5NDE3MjlhNjYwOVwvcmVsZWFzZVwvbHlyaWNcL3ppcF91dGY4XC8xXC80NTczMzEzOTQ4NDQ0ODhiYmQ5NGUwYzhmYzc4NGY3Yy56aXAiLCJzb3J0IjoiMiIsInVzZXJfbm8iOiIifQ==\n";
+        $v = base64_decode($sample);
 
         foreach($list as $l)
         {
+            $t = base64_decode($l);
             echo " ------------------------------------------------\n";
             echo $l."\n";
-            echo base64_decode($l)."\n\n";
+            echo " ------------------------------------------------\n";
+            echo $t."\n";
+            echo " ------------------------------------------------\n";
+
+            if($t == $v) {
+                echo "find\n";
+            }
         }
         echo " sample ------------------------------------------------\n";
-        $sample = "eyJzb25nX25vIjoiNjI0NjI2MjcyNzI4MTg3MCIsInNvbmdfbmFtZSI6Ilx1NWM0Ylx1OTg3NiIsInNvbmdfdXJsIjoiaHR0cHM6XC9cL2FjY2t0di5zZC1ydG4uY29tXC8yMDIyMDcxOTE0NDBcLzI1OGYxMjI3MzU2YmQxNDZmYTJkOTM3ZjJmZDVmYWE1XC9yZWxlYXNlXC8xXC8zZVwvbXAzXC83MFwvQ2htRkdscHpUYUNBT2x1OEFFM0xHbUpqQlI0NjcwLm1wMyIsImltYWdlX3VybCI6Imh0dHBzOlwvXC9hY2NwaWMuc2QtcnRuLmNvbVwvcGljXC9yZWxlYXNlXC9qcGdcLzFcLzJkMWFlZFwvQ2htRloxUzBpbW1BVnRTREFBT0RWUnpNTkhnNDU0LmpwZyIsInNpbmdlciI6Ilx1NTQ2OFx1Njc3MFx1NGYyNixcdTZlMjlcdTVjOWEiLCJseXJpYyI6Imh0dHBzOlwvXC9hY2NrdHYuc2QtcnRuLmNvbVwvMjAyMjA3MjAxNDAyXC82NzFlOTAyMGNlMTFmMTQ0YmY1Yzc5NDE3MjlhNjYwOVwvcmVsZWFzZVwvbHlyaWNcL3ppcF91dGY4XC8xXC80NTczMzEzOTQ4NDQ0ODhiYmQ5NGUwYzhmYzc4NGY3Yy56aXAiLCJzb3J0IjoiMiIsInVzZXJfbm8iOiIifQ==\n";
         echo $sample."\n";
-        echo base64_decode($sample);
+        echo $v."\n";
         exit;
         
         $arr = Auction::pluck('name', 'id')->toArray();
