@@ -18,7 +18,7 @@ class RoomSongService {
         $json['sort'] = $index;
         $json['user_no'] = $userNo;
 
-        Redis::rpush($key, base64_encode(json_encode($json)));
+        Redis::rpush($key, json_encode($json));
 
         self::increaseIndexRoomSong($roomNo, $index);
     }
@@ -31,7 +31,7 @@ class RoomSongService {
         $json['sort'] = $index;
         $json['user_no'] = $userNo;
 
-        $value = base64_encode(json_encode($json));
+        $value = json_encode($json);
         
         Redis::lrem($key, 1, $value);
 
@@ -52,7 +52,7 @@ class RoomSongService {
         $data = Redis::lrange($key, 0, 100);
         $list = [];
         foreach ($data as $d) {
-            $list[] = json_decode(base64_decode($d));
+            $list[] = json_decode($d);
         }
 
         return $list;

@@ -50,7 +50,7 @@ class RoomSongController extends ApiController {
     {
         $roomNo = $request->get('roomNo', '');
         $songNo = $request->get('songNo', '');
-        $sort = $request->get('sort', '');
+        $sort = (int)$request->get('sort', '');
 
         $song = Song::findBySongNo($songNo, Song::FIELDS);
 
