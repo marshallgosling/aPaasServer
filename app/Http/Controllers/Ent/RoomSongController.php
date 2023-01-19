@@ -55,8 +55,8 @@ class RoomSongController extends ApiController {
         $song = Song::findBySongNo($songNo, Song::FIELDS);
 
         if ($song) {
-            RoomSongService::delRoomSong($roomNo, $song, '', $sort);
-            $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>null];
+            $v = RoomSongService::delRoomSong($roomNo, $song, '', $sort);
+            $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>$v];
         }
         else {
             $result = ["code"=>404,"message"=>"missing","requestId"=>'',"data"=>null];

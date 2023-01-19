@@ -30,8 +30,12 @@ class RoomSongService {
         $json = $song->toArray();
         $json['sort'] = $index;
         $json['user_no'] = $userNo;
+
+        $value = base64_encode(json_encode($json));
         
-        Redis::lrem($key, 1, base64_encode(json_encode($json)));
+        Redis::lrem($key, 1, $value);
+
+        return $value;
     }
 
     public static function switchSong($roomNo, $song, $userNo)
