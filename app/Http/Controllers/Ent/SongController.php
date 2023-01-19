@@ -37,7 +37,7 @@ class SongController extends ApiController {
 
         $curr = $current * $pagesize;
 
-        $records = Song::getPageList($keyword, $curr, $pagesize);
+        $records = Song::getPageList($keyword, $curr, $pagesize, Song::FIELDS);
         $data['records'] = $records;
     
         $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>$data];
@@ -63,14 +63,14 @@ class SongController extends ApiController {
         $name = $request->get("name", "");
 
         if ($songNo) {
-            $records = Song::where('song_no', $songNo)->first();
+            $records = Song::where('song_no', $songNo)->select(Song::FIELDS)->first();
             $data['records'] = $records;
             $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>$data];
             return $this->responseJson($result);
         }
 
         if ($name) {
-            $records = Song::where('song_name', 'like', "%$name%")->get();
+            $records = Song::where('song_name', 'like', "%$name%")->get(Song::FIELDS);
             $data['records'] = $records;
             $result = ["code"=>0,"message"=>"success","requestId"=>'',"data"=>$data];
             return $this->responseJson($result);

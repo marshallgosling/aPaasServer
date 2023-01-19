@@ -33,13 +33,15 @@ class Song extends Model
         'updated_at' => 'datetime:Y-m-d h:i:s'
     ];
 
-    public static function getPageList($name=0, $curr=0, $size = 20)
+    public static function getPageList($name=0, $curr=0, $size = 20, $fields=['*'])
     {
         if ($name) {
-            return Song::where('name', 'like', "%$name%")->orderBy('id', 'desc')->offset($curr)->limit($size)->get();
+            return Song::where('name', 'like', "%$name%")->select($fields)
+                ->orderBy('id', 'desc')->offset($curr)->limit($size)->get();
         }
         else {
-            return Song::orderBy('id', 'desc')->offset($curr)->limit($size)->get();
+            return Song::orderBy('id', 'desc')->select($fields)
+                ->offset($curr)->limit($size)->get();
         }
         
     }
