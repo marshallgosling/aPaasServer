@@ -14,9 +14,12 @@ trait ResponseJson
         return response()->json($data);
     }
 
-    protected function err($code, $msg, $status=401)
+    protected function err($code, $msg, $status=401, $option=false)
     {
         $data = ["errorCode" => $code, "message" => $msg];
+        if ($option) {
+            $data['data'] = $option;
+        }
         return response()->json($data, $status);
     }
 }

@@ -84,12 +84,13 @@ class AuctionCommodity extends Model
             $bidAction->save();
             Log::channel("auction")->info("Auction is closed: {$this->id} {$user_id} {$commodity_id} {$price}");
             
-            return [ "result"=> false, "reason" => "Auction is closed." ];
+            return [ "result"=> false, "reason" => "Auction is closed.", "price"=>0 ];
         }
 
         $lastbid = $this->lastBid();
         $reason = '';
         $valid = false;
+        $lastPrice = 0;
 
         if (!$lastbid)
         {
@@ -101,9 +102,11 @@ class AuctionCommodity extends Model
                 $valid = true;
                 $reason = "Price {$price} >= {$this->floor_price} + {$this->price_step}";
                 Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is valid. Reason: $reason");
+                $lastPrice = $price;
             }
             else {
                 $reason = 'Your bid price must greater than '.$p.'.';
+                $lastPrice = $p;
             }
         }
         else
@@ -114,9 +117,11 @@ class AuctionCommodity extends Model
                 $valid = true;
                 $reason = "Price {$price} >= {$lastbid->price} + {$this->price_step}";
                 Log::channel("auction")->info("Bid: {$this->id} Uid:{$user_id} is valid. Reason: {$reason}");
+                $lastPrice = $price;
             }
             else {
                 $reason = 'Your bid price must greater than '.$p.'.';
+                $lastPrice = $p;
             }
         }
         
@@ -130,14 +135,14 @@ class AuctionCommodity extends Model
             // $this->owner = $uid;
             // $this->save();
             Log::channel("auction")->info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
-            return [ "result"=> true, "reason" => "Your bid is accepted" ];
+            return [ "result"=> true, "reason" => "Your bid is accepted", "price"=>$lastPrice ];
         }
         else {
             $bidAction->status = AuctionBid::STATUS_SORRY;
             $bidAction->reason = $reason;
             $bidAction->save();
             Log::channel("auction")->info("Save invalid bid: {$this->id} {$user_id} {$price}");
-            return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason ];
+            return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason,  "price"=>$lastPrice ];
         }
         
     }
