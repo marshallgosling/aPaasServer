@@ -44,7 +44,7 @@ class AddressController extends AdminController
             return
                 ChinaArea::findByCode($this->province_id)->name . ' '.
                 ChinaArea::findByCode($this->city_id)->name.' '.
-                ChinaArea::findByCode($this->disctric_id)->name;
+                ChinaArea::findByCode($this->district_id)->name;
         });
         $grid->column('address', __('Address'));
         $grid->column('post_code', __('PostCode'));
