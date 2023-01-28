@@ -10,6 +10,7 @@ use Encore\Admin\Widgets\Table;
 use App\Models\Ecommerce\Address;
 use App\Models\Ecommerce\User;
 use Illuminate\Support\Str;
+use App\Models\Address\ChinaArea;
 
 class AddressController extends AdminController
 {
@@ -27,6 +28,7 @@ class AddressController extends AdminController
      */
     protected function grid()
     {
+        //ChinaArea::findByCode($address['province_id'])->name;
         $grid = new Grid(new Address, function ($model) {
             return $model->with(['user']);
         });
@@ -38,9 +40,14 @@ class AddressController extends AdminController
         $grid->column('user', __('Account'))->display(function () {
             return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'</a>';
         });
-        $grid->column('country', __('Country'));
-        $grid->column('address', __('ChannelId'));
-        $grid->column('post_code', __('roomNo'));
+        $grid->column('area', __('Area'))->display(function () {
+            return
+                ChinaArea::findByCode($this->province_id)->name . ' '.
+                ChinaArea::findByCode($this->city_id)->name.' '.
+                ChinaArea::findByCode($this->disctric_id)->name;
+        });
+        $grid->column('address', __('Address'));
+        $grid->column('post_code', __('PostCode'));
 
 
         $grid->filter(function ($filter) {

@@ -40,4 +40,8 @@ class ChinaArea extends Model
         return ChinaArea::where('parent_id', $this->id)->get($fields);
     }
 
+    public function cache() {
+        
+    }
+
 }

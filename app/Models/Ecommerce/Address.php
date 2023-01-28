@@ -2,6 +2,7 @@
 
 namespace App\Models\Ecommerce;
 
+use App\Models\Address\ChinaArea;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,6 +39,21 @@ class Address extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(ChinaArea::class, 'province_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(ChinaArea::class, 'city_id', 'id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(ChinaArea::class, 'district_id', 'id');
     }
 
     public static function getByAccount($user_id)
