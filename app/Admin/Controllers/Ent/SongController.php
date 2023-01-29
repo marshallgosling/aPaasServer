@@ -17,7 +17,7 @@ class SongController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Rooms';
+    protected $title = 'Songs';
 
     /**
      * Make a grid builder.
