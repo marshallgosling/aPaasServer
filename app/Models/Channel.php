@@ -55,9 +55,9 @@ class Channel extends Model
     {
         if ($this->status == Channel::STATUS_ONLINE) {
             $auction = Auction::where('channelid', $this->channelid)->orderBy('id', 'desc')->lazy()->toArray();
-            $redis = Redis::connection();
+            
             Auction::where('channelid', $this->channelid)->update(['status'=>Auction::STATUS_SYNCING]);
-            $redis->set("AUCTION_CHANNEL_".$this->channelid, json_encode($auction));
+            Redis::set("AUCTION_CHANNEL_".$this->channelid, json_encode($auction));
             Log::info("Sync channelid: {$this->channelid} to Redis, Json:".json_encode($auction));
             return true;
         }
