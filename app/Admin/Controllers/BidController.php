@@ -35,7 +35,7 @@ class BidController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('auction', __('Auction'))->display(function () {
-            return $this->auction->name;
+            return $this->auction?$this->auction->name : "N/A";
         });
         $grid->column('uid', __('Uid'));
         $grid->column('amount', __('Amount'));

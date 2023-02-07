@@ -11,7 +11,7 @@ class Order extends Command
      *
      * @var string
      */
-    protected $signature = 'agora:room';
+    protected $signature = 'agora:order';
 
     /**
      * The console command description.
