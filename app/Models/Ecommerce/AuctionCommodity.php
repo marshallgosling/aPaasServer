@@ -135,7 +135,7 @@ class AuctionCommodity extends Model
             // $this->owner = $uid;
             // $this->save();
             Log::channel("auction")->info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
-            return [ "result"=> true, "reason" => "Your bid is accepted", "price"=>$lastPrice, 'bid'=>$bidAction];
+            return [ "result"=> true, "reason" => "Your bid is accepted", "price"=>$lastPrice];
         }
         else {
             $bidAction->status = AuctionBid::STATUS_SORRY;
