@@ -101,7 +101,7 @@ class AuctionController extends ApiController
         if ($result['result']) {
 
             $room = Room::find(Auction::find($data['auction_id'])->room_id);
-            $room->sync();
+            $room->sync(Commodity::find($data['commodity_id']));
         }
         return $this->succ(
             ["bid" => $result]
