@@ -102,12 +102,12 @@ class AuctionController extends ApiController
         if ($result['result']) {
 
             $room = Room::find(Auction::find($data['auction_id'])->room_id);
-            $bids = AuctionBid::with(["user:id, user_no"])
+            $bids = AuctionBid::with(["user:id,user_no"])
                 ->where('auction_id', $data['auction_id'])
                 ->where('commodity_id',$data['commodity_id'])
                 ->where('status', AuctionBid::STATUS_VALID)
                 ->orderBy('id', 'desc')
-                ->limit(10)
+                ->limit(3)
                 ->select('id','user_id',"price",'currency','created_at')
                 ->get()
                 ->toArray();
