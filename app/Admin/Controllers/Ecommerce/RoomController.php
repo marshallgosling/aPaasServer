@@ -45,7 +45,7 @@ class RoomController extends AdminController
         $grid->column('status', __('Status'))->using(
             [
                 Room::STATUS_READY => 'Ready',
-                Room::STATUS_AUTO  => 'Auto',
+                Room::STATUS_ONLINE  => 'Online',
                 Room::STATUS_CLOSE => 'Closed'
             ]
         );
@@ -119,7 +119,7 @@ class RoomController extends AdminController
             User::pluck("email", 'id')->toArray()
         );
         $form->radio('status', __('Status'))->options(
-            [Room::STATUS_READY=>'Ready', Room::STATUS_AUTO => 'Auto', Room::STATUS_CLOSE=>'Closed']
+            [Room::STATUS_READY=>'Ready', Room::STATUS_ONLINE => 'Online', Room::STATUS_CLOSE=>'Closed']
         );
         $form->datetime('start_datetime', __('Start at'))->format('YYYY-MM-DD HH:mm:ss');
         $form->datetime('end_datetime', __('End at'))->format('YYYY-MM-DD HH:mm:ss');
