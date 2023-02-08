@@ -61,7 +61,7 @@ class RoomController extends ApiController {
 
         Auction::where('room_id', $room->id)
             //->where('status', Auction::STATUS_READY)
-            ->update('status', Auction::STATUS_SYNCING);
+            ->update(['status'=>Auction::STATUS_SYNCING]);
 
     }
 

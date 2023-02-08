@@ -57,8 +57,7 @@ class Room extends Model
         if ($this->status == Room::STATUS_ONLINE) {
             $auction = Auction::where('room_id', $this->id)->where('status', Auction::STATUS_SYNCING)->first();
             $commodity = AuctionCommodity::where('auction_id', $auction->id)->orderBy('id', 'desc')->lazy()->toArray();
-            $auction->status = Auction::STATUS_SYNCING;
-            $auction->save();
+            
             Redis::set("ROOM_AUCTION_".$this->room_no, json_encode($commodity));
             Log::info("Sync room: {$this->room_no} to Redis, Json:".json_encode($commodity));
             return true;

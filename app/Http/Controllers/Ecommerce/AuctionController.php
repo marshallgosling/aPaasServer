@@ -98,6 +98,10 @@ class AuctionController extends ApiController
 
         $result = $auction->processBid($user->id, $data['price'], $data['currency']);
 
+        if ($result['result']) {
+            $room = Room::find($auction->room_id);
+            $room->sync();
+        }
         return $this->succ(
             ["bid" => $result]
         );
