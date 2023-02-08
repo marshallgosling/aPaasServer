@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ecommerce;
 use App\Http\Controllers\ApiController;
 use App\Models\Auction as ModelsAuction;
 use App\Models\Ecommerce\Auction;
+use App\Models\Ecommerce\AuctionBid;
 use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
 use App\Models\Ecommerce\Room;
@@ -101,7 +102,14 @@ class AuctionController extends ApiController
         if ($result['result']) {
 
             $room = Room::find(Auction::find($data['auction_id'])->room_id);
-            $room->sync(Commodity::find($data['commodity_id']));
+            $bids = AuctionBid::where('auction_id', $data['auction_id'])
+                ->where('commodity_id',$data['commodity_id'])
+                ->where('status', AuctionBid::STATUS_VALID)
+                ->orderBy('id', 'desc')
+                ->limit(10)
+                ->get()
+                ->toArray();
+            $room->sync(Commodity::find($data['commodity_id']), $bids);
         }
         return $this->succ(
             ["bid" => $result]

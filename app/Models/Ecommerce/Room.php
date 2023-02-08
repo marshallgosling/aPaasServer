@@ -52,14 +52,16 @@ class Room extends Model
         return Room::where('room_no', $roomNo)->first();
     }
 
-    public function sync($commodity)
+    public function sync($commodity, $bids)
     {
         if ($this->status == Room::STATUS_ONLINE) {
             //$auction = Auction::where('room_id', $this->id)->where('status', Auction::STATUS_SYNCING)->first();
             //$commodity = AuctionCommodity::where('auction_id', $auction->id)->orderBy('id', 'desc')->lazy()->toArray();
             if ($commodity) {
-                Redis::set("ROOM_AUCTION_".$this->room_no, json_encode($commodity->toArray()));
-                Log::info("Sync room: {$this->room_no} to Redis, Json:".json_encode($commodity));
+                $data = $commodity->toArray();
+                $data['bids'] = $bids;
+                Redis::set("ROOM_AUCTION_".$this->room_no, json_encode($data));
+                Log::info("Sync room: {$this->room_no} to Redis, Json:".json_encode($data));
                 return true;
             }
             
