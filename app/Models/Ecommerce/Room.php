@@ -4,12 +4,14 @@ namespace App\Models\Ecommerce;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Log;
 
 class Room extends Model
 {
     use HasFactory;
     public const STATUS_READY = 0;
-    public const STATUS_AUTO = 1;
+    public const STATUS_ONLINE = 1;
     public const STATUS_CLOSE = 9;
 
     protected $table = 'fa_rooms';
@@ -48,6 +50,20 @@ class Room extends Model
     public static function findByRoomNo($roomNo)
     {
         return Room::where('room_no', $roomNo)->first();
+    }
+
+    public function sync()
+    {
+        if ($this->status == Room::STATUS_ONLINE) {
+            $auction = Auction::where('room_id', $this->id)->where('status', Auction::STATUS_SYNCING)->first();
+            $commodity = AuctionCommodity::where('auction_id', $auction->id)->orderBy('id', 'desc')->lazy()->toArray();
+            $auction->status = Auction::STATUS_SYNCING;
+            $auction->save();
+            Redis::set("ROOM_AUCTION_".$this->room_no, json_encode($commodity));
+            Log::info("Sync room: {$this->room_no} to Redis, Json:".json_encode($commodity));
+            return true;
+        }
+        return false;
     }
 
     // {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ecommerce;
 
 use App\Http\Controllers\ApiController;
+use App\Models\Auction as ModelsAuction;
 use App\Models\Ecommerce\Auction;
 use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
@@ -100,6 +101,25 @@ class AuctionController extends ApiController
         return $this->succ(
             ["bid" => $result]
         );
+
+    }
+
+    public function sync(Request $request)
+    {
+        $data = $request->all();
+
+        if (!Arr::exists($data, 'room_no')) {
+            return $this->err('404', 'Room ID must not be null. ', 404);
+        }
+
+        $room = Room::findByRoomNo($data['room_no'])->first();
+        if (!$room) {
+            return $this->err('404', 'Room not exists. ', 404);
+        }
+
+        Auction::where('room_id', $room->id)
+            //->where('status', Auction::STATUS_READY)
+            ->update('status', Auction::STATUS_SYNCING);
 
     }
 

@@ -101,3 +101,10 @@ Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::post('auction/sync', 'AuctionController@sync');
 
 });
+
+Route::prefix("v2")->namespace('App\Http\Controllers\Api')->group(function () {
+    Route::post('room/sync', 'RoomController@sync');
+    Route::get('room', 'RoomController@list');
+    Route::get('room/isonline/{roomNo}', 'RoomController@isOnline');
+
+});

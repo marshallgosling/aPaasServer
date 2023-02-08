@@ -68,8 +68,8 @@ class AuctionController extends ApiController {
     {
         $id = $request->post("channelid", "0");
         $sync = $request->post("status", "0");
-        Auction::where("channelid", $id)->update(['status'=>Auction::STATUS_SYNCING]);
-        Log::info("Mass set Auction status to Syncing under channelid:{$id}.");
+        Auction::where("channelid", $id)->update(['status'=>$sync]);
+        Log::info("Set Auction status to Syncing with channelid:{$id}.");
         //DB::update(DB::raw("update auction set status=1 where channelid='$id'"));
     }
 
