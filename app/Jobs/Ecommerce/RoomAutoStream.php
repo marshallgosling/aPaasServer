@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Cache;
+use App\Utilities\RtcTokenBuilder2;
 
 class RoomAutoStream implements ShouldQueue, ShouldBeUnique
 {
@@ -65,6 +66,17 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
 
         $config = $roomCommand->data;
         $config['cmd']['channelId'] = $room->channel_id;
+
+        if ($config['config']['needToken']) {
+            $token = RtcTokenBuilder2::buildTokenWithUid(
+                config("AppID-nate"),
+                config("Certificate-nate"),
+                $room->channel_id,
+                $config['cmd']['userId'],
+                RtcTokenBuilder2::ROLE_PUBLISHER, 3600, 3600
+            );
+            $config['cmd']['token'] = $token;
+        }
 
         $this->info("config: ". json_encode($config));
 
