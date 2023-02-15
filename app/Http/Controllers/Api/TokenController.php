@@ -14,8 +14,8 @@ class TokenController extends ApiController {
     protected $json = true;
 
     public function rtctoken(Request $request) {
-        $channelname = $request->get("channel", "Migo");
-        $uid = (int)$request->get("uid", "1");
+        $channelname = $request->get("channel", "");
+        $uid = (int)$request->get("uid", "");
         $appid = $request->get("appid", config("AppID-nate"));
         $token = RtcTokenBuilder2::buildTokenWithUid(
             $appid, config("Certificate-nate"), $channelname, $uid, 1, 86400, 0
@@ -29,7 +29,7 @@ class TokenController extends ApiController {
 
     public function rtmtoken(Request $request) {
         $appid = $request->get("appid", config("AppID-nate"));
-        $uid = $request->get("uid", "Migo");
+        $uid = $request->get("uid", "");
         $json = $request->get("nojson");
         if ($json) {
             $this->json = false;
