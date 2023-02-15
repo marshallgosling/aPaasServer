@@ -123,7 +123,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 22,
+                    "parent_id" => 6,
                     "order" => 22,
                     "title" => "Channel",
                     "icon" => "fa-bars",
