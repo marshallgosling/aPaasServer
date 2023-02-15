@@ -20,10 +20,50 @@ class AdminTablesSeeder extends Seeder
             [
                 [
                     "parent_id" => 0,
+                    "order" => 1,
+                    "title" => "Dashboard",
+                    "icon" => "fa-bar-chart",
+                    "uri" => "/",
+                    "permission" => NULL
+                ],
+                [
+                    "parent_id" => 0,
                     "order" => 23,
                     "title" => "Admin",
                     "icon" => "fa-tasks",
                     "uri" => "",
+                    "permission" => NULL
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 2,
+                    "title" => "Ecommerce",
+                    "icon" => "fa-balance-scale",
+                    "uri" => NULL,
+                    "permission" => NULL
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 10,
+                    "title" => "Entertainment",
+                    "icon" => "fa-futbol-o",
+                    "uri" => NULL,
+                    "permission" => NULL
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 14,
+                    "title" => "Tools",
+                    "icon" => "fa-gears",
+                    "uri" => NULL,
+                    "permission" => NULL
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 19,
+                    "title" => "Demo",
+                    "icon" => "fa-archive",
+                    "uri" => NULL,
                     "permission" => NULL
                 ],
                 [
@@ -67,7 +107,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 18,
+                    "parent_id" => 5,
                     "order" => 15,
                     "title" => "Log viewer",
                     "icon" => "fa-database",
@@ -75,7 +115,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 18,
+                    "parent_id" => 5,
                     "order" => 18,
                     "title" => "Config",
                     "icon" => "fa-toggle-on",
@@ -91,15 +131,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 0,
-                    "order" => 2,
-                    "title" => "Ecommerce",
-                    "icon" => "fa-balance-scale",
-                    "uri" => NULL,
-                    "permission" => NULL
-                ],
-                [
-                    "parent_id" => 22,
+                    "parent_id" => 6,
                     "order" => 20,
                     "title" => "Auction",
                     "icon" => "fa-bars",
@@ -107,7 +139,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 22,
+                    "parent_id" => 6,
                     "order" => 21,
                     "title" => "Bid",
                     "icon" => "fa-bars",
@@ -115,23 +147,16 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 18,
+                    "parent_id" => 5,
                     "order" => 16,
                     "title" => "Redis manager",
                     "icon" => "fa-database",
                     "uri" => "redis",
                     "permission" => NULL
                 ],
+                
                 [
-                    "parent_id" => 0,
-                    "order" => 10,
-                    "title" => "Entertainment",
-                    "icon" => "fa-futbol-o",
-                    "uri" => NULL,
-                    "permission" => NULL
-                ],
-                [
-                    "parent_id" => 15,
+                    "parent_id" => 4,
                     "order" => 13,
                     "title" => "Room",
                     "icon" => "fa-building-o",
@@ -139,23 +164,16 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 15,
+                    "parent_id" => 4,
                     "order" => 11,
                     "title" => "User",
                     "icon" => "fa-user-plus",
                     "uri" => "ent/users",
                     "permission" => NULL
                 ],
+                
                 [
-                    "parent_id" => 0,
-                    "order" => 14,
-                    "title" => "Tools",
-                    "icon" => "fa-gears",
-                    "uri" => NULL,
-                    "permission" => NULL
-                ],
-                [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 3,
                     "title" => "Users",
                     "icon" => "fa-user-plus",
@@ -163,7 +181,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 5,
                     "title" => "Room",
                     "icon" => "fa-home",
@@ -171,23 +189,16 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 9,
                     "title" => "Commodity",
                     "icon" => "fa-product-hunt",
                     "uri" => "ecommerce/commodity",
                     "permission" => NULL
                 ],
+                
                 [
-                    "parent_id" => 0,
-                    "order" => 19,
-                    "title" => "Demo",
-                    "icon" => "fa-archive",
-                    "uri" => NULL,
-                    "permission" => NULL
-                ],
-                [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 7,
                     "title" => "Auction",
                     "icon" => "fa-adn",
@@ -195,7 +206,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 6,
                     "title" => "RoomStreams",
                     "icon" => "fa-bars",
@@ -203,23 +214,16 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 8,
                     "title" => "Auction Bids",
                     "icon" => "fa-money",
                     "uri" => "ecommerce/auction/bid",
                     "permission" => NULL
                 ],
+                
                 [
-                    "parent_id" => 0,
-                    "order" => 1,
-                    "title" => "Dashboard",
-                    "icon" => "fa-bar-chart",
-                    "uri" => "/",
-                    "permission" => NULL
-                ],
-                [
-                    "parent_id" => 18,
+                    "parent_id" => 5,
                     "order" => 17,
                     "title" => "Scheduling",
                     "icon" => "fa-clock-o",
@@ -227,7 +231,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 11,
+                    "parent_id" => 3,
                     "order" => 4,
                     "title" => "Address",
                     "icon" => "fa-wpforms",
@@ -235,7 +239,7 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL
                 ],
                 [
-                    "parent_id" => 15,
+                    "parent_id" => 4,
                     "order" => 12,
                     "title" => "Songs",
                     "icon" => "fa-music",
