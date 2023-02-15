@@ -7,6 +7,7 @@ use App\Utilities\RtcTokenBuilder2;
 use App\Utilities\RtmTokenBuilder2;
 use App\Utilities\EducationTokenBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TokenController extends ApiController {
 
@@ -17,7 +18,7 @@ class TokenController extends ApiController {
         $uid = (int)$request->get("uid", "1");
         $appid = $request->get("appid", config("AppID-nate"));
         $token = RtcTokenBuilder2::buildTokenWithUid(
-            $appid, config("Certificate-nate"), $channelname, $uid, 2, 3600, 3600
+            $appid, config("Certificate-nate"), $channelname, $uid, 1, 86400, 0
         );
 
         if ($request->get("nojson")) {
@@ -49,4 +50,60 @@ class TokenController extends ApiController {
 
         return $this->responseJson(['result'=>$token]);
     }
+
+
+    /**
+     * Generate aPaas Token
+     * "appCertificate": "d8f9f6762e494fcfaa8bed63de726ffb",
+     * "appId":"72d8d5c7b38445e5bb26f1f270ee4649",
+     * "expire":3600,
+     * "src":"android",
+     * "uid":"11111111",
+     * "channelName": "demo11114443",
+     * "types":[1,2,3]
+     */
+    public function apaasToken(Request $request) {
+        $data = $request->all();
+
+        $sample = json_decode($this->sample1, true);
+
+        foreach(Arr::key($sample) as $key)
+        {
+            if (!Arr::exists($data, $key)) {
+                return $this->err("404", "key {$key} not exists.", 404);
+            }
+        }
+
+        $token = RtcTokenBuilder2::buildTokenWithUid(
+            $data['appId'], $data['appCertificate'], $data['channelName'],
+            $data['uid'], 2, 3600, 3600
+        );
+
+        $this->responseJson(
+            [
+                "code"=> 0,"msg"=> "success","tip"=> "this is demo api, don't use in production!",
+                "data"=> [
+                    "token" => $token
+                ]
+            ]);
+    }
+
+
+    public function imToken(Request $request) {
+        $data = $request->all();
+
+
+    }
+
+    private $sample1 = <<<EOF
+    {
+        "appCertificate": "d8f9f6762e494fcfaa8bed63de726ffb",
+        "appId":"72d8d5c7b38445e5bb26f1f270ee4649",
+        "expire":3600,
+        "src":"android",
+        "uid":"11111111",
+        "channelName": "demo11114443",
+        "types":[1,2,3]
+    }
+    EOF;
 }
