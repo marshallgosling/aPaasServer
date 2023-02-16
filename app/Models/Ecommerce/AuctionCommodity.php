@@ -105,7 +105,7 @@ class AuctionCommodity extends Model
                 $lastPrice = $price;
             }
             else {
-                $reason = 'Your bid price must greater than '.$p.'.';
+                $reason = 'Your bid price must greater than '.sprintf("%.2f", $p / 100).'.';
                 $lastPrice = $p;
             }
         }
@@ -120,7 +120,8 @@ class AuctionCommodity extends Model
                 $lastPrice = $price;
             }
             else {
-                $reason = 'Your bid price must greater than '.$p.'.';
+
+                $reason = 'Your bid price must greater than '.sprintf("%.2f", $p / 100).'.';
                 $lastPrice = $p;
             }
         }
@@ -135,7 +136,7 @@ class AuctionCommodity extends Model
             // $this->owner = $uid;
             // $this->save();
             Log::channel("auction")->info("Save last valid bid: {$this->id} {$user_id} {$bidAction->created_at} {$price}");
-            return [ "result"=> true, "reason" => "Your bid is accepted", "price"=>$lastPrice];
+            return [ "result"=> true, "reason" => "Your bid is accepted.", "price"=>$lastPrice];
         }
         else {
             $bidAction->status = AuctionBid::STATUS_SORRY;
