@@ -65,7 +65,7 @@ class ProcessMp4 extends Command
             $this->runProcessCommand($commandAudio);
 
 
-            if (file_exists($video) && file_exists($audio)) {
+            if (file_exists($targetPath.$video) && file_exists($targetPath.$audio)) {
                 $media->status = Media::STATUS_READY;
                 $media->save();
             }

@@ -31,7 +31,7 @@ class MediaController extends AdminController
         $grid->column('audio', __('Audio'));
         $grid->column('video', __('Video'));
         $grid->column('status', __('Status'))->using(
-            [Media::STATUS_DEFAULT=>'Default',Media::STATUS_PROCESSING => 'Processing', Media::STATUS_READY => 'Ready'], Media::STATUS_DEFAULT
+            [Media::STATUS_DEFAULT=>'Default',Media::STATUS_PROCESSING => 'Processing', Media::STATUS_READY => 'Ready', Media::STATUS_DELETED=>'Deleted'], 'Unknown'
         );
         //$grid->column('source', __('Source'));
         $grid->column('created_at', __('Created at'));
