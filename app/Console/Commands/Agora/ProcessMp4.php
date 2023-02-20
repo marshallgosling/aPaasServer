@@ -46,12 +46,12 @@ class ProcessMp4 extends Command
         $ffmpeg = config('FFMPEG_BIN', 'ffmpeg');
 
         $filename = Str::random(16);
-        $video = $targetPath.$filename.'.h264';
-        $audio = $targetPath.$filename.'.aac';
+        $video = $filename.'.h264';
+        $audio = $filename.'.aac';
         $status = 1;
         
-        $commandVideo = [$ffmpeg, '-i', $source, '-c:v h264 -bf 0 -g 25 -an -f m4v', $video];
-        $commandAudio = [$ffmpeg, '-i', $source, '-ac 2 -ar 48000 -c:a aac', $audio];
+        $commandVideo = [$ffmpeg, '-i', $source, '-c:v h264 -bf 0 -g 25 -an -f m4v', $targetPath.$video];
+        $commandAudio = [$ffmpeg, '-i', $source, '-ac 2 -ar 48000 -c:a aac', $targetPath.$audio];
 
 
         

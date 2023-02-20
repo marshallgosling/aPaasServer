@@ -33,9 +33,9 @@ class MediaController extends AdminController
         $grid->column('status', __('Status'))->using(
             [Media::STATUS_DEFAULT=>'Default',Media::STATUS_PROCESSING => 'Processing', Media::STATUS_READY => 'Ready'], Media::STATUS_DEFAULT
         );
-        $grid->column('source', __('Source'));
+        //$grid->column('source', __('Source'));
         $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        //$grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
