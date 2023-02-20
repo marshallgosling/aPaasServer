@@ -35,6 +35,8 @@ Route::group([
     $router->resource('/ent/room', 'Ent\RoomController')->names('ent.room');
     $router->resource('/ent/songs', 'Ent\SongController')->names('ent.songs');
 
+    $router->resource('/tools/media', 'Tools\MediaController')->names('tools.media');
+
     $router->resource('/demo/auction', 'AuctionController')->names('demo.auction');
     $router->resource('/demo/channel', 'ChannelController')->names('demo.channel');
     $router->resource('/demo/bid', 'BidController')->names('demo.bid');
