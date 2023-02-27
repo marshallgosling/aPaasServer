@@ -78,9 +78,15 @@ class RoomAutoStream implements ShouldQueue, ShouldBeUnique
             $config['cmd']['token'] = $token;
         }
 
+        $bin = config('SendMediaBinFile');
+
+        if ($config['config']['adMode']) {
+            $bin = config('SendMediaADBinFile') ? config('SendMediaADBinFile') : config('SendMediaBinFile');
+        }
+
         $this->info("config: ". json_encode($config));
 
-        $cmd = ['cd', config('AgoraSDKPath'), '&&', config('SendMediaBinFile')];
+        $cmd = ['cd', config('AgoraSDKPath'), '&&', $bin];
 
         foreach ($config['cmd'] as $c => $v) {
             $cmd[] = '--'.$c;

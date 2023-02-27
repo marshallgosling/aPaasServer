@@ -54,7 +54,7 @@ class Room extends Command
         $this->info("room channelid:".$room->channel_id);
 
         $config = $roomCommand->data;
-        $config['channelId'] = $room->channel_id;
+        $config['cmd']['channelId'] = $room->channel_id;
 
         $this->info("config: ". json_encode($config));
 
