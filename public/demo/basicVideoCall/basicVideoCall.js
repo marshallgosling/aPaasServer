@@ -183,7 +183,7 @@ async function subscribe(user, mediaType) {
     const player = $(`
       <div id="player-wrapper-${uid}">
         <p class="player-name">remoteUser(${uid})</p>
-        <div id="player-${uid}" class="player"></div>
+        <div id="player-${uid}" class="player2"></div>
       </div>
     `);
     $("#remote-playerlist").append(player);

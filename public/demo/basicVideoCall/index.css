@@ -34,6 +34,11 @@ input {
   height: 320px;
 }
 
+.player2 {
+  width: 480px;
+  height: 640px;
+}
+
 .player-name {
   margin: 8px 0;
 }
@@ -46,5 +51,10 @@ input {
   .player {
     width: 320px;
     height: 240px;
+  }
+
+  .player2 {
+    width: 240px;
+    height: 360px;
   }
 }
