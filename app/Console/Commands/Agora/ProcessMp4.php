@@ -85,7 +85,8 @@ class ProcessMp4 extends Command
         $process->setTimeout(1800);
         $process->start();
 
-        $this->info("Start process");
+        $this->info("Start process:");
+        $this->info(implode(' ', $cmd));
 
         while ($process->isRunning()) {
 
