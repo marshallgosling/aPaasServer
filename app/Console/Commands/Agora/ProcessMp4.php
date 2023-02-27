@@ -90,7 +90,7 @@ class ProcessMp4 extends Command
 
         while ($process->isRunning()) {
 
-            sleep(30);
+            sleep(3);
         }
 
         $this->info("End process");
