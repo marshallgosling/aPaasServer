@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Ecommerce;
 
 use App\Http\Controllers\ApiController;
-use App\Models\Auction as ModelsAuction;
 use App\Models\Ecommerce\Auction;
 use App\Models\Ecommerce\AuctionBid;
 use App\Models\Ecommerce\AuctionCommodity;

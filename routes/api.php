@@ -76,6 +76,16 @@ Route::group([
 Route::group([
     'middleware' => ['api'],
     'namespace' => 'App\Http\Controllers\Ecommerce',
+    'as'=>'order.',
+    'prefix'=>'order'
+], function ($router) {
+    Route::get('list', 'OrderController@list')->name('list');
+    Route::get('{orderNo}', 'OrderController@detail')->name('detail');
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'App\Http\Controllers\Ecommerce',
     'as'=>'address.',
     'prefix'=>'address'
 ], function ($router) {
