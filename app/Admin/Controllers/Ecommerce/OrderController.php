@@ -48,7 +48,7 @@ class OrderController extends AdminController
         });
 
         $grid->column('commodities', __('Commodities'))->display(function () {
-            return $this->commodity->name;
+            return "Commodity list";
         })->expand(function ($model) {
             $items = $model->commodity()->orderBy('id', 'asc')->take(20)->get()->map(function ($item) {
                 return $item->only(['id', 'commodity.name', 'amount', 'price']);
