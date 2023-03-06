@@ -22,12 +22,13 @@ class OrderController extends ApiController
     public function list(Request $request)
     {
         $model = new Order();
+        $user = auth()->user();
 
         $page = intval($request->get('currpage', 1));
         $pagesize = intval($request->get('pagesize', 20));
         $offset = ($page - 1) * $pagesize;
 
-        $query = $model->with(['user:id,user_no','commodity']);
+        $query = $model->with(['user:id,user_no','commodity'])->where('user_id', $user->id);
 
         $keywords = $request->get("keywords", '');
         if ($keywords) {
