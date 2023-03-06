@@ -51,7 +51,7 @@ class AuctionCommodityController extends AdminController
         $grid->column('ceiling_price', __('Ceiling Price'));
         $grid->column('price_step', __('Minimun Bid'));
 
-        $grid->column('created_at', __('start at'));
+        $grid->column('started_at', __('start at'));
         
         $grid->column('status', __('Status'))->using(
             [
