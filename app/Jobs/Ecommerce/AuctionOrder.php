@@ -75,6 +75,7 @@ class AuctionOrder implements ShouldQueue, ShouldBeUnique
 
                 $this->info("Create order success. id:". $order->id." order_no:".$order_no);
                 $commodity = $com->name;
+                $order_id = $order->id;
                 $price = $lastBid->price;
                 $amount = 1;
                 OrderCommodity::create(compact(['order_id', 'commodity_id', 'commodity', 'price', 'amount']));
