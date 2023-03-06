@@ -20,7 +20,7 @@ class OrderController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Auctions';
+    protected $title = 'Orders';
 
     /**
      * Make a grid builder.

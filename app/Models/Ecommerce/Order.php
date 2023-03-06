@@ -22,7 +22,7 @@ class Order extends Model
 
     protected $fillable = [
         'id',
-        'order_no',
+        'total_price',
         'user_id',
         'auction_id',
         'address_id',
@@ -40,7 +40,7 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'owner_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function auction()
