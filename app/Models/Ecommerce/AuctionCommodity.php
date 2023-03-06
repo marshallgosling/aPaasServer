@@ -2,6 +2,7 @@
 
 namespace App\Models\Ecommerce;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -162,7 +163,7 @@ class AuctionCommodity extends Model
     {
         if ($this->status != self::STATUS_STARTED) {
             $this->status = self::STATUS_STARTED;
-            $this->started_at = time();
+            $this->started_at = Carbon::now();
             $this->save();
             return true;
         }
