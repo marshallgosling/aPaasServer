@@ -58,9 +58,13 @@ class OrderController extends AdminController
 
         $grid->column('status', __('Status'))->using(
             [
-                Order::STATUS_READY => 'Ready',
-                Order::STATUS_SYNCING  => 'Syncing',
-                Order::STATUS_STOPED => 'Stoped'
+                Order::STATUS_INCART => 'Incart',
+                Order::STATUS_UNPAID  => 'Unpaid',
+                Order::STATUS_PAID => 'Paid',
+                Order::STATUS_FINISHED => 'Finished',
+                Order::STATUS_REFUND => 'Refund',
+                Order::STATUS_CANCELED => 'Canceled',
+                Order::STATUS_PAID_ERROR => 'Error'
             ]
         );
         
@@ -107,11 +111,17 @@ class OrderController extends AdminController
         $show->field('auction_id', __('Auction ID'));
         $show->field('user_id', __('Account'));
         $show->field('address_id', __('Address ID'));
-        $show->field('status', __('Status'))->using([
-            Order::STATUS_READY => 'Ready',
-            Order::STATUS_SYNCING  => 'Syncing',
-            Order::STATUS_STOPED => 'Stoped'
-        ]);
+        $show->field('status', __('Status'))->using(
+            [
+                Order::STATUS_INCART => 'Incart',
+                Order::STATUS_UNPAID  => 'Unpaid',
+                Order::STATUS_PAID => 'Paid',
+                Order::STATUS_FINISHED => 'Finished',
+                Order::STATUS_REFUND => 'Refund',
+                Order::STATUS_CANCELED => 'Canceled',
+                Order::STATUS_PAID_ERROR => 'Error'
+            ]
+        );
         
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -140,9 +150,13 @@ class OrderController extends AdminController
 
         $form->radio('status', __("Status"))->options(
             [
-                Order::STATUS_READY => 'Ready',
-                Order::STATUS_SYNCING  => 'Syncing',
-                Order::STATUS_STOPED => 'Stoped'
+                Order::STATUS_INCART => 'Incart',
+                Order::STATUS_UNPAID  => 'Unpaid',
+                Order::STATUS_PAID => 'Paid',
+                Order::STATUS_FINISHED => 'Finished',
+                Order::STATUS_REFUND => 'Refund',
+                Order::STATUS_CANCELED => 'Canceled',
+                Order::STATUS_PAID_ERROR => 'Error'
             ]
         );
 
