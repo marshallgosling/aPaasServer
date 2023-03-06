@@ -10,9 +10,13 @@ class Order extends Model
 {
     use HasFactory;
 
-    public const STATUS_READY = 0;
-    public const STATUS_SYNCING = 1;
-    public const STATUS_STOPED = 2;
+    public const STATUS_INCART = 0;
+    public const STATUS_UNPAID = 1;
+    public const STATUS_PAID = 2;
+    public const STATUS_FINISHED = 3;
+    public const STATUS_CANCELED = 4;
+    public const STATUS_REFUND = 5;
+    public const STATUS_PAID_ERROR = 6;
 
     protected $table = 'fa_order';
 

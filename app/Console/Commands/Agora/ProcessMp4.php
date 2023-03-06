@@ -53,8 +53,7 @@ class ProcessMp4 extends Command
         $commandVideo = [$ffmpeg, '-i', $source, '-c:v h264 -bf 0 -g 25 -an -f m4v', $targetPath.$video];
         $commandAudio = [$ffmpeg, '-i', $source, '-ac 2 -ar 48000 -c:a aac', $targetPath.$audio];
 
-
-        
+       
         $name = pathinfo($source, PATHINFO_FILENAME);
         
         $media = Media::create(compact('name', 'status', 'video', 'audio', 'source'));

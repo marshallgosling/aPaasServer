@@ -8,10 +8,8 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use App\Models\Ecommerce\Auction;
-
-use App\Models\Ecommerce\User;
-use App\Admin\Extensions\Tools\SyncAuction;
-use App\Models\Ecommerce\AuctionBid;
+use Carbon\CarbonInterval;
+use App\Admin\Actions\Ecommerce\StartAuction;
 use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
 
@@ -39,16 +37,29 @@ class AuctionCommodityController extends AdminController
 
         $grid->column('id', __('ID'))->sortable();
         $grid->column('auction', __('Auction'))->display(function () {
-            return $this->auction->name;
+            return '<a href="../auction?id='.$this->auction->id.'">'.$this->auction->name.'</a>';
         });
         $grid->column('commodity', __('Commodity'))->display(function () {
             return '<a href="../commodity?id='.$this->id.'">'.$this->commodity->name.'</a>';
         });
 
-        $grid->column('amount', __('Amount'));
+        $grid->column('duration', __('Duration'))->display(function () {
+            CarbonInterval::seconds($this->duration)->cascade()->forHumans();
+        });
+
         $grid->column('floor_price', __('Base Price'));
         $grid->column('ceiling_price', __('Ceiling Price'));
         $grid->column('price_step', __('Minimun Bid'));
+
+        $grid->column('created_at', __('start at'));
+        
+        $grid->column('status', __('Status'))->using(
+            [
+                Auction::STATUS_READY => 'Ready',
+                Auction::STATUS_SYNCING  => 'Syncing',
+                Auction::STATUS_STOPED => 'Stoped'
+            ]
+        );
 
         $grid->filter(function ($filter) {
             // Remove the default id filter
@@ -60,7 +71,7 @@ class AuctionCommodityController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-            //$actions->add(new StopAuction);
+            $actions->add(new StartAuction);
         });
 
         $grid->tools(function ($tools) {

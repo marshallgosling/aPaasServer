@@ -20,7 +20,8 @@ class Auction extends Migration
             
             $table->unsignedInteger('room_id')->default(0);
             $table->unsignedInteger('owner_id')->default(0);
-            $table->unsignedSmallInteger('status')->default(0);
+            $table->unsignedTinyInteger('status')->default(0);
+            $table->unsignedMediumInteger('duration')->default(0);
             $table->timestamps();
         });
 

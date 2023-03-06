@@ -14,6 +14,7 @@ class Auction extends Model
     public const STATUS_READY = 0;
     public const STATUS_SYNCING = 1;
     public const STATUS_STOPED = 2;
+    public const STATUS_PENDING = 9;
 
     protected $table = 'fa_auction';
 

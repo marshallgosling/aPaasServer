@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers\Ecommerce;
 
+use App\Admin\Actions\Ecommerce\StartAuction;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -10,8 +11,8 @@ use Encore\Admin\Widgets\Table;
 use App\Models\Ecommerce\Auction;
 
 use App\Models\Ecommerce\User;
-use App\Admin\Extensions\Tools\SyncAuction;
 use App\Models\Ecommerce\Room;
+use Carbon\CarbonInterval;
 
 class AuctionController extends AdminController
 {
@@ -76,7 +77,7 @@ class AuctionController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-            //$actions->add(new StopAuction);
+            //$actions->add(new StartAuction);
         });
 
         $grid->tools(function ($tools) {

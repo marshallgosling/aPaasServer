@@ -11,7 +11,7 @@ class AuctionCommodity extends Model
     use HasFactory;
 
     public const STATUS_READY = 0;
-    public const STATUS_SYNCING = 1;
+    public const STATUS_STARTED = 1;
     public const STATUS_STOPED = 2;
 
     public const TYPE_BID = 1;
@@ -29,6 +29,7 @@ class AuctionCommodity extends Model
         'floor_price',
         'ceiling_price',
         'price_step',
+        'duration',
         'max_for_person'
     ];
 
@@ -78,7 +79,7 @@ class AuctionCommodity extends Model
         $bidAction = AuctionBid::create(compact(['auction_id','commodity_id','user_id','price','currency']));
 
 
-        if ($this->auction->status != Auction::STATUS_SYNCING) {
+        if ($this->auction->status != AuctionCommodity::STATUS_STARTED) {
             $bidAction->status = AuctionBid::STATUS_CLOSED;
             $bidAction->reason = "Auction is closed.";
             $bidAction->save();
@@ -145,6 +146,21 @@ class AuctionCommodity extends Model
             Log::channel("auction")->info("Save invalid bid: {$this->id} {$user_id} {$price}");
             return [ "result"=> false, "reason" => "Sorry, your bid is invalid.". $reason,  "price"=>$lastPrice ];
         }
+        
+    }
+
+    public function stop()
+    {
+        if ($this->status != self::STATUS_STOPED) {
+            $this->status = self::STATUS_STOPED;
+            $this->save();
+        }
+    }
+
+    public function sync($status) {
+        
+            $this->status = $status;
+            $this->save();
         
     }
     
