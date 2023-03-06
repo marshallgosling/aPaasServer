@@ -16,7 +16,7 @@ class OrderCommodity extends Model
     public const TYPE_BID = 1;
     public const TYPE_ORDER = 2;
 
-    protected $table = 'fa_auction_commodity';
+    protected $table = 'fa_order_commodity';
 
     public $timestamps = false;
 
