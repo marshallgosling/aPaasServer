@@ -10,7 +10,7 @@ class StartAuction extends RowAction
 
     public function handle(AuctionCommodity $model)
     {
-        $result = $model->sync(AuctionCommodity::STATUS_STARTED);
+        $result = $model->start();
         return $result ? $this->response()->success('Update succeed.')->refresh() :
             $this->response()->error("Start failed")->refresh();
     }

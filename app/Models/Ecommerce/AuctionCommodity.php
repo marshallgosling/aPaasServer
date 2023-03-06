@@ -30,13 +30,12 @@ class AuctionCommodity extends Model
         'ceiling_price',
         'price_step',
         'duration',
-        'max_for_person'
+        'max_for_person',
+        'started_at'
     ];
 
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
-        
+        'started_at' => 'datetime:Y-m-d h:i:s',
     ];
 
     public function auction()
@@ -154,14 +153,20 @@ class AuctionCommodity extends Model
         if ($this->status != self::STATUS_STOPED) {
             $this->status = self::STATUS_STOPED;
             $this->save();
+            return true;
         }
+        return false;
     }
 
-    public function sync($status) {
-        
-            $this->status = $status;
+    public function start()
+    {
+        if ($this->status != self::STATUS_STARTED) {
+            $this->status = self::STATUS_STARTED;
+            $this->started_at = time();
             $this->save();
-        
+            return true;
+        }
+        return false;
     }
     
 }
