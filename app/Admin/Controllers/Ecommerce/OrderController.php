@@ -30,7 +30,7 @@ class OrderController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Order, function ($model) {
-            return $model->with(['auction', 'user']);
+            return $model->with(['auction', 'user', 'commodity']);
         });
 
         $grid->model()->orderBy('id', 'desc');
@@ -44,10 +44,12 @@ class OrderController extends AdminController
         });
 
         $grid->column('user', __('Owner'))->display(function () {
-            return $this->user->user_no;
+            return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'('.$this->user_id.')</a>';
         });
 
-        $grid->column('commodities', __('Commodities'))->expand(function ($model) {
+        $grid->column('commodities', __('Commodities'))->display(function () {
+            return $this->commodity->name;
+        })->expand(function ($model) {
             $items = $model->commodity()->orderBy('id', 'asc')->take(20)->get()->map(function ($item) {
                 return $item->only(['id', 'commodity.name', 'amount', 'price']);
             });

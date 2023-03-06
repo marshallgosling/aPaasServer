@@ -43,7 +43,7 @@ class AuctionController extends AdminController
         });
 
         $grid->column('user', __('Owner'))->display(function () {
-            return $this->user->user_no;
+            return '<a href="users?user_no='.$this->user->user_no.'">'.$this->user->user_no.'('.$this->user_id.')</a>';
         });
 
         $grid->column('commodities', __('Commodities'))->display(function () {
