@@ -51,7 +51,7 @@ class OrderController extends AdminController
             return "Commodity list";
         })->expand(function ($model) {
             $items = $model->commodity()->orderBy('id', 'asc')->take(20)->get()->map(function ($item) {
-                return $item->only(['id', 'commodity.name', 'amount', 'price']);
+                return $item->only(['id', 'name', 'amount', 'price']);
             });
 
             return new Table(['ID', 'Name', 'Amount', 'Price'], $items->toArray());
