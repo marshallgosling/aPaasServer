@@ -78,14 +78,24 @@ class AuctionCommodity extends Model
 
         $bidAction = AuctionBid::create(compact(['auction_id','commodity_id','user_id','price','currency']));
 
-
-        if ($this->auction->status != AuctionCommodity::STATUS_STARTED) {
+        if ($this->status != AuctionCommodity::STATUS_STARTED) {
             $bidAction->status = AuctionBid::STATUS_CLOSED;
             $bidAction->reason = "Auction is closed.";
             $bidAction->save();
             Log::channel("auction")->info("Auction is closed: {$this->id} {$user_id} {$commodity_id} {$price}");
             
             return [ "result"=> false, "reason" => "Auction is closed.", "price"=>0 ];
+        }
+
+        $expire = $this->started_at->timestamp + $this->duration;
+
+        if ($expire > time()) {
+            $bidAction->status = AuctionBid::STATUS_CLOSED;
+            $bidAction->reason = "Auction is over.";
+            $bidAction->save();
+            Log::channel("auction")->info("Auction is over: {$this->id} {$user_id} {$commodity_id} {$price}");
+            
+            return [ "result"=> false, "reason" => "Auction is over.", "price"=>0 ];
         }
 
         $lastbid = $this->lastBid();

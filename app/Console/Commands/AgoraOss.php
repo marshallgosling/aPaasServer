@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Ecommerce\AuctionCommodity;
 use Illuminate\Console\Command;
 
 class AgoraOss extends Command
@@ -48,6 +49,10 @@ class AgoraOss extends Command
     {
         $file = $this->argument('file');
 
+
+        $auction = AuctionCommodity::find($file);
+
+        echo $auction->started_at->timestamp;
 
         return 0;
     }

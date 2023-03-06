@@ -72,7 +72,7 @@ class OrderController extends AdminController
         
 
 
-        $grid->column('created_at', __('start at'));
+        $grid->column('created_at', __('Create at'));
 
 
         $grid->filter(function ($filter) {

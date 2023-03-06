@@ -65,7 +65,7 @@ class AuctionOrder implements ShouldQueue, ShouldBeUnique
             $total_price = $lastBid->price;
             $currency = $lastBid->currency;
             $status = Order::STATUS_INCART;
-            $order_no = date('A1YmdHis').random_int(10000, 99999);
+            $order_no = 'A'.date('YmdHis').random_int(10000, 99999);
 
             $order = Order::create(compact(['auction_id','order_no','user_id','total_price','currency','currency','status']));
 
