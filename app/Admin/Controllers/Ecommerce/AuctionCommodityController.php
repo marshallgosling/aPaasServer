@@ -44,7 +44,7 @@ class AuctionCommodityController extends AdminController
         });
 
         $grid->column('duration', __('Duration'))->display(function () {
-            CarbonInterval::seconds($this->duration)->cascade()->forHumans();
+            return CarbonInterval::seconds($this->duration)->cascade()->forHumans();
         });
 
         $grid->column('floor_price', __('Base Price'));
