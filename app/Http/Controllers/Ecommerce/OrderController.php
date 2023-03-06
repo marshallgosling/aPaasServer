@@ -40,7 +40,7 @@ class OrderController extends ApiController
         $count = $query->count();
 
         $result =[
-            'auction' => $data,
+            'order' => $data,
             'currpage' => $page,
             'pagesize' => $pagesize,
             'totalpage' => ceil($count / $pagesize),
@@ -52,15 +52,21 @@ class OrderController extends ApiController
 
     public function detail($orderNo)
     {
-        $auction = Order::with(['user:id,user_no','commodity'])->where('order_no', $orderNo)->first();
+        $order = Order::with(['user:id,user_no','commodity'])->where('order_no', $orderNo)->first();
 
-        if (!$auction) {
+        if (!$order) {
             return $this->err('404', 'Auction not exists', 404);
         }
 
-        $auction = $auction->toArray();
+        $user = auth()->user();
 
-        return $this->succ(['auction' => $auction]);
+        if ($order->user_id != $user->id) {
+            return $this->err('403', "You don't have the permission to see this order.", 403);
+        }
+
+        $auction = $order->toArray();
+
+        return $this->succ(['order' => $auction]);
     }
 
 }
