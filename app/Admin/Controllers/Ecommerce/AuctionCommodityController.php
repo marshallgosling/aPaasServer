@@ -55,9 +55,9 @@ class AuctionCommodityController extends AdminController
         
         $grid->column('status', __('Status'))->using(
             [
-                Auction::STATUS_READY => 'Ready',
-                Auction::STATUS_SYNCING  => 'Syncing',
-                Auction::STATUS_STOPED => 'Stoped'
+                AuctionCommodity::STATUS_READY => 'Ready',
+                AuctionCommodity::STATUS_STARTED  => 'Started',
+                AuctionCommodity::STATUS_STOPED => 'Stoped'
             ]
         );
 
@@ -94,10 +94,18 @@ class AuctionCommodityController extends AdminController
         $show->field('id', __('Id'));
         $show->field('auction_id', __('Auction ID'));
         $show->field('commodity_id', __('Commodity ID'));
+        $show->field('duration', __('Duration'));
         $show->field('amount', __('Amount'));
         $show->field('floor_price', __('Base Price'));
         $show->field('ceiling_price', __('Base Price'));
         $show->field('price_step', __('Minimun Bid'));
+        $show->field('status', __('Status'))->using(
+            [
+                AuctionCommodity::STATUS_READY => 'Ready',
+                AuctionCommodity::STATUS_STARTED  => 'Started',
+                AuctionCommodity::STATUS_STOPED => 'Stoped'
+            ]
+        );
 
         return $show;
     }
@@ -120,10 +128,20 @@ class AuctionCommodityController extends AdminController
             Commodity::pluck("name", "id")->toArray()
         );
 
+        $form->text('duration', __('Duration'));
+
         $form->text('amount', __('Amount'));
         $form->text('floor_price', __('Base Price'));
         $form->text('ceiling_price', __('Ceiling Price'));
         $form->text('price_step', __('Minimun Bid'));
+
+        $form->radio('status', __('Status'))->options(
+            [
+                AuctionCommodity::STATUS_READY => 'Ready',
+                AuctionCommodity::STATUS_STARTED  => 'Started',
+                AuctionCommodity::STATUS_STOPED => 'Stoped'
+            ]
+        );
         
         return $form;
     }
