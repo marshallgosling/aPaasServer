@@ -8,6 +8,7 @@ use App\Models\Ecommerce\AuctionBid;
 use App\Models\Ecommerce\AuctionCommodity;
 use App\Models\Ecommerce\Commodity;
 use App\Models\Ecommerce\Room;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -135,6 +136,64 @@ class AuctionController extends ApiController
             //->where('status', Auction::STATUS_READY)
             ->update('status', Auction::STATUS_SYNCING);
 
+    }
+
+    public function start(Request $request)
+    {
+        $data = $request->all();
+
+        if (!Arr::exists($data, 'auction_id')) {
+            return $this->err('404', 'Auction ID must not be null. ', 404);
+        }
+
+        if (!Arr::exists($data, 'commodity_id')) {
+            return $this->err('404', 'Commodity ID must not be null. ', 404);
+        }
+       
+        $auction = Auction::find($data['auction_id'])->first();
+        if (!$auction) {
+            return $this->err('404', 'Auction not exists. ', 404);
+        }
+
+        $commodity = Commodity::find($data['commodity_id'])->first();
+        if (!$commodity) {
+            return $this->err('404', 'Commodity not exists. ', 404);
+        }
+
+        $user = auth()->user();
+
+        if ($auction->owner_id != $user->id) {
+            return $this->err('401', 'You don\'t have the permission to start the auction.', 403);
+        }
+
+        if ($commodity->user_id != $user->id) {
+            return $this->err('402', 'You don\'t have the permission to start the auction.', 403);
+        }
+
+        $auction = AuctionCommodity::where('auction_id', $data['auction_id'])
+            ->where('commodity_id', $data['commodity_id'])
+            ->ordeBy('id', 'desc')->first();
+
+        if ($auction) {
+            if ($auction->status != AuctionCommodity::STATUS_STOPED) {
+                return $this->err('406', 'Auction is already started. ', 406);
+            }
+        }
+        else {
+            $data['status'] = AuctionCommodity::STATUS_READY;
+
+            $auction = AuctionCommodity::create($data);
+
+            if (!$auction) {
+                return $this->err('406', 'Auction starting failed.', 406);
+            }
+            
+            $auction->start();
+
+            return $this->succ(
+                ["auction" => $auction->toArray()]
+            );
+        }
     }
 
 }

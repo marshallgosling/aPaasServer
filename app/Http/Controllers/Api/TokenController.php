@@ -15,10 +15,18 @@ class TokenController extends ApiController {
 
     public function rtctoken(Request $request) {
         $channelname = $request->get("channel", "");
+        $profile = $request->get("profile", "nate");
         $uid = (int)$request->get("uid", "");
         $appid = $request->get("appid", config("AppID-nate"));
+        $cert = $request->get("cert", config("AppID-cert"));
+
+        if (empty($appid) && empty($cert)) {
+            $appid = config("AppID-".$profile);
+            $cert = config("Certificate-".$profile);
+        }
+
         $token = RtcTokenBuilder2::buildTokenWithUid(
-            $appid, config("Certificate-nate"), $channelname, $uid, 1, 86400, 0
+            $appid, $cert, $channelname, $uid, 1, 86400, 0
         );
 
         if ($request->get("nojson")) {
