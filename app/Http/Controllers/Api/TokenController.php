@@ -17,8 +17,8 @@ class TokenController extends ApiController {
         $channelname = $request->get("channel", "");
         $profile = $request->get("profile", "nate");
         $uid = (int)$request->get("uid", "");
-        $appid = $request->get("appid", config("AppID-nate"));
-        $cert = $request->get("cert", config("AppID-cert"));
+        $appid = $request->get("appid", "");
+        $cert = $request->get("cert", "");
 
         if (empty($appid) && empty($cert)) {
             $appid = config("AppID-".$profile);
