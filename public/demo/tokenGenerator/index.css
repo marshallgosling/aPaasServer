@@ -32,6 +32,8 @@ input {
 .player {
   width: 480px;
   height: 320px;
+  word-wrap: break-word; 
+  word-break: normal;
 }
 
 .player-name {
