@@ -71,6 +71,8 @@ Route::group([
     Route::get('room/{roomNo}', 'AuctionController@list')->name('list');
     Route::get('{auctionId}', 'AuctionController@detail')->name('detail');
     Route::post('bid', 'AuctionController@bid')->name('bid');
+    Route::post('start', 'AuctionController@start')->name('bid');
+    Route::post('stop', 'AuctionController@stop')->name('bid');
 });
 
 Route::group([
@@ -109,6 +111,8 @@ Route::prefix("v1")->namespace('App\Http\Controllers\Api')->group(function () {
     Route::get('channel/{channelid}', 'AuctionController@channel');
 
     Route::post('auction/sync', 'AuctionController@sync');
+
+    Route::post('hook', 'NcsController@hook');
 
 });
 

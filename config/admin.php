@@ -413,21 +413,25 @@ return [
                     'mode' => 'tree',
                     'modes' => ['code', 'form', 'text', 'tree', 'view'], // allowed modes
                 ],
-            ],
-            'china-distpicker' => [
+        ],
+        'china-distpicker' => [
         
-                // 如果要关掉这个扩展，设置为false
-                'enable' => true,
-            ],
-            'api-tester' => [
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+        ],
+        'api-tester' => [
         
-                // route prefix for APIs
-                'prefix' => '',
+            // route prefix for APIs
+            'prefix' => '',
     
-                // auth guard for api
-                'guard'  => '',
+            // auth guard for api
+            'guard'  => '',
     
                 
-            ]
+        ],
+        'material-ui' => [
+                // If the value is set to false, this extension will be disabled
+            'enable' => false
+        ]
     ],
 ];

@@ -74,6 +74,13 @@ return [
             'days' => 3,
         ],
 
+        'ncs' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/ncs.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 3,
+        ],
+
         'auction' => [
             'driver' => 'daily',
             'path' => storage_path('logs/auctions.log'),
